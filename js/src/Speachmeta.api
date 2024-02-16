@@ -1,0 +1,13 @@
+8OLsIP9H3KVqBjhePOSQP3y94Uk1KqQu
+
+
+
+  
+#Jobs will typically take less than half the audio length to process. 
+#You will need to recheck periodically until the transcript is ready. 
+
+AUTH_TOKEN="8OLsIP9H3KVqBjhePOSQP3y94Uk1KqQu"
+JOB_ID="JOB_ID_FROM_PREVIOUS_STEP"
+
+curl -L -X GET "https://asr.api.speechmatics.com/v2/jobs/${JOB_ID}/transcript?format=txt" \
+    -H "Authorization: Bearer ${AUTH_TOKEN}"

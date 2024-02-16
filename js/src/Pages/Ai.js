@@ -55,10 +55,11 @@ const Ai = () => {
     return text;
   };
 
-  const correctedTextHandler = () => {
-    let correctedText = transcript.split(" ").map(correctSpelling).join(" ");
+   const correctedTextHandler = () => {
+    const truncatedTranscript = transcript.split(" ").slice(0, 100).join(" ");
+    let correctedText = truncatedTranscript.split(" ").map(correctSpelling).join(" ");
     setCorrectedText(correctedText);
-  };
+  };;
   return (
     <>
       <div className="containers">

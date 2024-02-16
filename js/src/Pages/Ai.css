@@ -101,11 +101,11 @@ padding: 5px 28px;
   text-align: center;
   margin: 20px;
 }
-button:focus,
+/* button:focus,
 button:hover {
   background: rgb(42, 201, 164);
   box-shadow: 0 5px 30px 0 rgba(0, 0, 0, 0.1);
-}
+} */
 
 .counter-container {
   margin-top: 30px;
@@ -135,11 +135,11 @@ button:hover {
     word-spacing: normal;
   }
 
-  button {
+  /* button {
     padding: 12px 28px;
     font-size: 16px;
     margin-top: -70px;
-  }
+  } */
 
   .counter-container {
     flex-direction: column;

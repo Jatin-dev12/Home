@@ -1,91 +1,104 @@
-import React, { useState, useEffect } from 'react';
-import { Form,TextArea,Button, Icon} from 'semantic-ui-react';
-import axios from 'axios';
+import React, { useState } from "react";
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
 
-export default function Translate() {
-    const [inputText, setInputText] = useState('');
-    const [resultText, setResultText] = useState('');
-    const [selectedLanguageKey, setLanguageKey] = useState('')
-    const [languagesList, setLanguagesList] = useState([])
-    const [detectLanguageKey, setdetectedLanguageKey] = useState('')
-    const getLanguageSource = () => {
-        axios.post(`https://libretranslate.com/translate`, {
-            q: inputText
-        })
-        .then((response) => {
-            setdetectedLanguageKey(response.data[0].language)
-        })
-    }
-    const translateText = () => {
-        setResultText(inputText)
+i18n.use(initReactI18next).init({
+  resources: {
+    en: {
+      translation: {
+        hello: "Hello",
+        switchLanguage: "Switch Language",
+        startListening: "Start Listening",
+        stopListening: "Stop Listening",
+      },
+    },
+    sq: {
+      translation: {
+        hello: "Përshëndetje",
+        switchLanguage: "Ndrysho Gjuhën",
+        startListening: "Fillo Mënyrën",
+        stopListening: "Ndalo Mënyrën",
+      },
+    },
+    // Add other languages here
+  },
+  lng: "en",
+  fallbackLng: "en",
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
-        getLanguageSource();
+const Ai = () => {
+  const supportedLanguages = React.useMemo(
+    () => [
+        { code: "af", name: "Afrikaans" },
+        { code: "sq", name: "Albanian" },
+        { code: "bn", name: "Bengali" },
+        { code: "fr", name: "French" },
+        { code: "en", name: "English" },
+        { code: "de", name: "German" },
+        { code: "gu", name: "Gujarati" },
+        { code: "ja", name: "Japanese" },
+        { code: "hi", name: "Hindi" },
+        { code: "ka", name: "Georgian" },
+        { code: "ne", name: "Nepali" },
+        { code: "ar", name: "Arabic" },
+        { code: "ml", name: "Malayalam" },
+        { code: "ta", name: "Tamil" },
+        { code: "pa", name: "Punjabi" },
+        { code: "ru", name: "Russian" }
+    ],
+    []
+  );
 
-        let data = {
-            q : inputText,
-            source: detectLanguageKey,
-            target: selectedLanguageKey
-        }
-        axios.post(`https://libretranslate.com/translate`, data)
-        .then((response) => {
-            setResultText(response.data.translatedText)
-        })
-    }
+  const [currentLanguage, setCurrentLanguage] = useState("en");
+  const { transcript, browserSupportsSpeechRecognition, resetTranscript } = useSpeechRecognition({
+    language: currentLanguage,
+  });
 
-    const languageKey = (selectedLanguage) => {
-        setLanguageKey(selectedLanguage.target.value)
-    }
+  const startListening = () => {
+    resetTranscript();
+    SpeechRecognition.startListening({ continuous: true, language: currentLanguage });
+  };
 
-    useEffect(() => {
-       axios.get(`https://libretranslate.de/languages`)
-       .then((response) => {
-        setLanguagesList(response.data)
-       })
+  const switchLanguage = () => {
+    const index = supportedLanguages.findIndex((lang) => lang.code === currentLanguage);
+    const newLanguage =
+      index === supportedLanguages.length - 1
+        ? supportedLanguages[0].code
+        : supportedLanguages[index + 1].code;
+    setCurrentLanguage(newLanguage);
+  };
 
-       getLanguageSource()
-    }, [inputText])
-    return (
-        <div>
-            <div className="app-header">
-                <h2 className="header">Aklilu's Translator</h2>
-            </div>
+  if (!browserSupportsSpeechRecognition) {
+    return <div className="containers">Browser does not support speech recognition</div>;
+  }
 
-            <div className='app-body'>
-                <div>
-                    <Form>
-                        <Form.Field
-                            control={TextArea}
-                            placeholder='Type Text to Translate..'
-                            onChange={(e) => setInputText(e.target.value)}
-                        />
-
-                        <select className="language-select" onChange={languageKey}>
-                            <option>Please Select Language..</option>
-                            {languagesList.map((language) => {
-                                return (
-                                    <option value={language.code}>
-                                        {language.name}
-                                    </option>
-                                )
-                            })}
-                        </select>
-
-                        <Form.Field
-                            control={TextArea}
-                            placeholder='Your Result Translation..'
-                            value={resultText}
-                        />
-
-                        <Button 
-                            color="orange" 
-                            size="large" 
-                            onClick={translateText}
-                        >
-                            <Icon name='translate' />
-                            Translate</Button>
-                    </Form>
-                </div>
-            </div>
+  return (
+    <>
+      <div className="containers">
+        <h2>{i18n.t("hello")}</h2>
+        <p className="sa">
+          {i18n.t("startListening")}
+        </p>
+        <div className="main-content">
+          {transcript}
         </div>
-    )
-}
+        <select value={currentLanguage} onChange={(e) => setCurrentLanguage(e.target.value)}>
+          {supportedLanguages.map((language) => (
+            <option key={language.code} value={language.code}>
+              {language.name}
+            </option>
+          ))}
+        </select>
+        <button onClick={startListening}>{i18n.t("startListening")}</button>
+        <button onClick={switchLanguage}>{i18n.t("switchLanguage")}</button>
+        <button onClick={SpeechRecognition.stopListening}>Stop Listening</button>
+      </div>
+    </>
+  );
+};
+
+export default Ai;
