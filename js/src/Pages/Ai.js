@@ -22,7 +22,25 @@ const Ai = () => {
     { code: "ml", name: "Malayalam" },
     { code: "ta", name: "Tamil" },
     { code: "pa", name: "Punjabi" },
-    { code: "ru", name: "Russian" }
+    { code: "ru", name: "Russian" },
+    { code: "af", name: "Afrikaans" },
+    { code: "sq", name: "Albanian" },
+    { code: "bn", name: "Bengali" },
+    { code: "fr", name: "French" },
+    { code: "af", name: "Afrikaans" },
+    { code: "sq", name: "Albanian" },
+    { code: "am", name: "Amharic" },
+    { code: "ar", name: "Arabic" },
+    { code: "hy", name: "Armenian" },
+    { code: "az", name: "Azerbaijani" },
+    { code: "eu", name: "Basque" },
+    { code: "bn", name: "Bengali" },
+    { code: "bs", name: "Bosnian" },
+    { code: "bg", name: "Bulgarian" },
+    { code: "ca", name: "Catalan" },
+    { code: "ceb", name: "Cebuano" },
+    { code: "ny", name: "Chichewa" },
+    
   ]);
   const [currentLanguage, setCurrentLanguage] = useState("en");
   const { transcript, browserSupportsSpeechRecognition, resetTranscript } = useSpeechRecognition({ language: currentLanguage });
@@ -85,7 +103,7 @@ const Ai = () => {
         <Row>   
           <Col></Col>  
         <Col><button onClick={startListening}>Start Listening</button></Col>
-        <Col><button onClick={switchLanguage}>Switch Language</button></Col>
+        <Col><button className="sss"   onClick={switchLanguage}>Switch Language</button></Col>
         <Col><button onClick={SpeechRecognition.stopListening}>Stop Listening</button></Col>   
         <Col></Col>
           

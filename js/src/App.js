@@ -3,13 +3,13 @@ import { BrowserRouter , Routes , Route } from 'react-router-dom';
 import Layout from './Layout'
 import './App.css';
 import Ai from './Pages/Ai'
-
+import {useTranslation} from "react-i18next";
 import Text from './Pages/Text';
 import Trancribe from './Pages/Trancribe';
 
 function App() {
   return (
-    <BrowserRouter >
+    <BrowserRouter basename='/ai/' >
 
     <Routes>
 

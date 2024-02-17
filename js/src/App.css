@@ -1,6 +1,5 @@
 .ll{
   object-fit: contain;
-  margin-left: -75px;
 }
 /* Translator.css */
 
@@ -101,7 +100,7 @@
   .btn { 
   width: 100%; 
   position: relative; 
-  padding: 10px; 
+
   outline: none; 
   background-color: #6d9eed; 
   color: #fff; 
@@ -117,17 +116,36 @@
   } 
   
   @media screen and (max-width: 500px) { 
+    a.nav-link {
+      display: none;
+  }
+  .row {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+}
+h2 {
+  margin-top: 20px;
+}
+a.navbar-brand {
+  margin-left: -10px;
+}
   .row2 { 
       flex-direction: column; 
   } 
   .inputText { 
       width: 100%; 
   } 
+  button{
+    padding: 5px 56px;
+  }
   .outputText { 
       width: 100%; 
       margin-top: 20px; 
   } 
   } 
+  
   
   ::-webkit-scrollbar { 
   width: 4px; 
