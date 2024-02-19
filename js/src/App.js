@@ -9,7 +9,7 @@ import Trancribe from './Pages/Trancribe';
 
 function App() {
   return (
-    <BrowserRouter basename='/ai/' >
+    <BrowserRouter >
 
     <Routes>
 
