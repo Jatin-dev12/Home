@@ -8,6 +8,32 @@
 button{
     margin: 15px;
 }
+textarea:focus-visible{
+  display: none;
+}
+
+textarea.from-text {
+  width: 100%;
+  border: none;
+  text-align: center;
+}
+
+textarea.to-text {
+  padding: 10px;
+  text-align: center;
+  width: 80%;
+  border: solid 2px black;
+  border-radius: 6px;
+}
+
+
+
+
+
+
+
+
+
 
 @import url("https://fonts.googleapis.com/css2?family=Inter&family=Lato&family=Libre+Baskerville&family=Merriweather:wght@700&family=Work+Sans&display=swap");
 

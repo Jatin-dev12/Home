@@ -1,0 +1,85 @@
+.bx {
+  background: #0d6efd;
+}
+
+
+.lsjd{
+  
+  width: 100%;
+  padding: 30px;
+  background: #f3f5f9;
+  border-radius: 7px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.01);
+}
+.wrapper{
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.wrapper .text-input{
+  display: flex;
+  border-bottom: 1px solid #ccc;
+}
+.text-input .to-text{
+  border-radius: 0px;
+  border-left: 1px solid #ccc;
+}
+textarea.from-text{
+  height: 250px;
+  width: 100%;
+  border: solid 1px;  outline: none;
+  resize: none;
+  background: #ffffff ;
+  font-size: 18px;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+textarea.to-text{
+  height: 250px;
+  width: 100%;
+  border: solid 1px;
+  outline: none;
+  resize: none;
+  background: #ffffff;
+  font-size: 18px;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+textarea.from-text::placeholder{
+  color: #b7b6b6;
+}
+
+textarea.from-text::-webkit-scrollbar{
+  width: 4px;
+}
+textarea.to-text::-webkit-scrollbar{
+  width: 4px;
+}
+
+.text-input textarea::-webkit-scrollbar-track,
+.controls .row select::-webkit-scrollbar-track{
+  background: #fff;
+}
+.text-input textarea::-webkit-scrollbar-thumb{
+  background: #ddd;
+  border-radius: 8px;
+}
+.controls .row select::-webkit-scrollbar-thumb{
+  background: #999;
+  border-radius: 8px;
+  border-right: 2px solid #ffffff;
+}
+
+.container button{
+  top: 20px;
+width: 25%;
+  padding: 14px;
+  outline: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 17px;
+  border-radius: 5px;
+  justify-content: center;
+  background: #5372F0;
+}
