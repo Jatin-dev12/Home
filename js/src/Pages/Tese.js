@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import './Ts.css'
 import { Container, Row, Col } from "react-bootstrap";
+import Side from "./Side";
 
 const TextToSpeech = ({ initialText }) => {
   const [isPaused, setIsPaused] = useState(false);
@@ -81,16 +82,22 @@ const TextToSpeech = ({ initialText }) => {
   const inbuiltParagraph = "";
 
   return (
-    <div>
+    <div className='container-fluid main-container'>
+      <div className='row'>
+      <div className="left-sidebar">
+        < Side/>
+      </div>
+	  <div className="content-container">
+		<Row className="cc"> 
       <label>
-        Text:
+       Write Text:
         <input type="text" value={text} onChange={handleTextChange} />
       </label>
-
-      <br />
+</Row>
+      <Row className="vo">
 
       <label>
-        Voice:
+        Select Voice:
         <select value={voice?.name} onChange={handleVoiceChange}>
           {window.speechSynthesis.getVoices().map((voice) => (
             <option key={voice.name} value={voice.name}>
@@ -99,10 +106,10 @@ const TextToSpeech = ({ initialText }) => {
           ))}
         </select>
       </label>
-
-      <br />
-
-      <label>
+	  </Row>
+    
+<Row>
+	<Col><label>
         Pitch:
         <input
           type="range"
@@ -112,10 +119,9 @@ const TextToSpeech = ({ initialText }) => {
           value={pitch}
           onChange={handlePitchChange}
         />
-      </label>
-
-      <br />
-
+      </label></Col>
+      
+	  <Col>
       <label>
         Speed:
         <input
@@ -126,9 +132,10 @@ const TextToSpeech = ({ initialText }) => {
           value={rate}
           onChange={handleRateChange}
         />
-      </label>
-      <br />
-      <label>
+      </label></Col>
+    
+
+	  <Col><label>
         Volume:
         <input
           type="range"
@@ -138,8 +145,10 @@ const TextToSpeech = ({ initialText }) => {
           value={volume}
           onChange={handleVolumeChange}
         />
-      </label>
-
+      </label></Col>
+      
+      
+</Row>
       <br />
       <Row>
 		<Col></Col>
@@ -149,8 +158,11 @@ const TextToSpeech = ({ initialText }) => {
 	  <Col></Col>
       </Row>
 
+
       <p>{inbuiltParagraph}</p>
-    </div>
+	  </div>
+	  </div>
+	  </div>
   );
 };
 

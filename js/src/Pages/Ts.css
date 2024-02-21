@@ -1,0 +1,10 @@
+input[type="text"] {
+    width: 40%;
+   
+    height: 100px;
+    margin: 30px;
+}
+.vo.row {
+    margin: 20px;
+    padding-bottom: 20px;
+}
