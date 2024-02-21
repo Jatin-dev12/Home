@@ -196,21 +196,20 @@ const handleExchange = () => {
                     </Col>
                   </Row>
                   <Row className="fas">
-                    <Col className="hide"><select value={currentLanguage} onChange={(e) => setCurrentLanguage(e.target.value)}>
-                {supportedLanguages.map((language) => (
-                  <option key={language.code} value={language.code}>
-                  {language.name}
-                </option>
-              ))}
-            
-            value={translateFrom} onChange={(e) => setTranslateFrom(e.target.value)}
-            {Object.entries(countries).map(([code, name]) => (
-                <option key={code} value={code}>
-                {name}
-                </option>
-            ))}
-            
-            </select></Col>
+                    <Col className="hide">
+                    <select
+    value={currentLanguage}
+    onChange={(e) => {
+      setCurrentLanguage(e.target.value);
+      setTranslateFrom(e.target.value);
+    }}
+  >
+    {supportedLanguages.map((language) => (
+      <option key={language.code} value={language.code}>
+        {language.name}
+      </option>
+    ))}
+  </select></Col>
             <Col> </Col>
             <Col className="2hd"><select value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
             {Object.entries(countries).map(([code, name]) => (
