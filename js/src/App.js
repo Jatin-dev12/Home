@@ -6,6 +6,8 @@ import Ai from './Pages/Ai'
 import {useTranslation} from "react-i18next";
 import Text from './Pages/Text';
 import Trancribe from './Pages/Trancribe';
+import TextToSpeech from './Pages/Tese';
+import Side from './Pages/Side'
 
 function App() {
   return (
@@ -16,9 +18,10 @@ function App() {
       
       <Route path="/" element={<Layout />}>
         <Route index element={<Ai/>} />
-        
-        <Route path="Text" element={<Text/>}/>
-        <Route path="Trancribe" element={<Trancribe />}/>
+        <Route path="ai" element={<Ai />}/>
+        <Route path="tese" element={<TextToSpeech/>}/>
+        <Route path="text" element={<Text/>}/>
+        <Route path="trancribe" element={<Trancribe />}/>
 
 
 

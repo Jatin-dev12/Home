@@ -1,0 +1,39 @@
+.sidebar {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #f8f9fa;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .navbar-nav .nav-link.active, .navbar-nav .nav-link.show{
+    color:floralwhite;
+    background-color: #0056b3;
+  }
+.navbar{
+    margin: 10;
+   text-transform: uppercase;
+    font-weight: 500;
+    
+    
+}
+
+.left-sidebar {
+  width: 18.77777778%;
+  box-sizing: border-box;
+  background: #f6f9fc;
+}
+
+.content-container {
+  width: 81.2222222%;
+ 
+  text-align: -webkit-center;
+  box-sizing: border-box;
+}
+
+.navbar-expand-sm .navbar-nav {
+  flex-direction: column;
+  text-align: -webkit-left;
+}

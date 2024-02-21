@@ -11,6 +11,9 @@ button{
 textarea:focus-visible{
   display: none;
 }
+textarea.to-text:focus-visible{
+  display: none;
+}
 
 textarea.from-text {
   width: 100%;
@@ -19,13 +22,18 @@ textarea.from-text {
 }
 
 textarea.to-text {
+  width: 100%;
   padding: 10px;
   text-align: center;
   width: 80%;
-  border: solid 2px black;
-  border-radius: 6px;
+  border: none;
+  
 }
-
+p.sa{
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
 
 
 
@@ -51,15 +59,23 @@ html {
 .containers {
     text-align: -webkit-center;
 }
+.bb.row {
+  margin: 30px;
+}
 
 h2 {
   color: rgb(43 45 56);
+  margin-top: 20px; 
   text-align: center;
   font-size: 48px;
-  letter-spacing: -0.2px;
+  padding-bottom: 20px;
+  
   font-family: "Merriweather", serif;
 }
-
+.sls.row {
+  padding: 10px;
+  margin-bottom: 10px;
+}
 p {
   max-width: 50rem;
   text-align: center;
@@ -79,6 +95,7 @@ p {
   background: rgb(255 255 255);
   border: 0.5px solid rgb(231 233 245);
   border-radius: 16px;
+  margin-bottom: 50px;
 }
 
 .main-content:focus {
@@ -123,9 +140,9 @@ padding: 10px 28px;
 
 .row {
   justify-content: center;
-  align-items: center;
+
+
   text-align: center;
-  margin: 20px;
 }
 button:focus,
 button:hover {
@@ -161,7 +178,8 @@ button:hover {
     width: auto;
     font-size: 16px;
     word-spacing: normal;
-    margin: 5px;
+   
+    margin-bottom: 50px;
   }
 
   /* button {
@@ -177,4 +195,12 @@ button:hover {
   .counter-container p:first-child {
     margin-bottom: 0;
   }
+}
+@media (min-width: 576px){
+
+  .navbar-expand-sm {
+    flex-wrap: wrap;
+    /* justify-content: flex-start; */
+}
+
 }
