@@ -8,6 +8,7 @@ import Text from './Pages/Text';
 import Trancribe from './Pages/Trancribe';
 import TextToSpeech from './Pages/Tese';
 import Side from './Pages/Side'
+import Chlo from './Pages/Chlo'
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
         <Route path="tese" element={<TextToSpeech/>}/>
         <Route path="text" element={<Text/>}/>
         <Route path="trancribe" element={<Trancribe />}/>
+        <Route path="Chlo" element={<Chlo />}/>
+
+
 
 
 
