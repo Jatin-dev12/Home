@@ -13,13 +13,13 @@ import Test from './Pages/Test'
 
 function App() {
   return (
-    <BrowserRouter >
+    <BrowserRouter basename='/ai' >
 
     <Routes>
 
       
       <Route path="/" element={<Layout />}>
-        <Route index element={<Ai/>} />
+        <Route index element={<Trancribe />} />
         <Route path="ai" element={<Ai />}/>
         <Route path="tese" element={<TextToSpeech/>}/>
         <Route path="text" element={<Text/>}/>

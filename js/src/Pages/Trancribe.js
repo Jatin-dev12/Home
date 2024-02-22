@@ -7,7 +7,7 @@ import Spellchecker from "hunspell-spellchecker";
 import '../App.css'
 import Side from './Side'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faPlay, faStop ,faPause} from "@fortawesome/free-solid-svg-icons";
+import {faPlay, faStop ,faPause , faRotateRight} from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -144,6 +144,13 @@ const handleExchange = () => {
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
     return <div className="containers">Browser does not support speech recognition</div>;
   }
+
+  const handleClick = () => {
+    setTimeout(() => {
+      window.location.reload();
+    }, 400); // Delay for 2000 milliseconds (2 seconds)
+  };
+
 // --------------------------------------------------------------------------------------//
   return (
     <div className='container-fluid main-container'>
@@ -173,6 +180,11 @@ const handleExchange = () => {
                 )}
               </button>
         </Col>
+        <Col>
+                <button className="sda" onClick={handleClick}>Start Over
+                <FontAwesomeIcon icon={faRotateRight} />
+                </button>
+              </Col>
         
         {/* <Col>
         <button onClick={SpeechRecognition.stopListening}>Stop Listening

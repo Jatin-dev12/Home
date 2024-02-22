@@ -157,7 +157,7 @@ const Ai = () => {
                 </button>
               </Col>
               <Col>
-                <button onClick={handleClick}>Start Over
+                <button className='as'  onClick={handleClick}>Start Over
                 <FontAwesomeIcon icon={faRotateRight} />
                 </button>
               </Col>

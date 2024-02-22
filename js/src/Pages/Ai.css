@@ -176,6 +176,16 @@ button:hover {
   .container {
     margin-top: 20px;
   }
+  button {
+    padding: 10px;
+}
+button.as {
+  padding-inline: 31px;
+}
+button.sda {
+  padding-inline: 31px;
+}
+
 
   h2 {
     font-size: 25px;
