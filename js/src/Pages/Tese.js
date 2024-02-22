@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 import './Ts.css'
 import { Container, Row, Col } from "react-bootstrap";
 import Side from "./Side";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faPlay, faStop ,faPause} from "@fortawesome/free-solid-svg-icons";
 
 const TextToSpeech = ({ initialText }) => {
   const [isPaused, setIsPaused] = useState(false);
@@ -60,7 +62,9 @@ const TextToSpeech = ({ initialText }) => {
 
   const handleVoiceChange = (event) => {
     const voices = window.speechSynthesis.getVoices();
-    setVoice(voices.find((v) => v.name === event.target.value));
+    const selectedVoice = voices.find((v) => v.name === event.target.value);
+    setVoice(selectedVoice);
+    utterance.lang = selectedVoice.lang; // Set the language of the utterance
   };
 
   const handlePitchChange = (event) => {
@@ -76,7 +80,11 @@ const TextToSpeech = ({ initialText }) => {
   };
 
   const handleTextChange = (event) => {
-    setText(event.target.value);
+    const newText = event.target.value;
+    setText(newText);
+    // Reset the speech synthesis
+    const newUtterance = new SpeechSynthesisUtterance(newText);
+    setUtterance(newUtterance);
   };
 
   const inbuiltParagraph = "";
@@ -152,9 +160,13 @@ const TextToSpeech = ({ initialText }) => {
       <br />
       <Row>
 		<Col></Col>
-    <Col><button onClick={handlePlay}>{isPaused ? "Resume" : "Play"}</button></Col>
-      <Col><button onClick={handlePause}>Pause</button></Col>
-      <Col><button onClick={handleStop}>Stop</button></Col>
+    <Col><button onClick={handlePlay}>{isPaused ? "Resume" : "Play"}
+    <FontAwesomeIcon icon={faPlay} />
+    </button></Col>
+      <Col><button onClick={handlePause}>Pause
+      <FontAwesomeIcon icon={faPause} /></button></Col>
+      <Col><button onClick={handleStop}>Stop
+      <FontAwesomeIcon icon={faStop} /></button></Col>
 	  <Col></Col>
       </Row>
 

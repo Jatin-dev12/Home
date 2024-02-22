@@ -6,6 +6,9 @@ import { Container, Row, Col } from "react-bootstrap";
 import Spellchecker from "hunspell-spellchecker";
 import '../App.css'
 import Side from './Side'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faPlay, faStop ,faPause} from "@fortawesome/free-solid-svg-icons";
+
 
 
 const Transcribe = () => {
@@ -28,6 +31,8 @@ const Transcribe = () => {
   const [translation, setTranslation] = useState("");
   const [fromText, setFromText] = useState("");
   const [toText, setToText] = useState("");
+  const [isPaused, setIsPaused] = useState(false); // New state variable for pause functionality
+
   const [translateFrom, setTranslateFrom] = useState("en-GB");
   const [translateTo, setTranslateTo] = useState("hi-IN");
   const [translationPlaceholder, setTranslationPlaceholder] = useState("Translation");
@@ -82,7 +87,15 @@ const handleExchange = () => {
     resetTranscript();
     SpeechRecognition.startListening({ continuous: true, language: currentLanguage });
   };
-
+  const toggleListening = () => {
+    if (listening) {
+      SpeechRecognition.stopListening();
+    } else {
+      resetTranscript();
+      SpeechRecognition.startListening({ continuous: true, language: currentLanguage });
+    }
+    setIsPaused(!listening);
+  };
   const switchLanguage = () => {
     const index = supportedLanguages.findIndex((lang) => lang.code === currentLanguage);
     const newLanguage =
@@ -146,12 +159,27 @@ const handleExchange = () => {
                   <Row className="bb">   
          
         <Col>
-        <button onClick={startListening}>Start Listening</button>
+        <button onClick={toggleListening}>
+                {listening ? (
+                  <>
+                    Pause
+                    <FontAwesomeIcon icon={faPause} />
+                  </>
+                ) : (
+                  <>
+                    Start Listening
+                    <FontAwesomeIcon icon={faPlay} />
+                  </>
+                )}
+              </button>
         </Col>
         
-        <Col>
-        <button onClick={SpeechRecognition.stopListening}>Stop Listening</button>
-        </Col>   
+        {/* <Col>
+        <button onClick={SpeechRecognition.stopListening}>Stop Listening
+        <FontAwesomeIcon icon={faStop} />
+
+        </button>
+        </Col>    */}
        
         </Row>
                   

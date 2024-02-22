@@ -82,7 +82,13 @@ p {
   margin-top: 10px;
   margin-bottom: 30px;
 }
-
+svg.svg-inline--fa.fa-play {
+  padding: 6px;
+  margin-left: 5px;
+}
+svg.svg-inline--fa.fa-stop {
+  padding: 6px;
+}
 .main-content {
   max-width: 50rem;
   width: auto;
@@ -117,9 +123,19 @@ p,
   width: 100%;
   padding: 30px;
 }
+svg.svg-inline--fa.fa-pause {
+  padding: 6px;
+}
+
 
 .language-selector {
   display: contents;
+}
+svg.svg-inline--fa.fa-rotate-right {
+  padding: 6px;
+}
+svg.svg-inline--fa.fa-arrow-right-arrow-left {
+  padding: 6px;
 }
 
 button {
