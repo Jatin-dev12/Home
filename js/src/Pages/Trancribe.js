@@ -1,3 +1,4 @@
+// WELCOME //
 import React, { useState, useEffect } from "react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import axios from "axios";
@@ -9,8 +10,7 @@ import Side from './Side'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faPlay, faStop ,faPause , faRotateRight} from "@fortawesome/free-solid-svg-icons";
 
-
-
+// This Function For Languages  Detection And Write A Language // 
 const Transcribe = () => {
   const [supportedLanguages, setSupportedLanguages] = useState([
     { code: "sq", name: "Albanian" }, { code: "bn", name: "Bengali" }, { code: "fr", name: "French" },
@@ -36,6 +36,9 @@ const Transcribe = () => {
   const [translateFrom, setTranslateFrom] = useState("en-GB");
   const [translateTo, setTranslateTo] = useState("hi-IN");
   const [translationPlaceholder, setTranslationPlaceholder] = useState("Translation");
+
+  // This Languages For Translation Language into Another language And Supportive // 
+
   const countries = {
     "am-ET": "Amharic",    "ar-SA": "Arabic",    "be-BY": "Bielarus",    "bem-ZM": "Bemba",    "bi-VU": "Bislama",    "bjs-BB": "Bajan",    "bn-IN": "Bengali",    "bo-CN": "Tibetan",    "br-FR": "Breton",    "bs-BA": "Bosnian",    "ca-ES": "Catalan",    "cop-EG": "Coptic",    "cs-CZ": "Czech",    "cy-GB": "Welsh",    "da-DK": "Danish",    "dz-BT": "Dzongkha",    "de-DE": "German",    "dv-MV": "Maldivian",
     "el-GR": "Greek",    "en-GB": "English",    "es-ES": "Spanish",    "et-EE": "Estonian",
@@ -61,6 +64,8 @@ useEffect(() => {
   fetchTranslation();
 }, [transcript, translateFrom, translateTo]);
 
+// This Function Will  Fetch The Translated Text From API //
+
 const fetchTranslation = () => {
   if (!transcript) return;
   setTranslationPlaceholder("Translating...");
@@ -73,6 +78,8 @@ const fetchTranslation = () => {
       setTranslationPlaceholder("Translation");
   });
 };
+//  This Function Will Handle The OnChange Event Of Input Fields //
+
 const handleExchange = () => {
   const tempText = fromText;
   const tempLang = translateFrom;
@@ -82,11 +89,15 @@ const handleExchange = () => {
   setTranslateTo(tempLang);
 };
 
+//  Rendering The Component //
 
   const startListening = () => {
     resetTranscript();
     SpeechRecognition.startListening({ continuous: true, language: currentLanguage });
   };
+
+  // This Will Show Icons of Start/Stop // 
+
   const toggleListening = () => {
     if (listening) {
       SpeechRecognition.stopListening();
@@ -96,6 +107,8 @@ const handleExchange = () => {
     }
     setIsPaused(!listening);
   };
+
+  // Switch Languages //
   const switchLanguage = () => {
     const index = supportedLanguages.findIndex((lang) => lang.code === currentLanguage);
     const newLanguage =
@@ -104,7 +117,7 @@ const handleExchange = () => {
         : supportedLanguages[index + 1].code;
     setCurrentLanguage(newLanguage);
   };
-
+// For Corrected Text In Box //
   const correctSpelling = (text) => {
     const spellchecker = new Spellchecker("en_US");
     const suggestions = spellchecker.getSuggestions(text);
@@ -113,6 +126,8 @@ const handleExchange = () => {
     }
     return text;
   };
+ 
+      ///  Transcribing the Audio to Text /////
 
   const handleTranscription = async () => {
     const truncatedTranscript = transcript.split(" ").slice(0, 100).join(" ");

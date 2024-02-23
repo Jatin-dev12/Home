@@ -1,9 +1,13 @@
+//  Welcome //
+
 import React, { useState, useEffect } from "react"
 import './Ts.css'
 import { Container, Row, Col } from "react-bootstrap";
 import Side from "./Side";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faPlay, faStop ,faPause} from "@fortawesome/free-solid-svg-icons";
+
+// Define //
 
 const TextToSpeech = ({ initialText }) => {
   const [isPaused, setIsPaused] = useState(false);
@@ -14,11 +18,15 @@ const TextToSpeech = ({ initialText }) => {
   const [volume, setVolume] = useState(1);
   const [text, setText] = useState(initialText);
 
+  // SpeechSynthesisUtterance Moduel For TTS //
+
   useEffect(() => {
     const synth = window.speechSynthesis;
     const u = new SpeechSynthesisUtterance(text);
     setUtterance(u);
 
+         //   This Will Hnadel Voice Change Option //
+   
     const handleVoicesChanged = () => {
       const voices = synth.getVoices();
       setVoice(voices[0]);
@@ -31,6 +39,8 @@ const TextToSpeech = ({ initialText }) => {
       synth.removeEventListener("voiceschanged", handleVoicesChanged);
     };
   }, [text]);
+   
+   //  This Function For Play The Audio //
 
   const handlePlay = () => {
     const synth = window.speechSynthesis;
@@ -48,17 +58,24 @@ const TextToSpeech = ({ initialText }) => {
     setIsPaused(false);
   };
 
+
+  // This  Funtion For Pause The Audio//
+
   const handlePause = () => {
     const synth = window.speechSynthesis;
     setIsPaused(true);
     synth.pause();
   };
 
+  //  Stop the audio playing //
+
   const handleStop = () => {
     const synth = window.speechSynthesis;
     setIsPaused(false);
     synth.cancel();
   };
+   
+   // Handel All Events //
 
   const handleVoiceChange = (event) => {
     const voices = window.speechSynthesis.getVoices();

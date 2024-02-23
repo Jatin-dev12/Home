@@ -1,3 +1,4 @@
+//--Welcome--//
 import React, { useState } from "react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import axios from "axios";
@@ -8,6 +9,8 @@ import Spellchecker from "hunspell-spellchecker";
 import Side from "./Side";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faRotateRight, faStop ,faArrowRightArrowLeft,faPause} from "@fortawesome/free-solid-svg-icons";
+
+// --Languages for Speaking --//
 
 const Ai = () => {
   const [supportedLanguages, setSupportedLanguages] = useState([
@@ -48,6 +51,7 @@ const Ai = () => {
   const [translation, setTranslation] = useState("");
   const [isPaused, setIsPaused] = useState(false); // New state variable for pause functionality
 
+// This Function For Start Listening //
 
   const startListening = () => {
     resetTranscript();
@@ -58,6 +62,8 @@ const Ai = () => {
     }
     setIsRecording(!isRecording);
   };
+
+  // This Function Will Show Play/Stop Button When Startlistening is Running.//
   const toggleListening = () => {
     if (listening) {
       SpeechRecognition.stopListening();
@@ -67,7 +73,7 @@ const Ai = () => {
     }
     setIsPaused(!listening);
   };
-
+// This is Switch  Language Functionality //
   const switchLanguage = () => {
     const index = supportedLanguages.findIndex((lang) => lang.code === currentLanguage);
     const newLanguage =
@@ -77,6 +83,7 @@ const Ai = () => {
     setCurrentLanguage(newLanguage);
   };
 
+  // This  Function will Chek Translated Text //
   const correctSpelling = (text) => {
     const spellchecker = new Spellchecker("en_US");
     const suggestions = spellchecker.getSuggestions(text);
@@ -86,6 +93,7 @@ const Ai = () => {
     return text;
   };
 
+   // This  Function Will Handle The Result of the Recognition //
   const handleTranscription = async () => {
     const truncatedTranscript = transcript.split(" ").slice(0, 100).join(" ");
     let correctedText = truncatedTranscript.split(" ").map(correctSpelling).join(" ");
@@ -117,14 +125,16 @@ const Ai = () => {
     return <div className="containers">Browser does not support speech recognition</div>;
   }
 
+  // This Function Help to Start over a speech  recognition session //
   const handleClick = () => {
     setTimeout(() => {
       window.location.reload();
-    }, 400); // Delay for 2000 milliseconds (2 seconds)
+    }, 400); 
   };
 
   return (
     <>
+    {/* This Div Is For Showing Side Bar */}
       <div className="container-fluid main-container">
         <div className="row">
           <div className="left-sidebar">
@@ -135,6 +145,7 @@ const Ai = () => {
 
             <p className="sa">What Ever You Speak It Will Write Here Let's Say Something.</p>
             <Row className="bb">
+              {/* Button For Start / Stop Listening */}
               <Col>
               <button onClick={toggleListening}>
                 {listening ? (
@@ -151,12 +162,14 @@ const Ai = () => {
               </button>
               </Col>
               <Col>
+              {/* This Button For Switch language */}
                 <button className="sss" onClick={switchLanguage}>
                   Switch Language
                   <FontAwesomeIcon icon={faArrowRightArrowLeft} />
                 </button>
               </Col>
               <Col>
+              {/* This Button For Start Over Speech */}
                 <button className='as'  onClick={handleClick}>Start Over
                 <FontAwesomeIcon icon={faRotateRight} />
                 </button>
@@ -164,6 +177,7 @@ const Ai = () => {
             </Row>
             <Row className="sls">
               <Col>
+              {/* This Will Select language and Write in The Selected language */}
                 <select value={currentLanguage} onChange={(e) => setCurrentLanguage(e.target.value)}>
                   {supportedLanguages.map((language) => (
                     <option key={language.code} value={language.code}>
@@ -173,7 +187,7 @@ const Ai = () => {
                 </select>
               </Col>
             </Row>
-
+                  {/* Speech To Text Result */}
             <div className="main-content">{transcript}</div>
           </div>
         </div>
