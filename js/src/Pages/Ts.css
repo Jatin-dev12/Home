@@ -8,3 +8,7 @@ input[type="text"] {
     margin: 20px;
     padding-bottom: 20px;
 }
+label.kkk {
+    display: flex;
+    margin-left: 80px;
+}

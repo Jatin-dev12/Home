@@ -222,7 +222,7 @@ const handleExchange = () => {
         {}
                     </Col>
                     
-                    <Col sm="1"></Col>
+                    
                     <select className="kjj" value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
             {Object.entries(countries).map(([code, name]) => (
                 <option key={code} value={code}>

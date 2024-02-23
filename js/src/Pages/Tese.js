@@ -102,7 +102,7 @@ const TextToSpeech = ({ initialText }) => {
         <input type="text" value={text} onChange={handleTextChange} />
       </label>
 </Row>
-      <Row className="vo">
+      {/* <Row className="vo">
 
       <label>
         Select Voice:
@@ -115,9 +115,9 @@ const TextToSpeech = ({ initialText }) => {
         </select>
       </label>
 	  </Row>
-    
-<Row>
-	<Col><label>
+     */}
+<Row className="dssa">
+	<Col><label className="kkk">
         Pitch:
         <input
           type="range"
@@ -130,7 +130,7 @@ const TextToSpeech = ({ initialText }) => {
       </label></Col>
       
 	  <Col>
-      <label>
+      <label className="kkk">
         Speed:
         <input
           type="range"
@@ -143,7 +143,7 @@ const TextToSpeech = ({ initialText }) => {
       </label></Col>
     
 
-	  <Col><label>
+	  <Col><label className="kkk">
         Volume:
         <input
           type="range"

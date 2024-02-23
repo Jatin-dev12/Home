@@ -10,10 +10,11 @@ import TextToSpeech from './Pages/Tese';
 import Side from './Pages/Side'
 import Chlo from './Pages/Chlo'
 import Test from './Pages/Test'
+import Bg from './Pages/Bg'
 
 function App() {
   return (
-    <BrowserRouter basename='/ai' >
+    <BrowserRouter >
 
     <Routes>
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="trancribe" element={<Trancribe />}/>
         <Route path="Chlo" element={<Chlo />}/>
         <Route path="test" element={<Test />}/>
+        <Route path='bg' element={<Bg />} />
 
 
 
