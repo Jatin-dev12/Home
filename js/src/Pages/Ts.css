@@ -12,3 +12,6 @@ label.kkk {
     display: flex;
     margin-left: 80px;
 }
+input[type="text"] {
+    border: solid;
+}

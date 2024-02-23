@@ -1,155 +1,58 @@
-import React, { useState, useEffect } from "react"
-import './Ts.css'
-import { Container, Row, Col } from "react-bootstrap";
+import React, { useState } from 'react';
+import axios from 'axios';
 
-const TextToSpeech = ({ initialText }) => {
-  const [isPaused, setIsPaused] = useState(false);
-  const [utterance, setUtterance] = useState(null);
-  const [voice, setVoice] = useState(null);
-  const [pitch, setPitch] = useState(1);
-  const [rate, setRate] = useState(1);
-  const [volume, setVolume] = useState(1);
-  const [text, setText] = useState(initialText);
+const TranslationApp = () => {
+  const [inputText, setInputText] = useState('');
+  const [translatedText, setTranslatedText] = useState('');
 
-  useEffect(() => {
-    const synth = window.speechSynthesis;
-    const u = new SpeechSynthesisUtterance(text);
-    setUtterance(u);
+  const handleInputChange = (e) => {
+    setInputText(e.target.value);
+  };
 
-    const handleVoicesChanged = () => {
-      const voices = synth.getVoices();
-      setVoice(voices[0]);
+  const translateText = async () => {
+    const getLanguagesOptions = {
+      method: 'GET',
+      url: 'https://google-translation-unlimited.p.rapidapi.com/get_languages',
+      headers: {
+        'X-RapidAPI-Key': '10ef930128msh25033c2ad8b1fd7p1876fajsnb2b198e0fd21',
+        'X-RapidAPI-Host': 'google-translation-unlimited.p.rapidapi.com'
+      }
     };
 
-    synth.addEventListener("voiceschanged", handleVoicesChanged);
+    try {
+      const languagesResponse = await axios.request(getLanguagesOptions);
+      console.log(languagesResponse.data);
 
-    return () => {
-      synth.cancel();
-      synth.removeEventListener("voiceschanged", handleVoicesChanged);
-    };
-  }, [text]);
+      const translateOptions = {
+        method: 'POST',
+        url: 'https://google-translation-unlimited.p.rapidapi.com/translate',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+          'X-RapidAPI-Key': '10ef930128msh25033c2ad8b1fd7p1876fajsnb2b198e0fd21',
+          'X-RapidAPI-Host': 'google-translation-unlimited.p.rapidapi.com'
+        },
+        data: {
+          texte: inputText,
+          to_lang: 'fr'
+        }
+      };
 
-  const handlePlay = () => {
-    const synth = window.speechSynthesis;
+      const translationResponse = await axios.request(translateOptions);
+      console.log(translationResponse.data);
 
-    if (isPaused) {
-      synth.resume();
-    } else {
-      utterance.voice = voice;
-      utterance.pitch = pitch;
-      utterance.rate = rate;
-      utterance.volume = volume;
-      synth.speak(utterance);
+      setTranslatedText(translationResponse.data);
+    } catch (error) {
+      console.error(error);
     }
-
-    setIsPaused(false);
   };
-
-  const handlePause = () => {
-    const synth = window.speechSynthesis;
-    setIsPaused(true);
-    synth.pause();
-  };
-
-  const handleStop = () => {
-    const synth = window.speechSynthesis;
-    setIsPaused(false);
-    synth.cancel();
-  };
-
-  const handleVoiceChange = (event) => {
-    const voices = window.speechSynthesis.getVoices();
-    setVoice(voices.find((v) => v.name === event.target.value));
-  };
-
-  const handlePitchChange = (event) => {
-    setPitch(parseFloat(event.target.value));
-  };
-
-  const handleRateChange = (event) => {
-    setRate(parseFloat(event.target.value));
-  };
-
-  const handleVolumeChange = (event) => {
-    setVolume(parseFloat(event.target.value));
-  };
-
-  const handleTextChange = (event) => {
-    setText(event.target.value);
-  };
-
-  const inbuiltParagraph = "";
 
   return (
     <div>
-      <label>
-        Text:
-        <input type="text" value={text} onChange={handleTextChange} />
-      </label>
-
-      <br />
-
-      <label>
-        Voice:
-        <select value={voice?.name} onChange={handleVoiceChange}>
-          {window.speechSynthesis.getVoices().map((voice) => (
-            <option key={voice.name} value={voice.name}>
-              {voice.name}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      <br />
-
-      <label>
-        Pitch:
-        <input
-          type="range"
-          min="0.5"
-          max="2"
-          step="0.1"
-          value={pitch}
-          onChange={handlePitchChange}
-        />
-      </label>
-
-      <br />
-
-      <label>
-        Speed:
-        <input
-          type="range"
-          min="0.5"
-          max="2"
-          step="0.1"
-          value={rate}
-          onChange={handleRateChange}
-        />
-      </label>
-      <br />
-      <label>
-        Volume:
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.1"
-          value={volume}
-          onChange={handleVolumeChange}
-        />
-      </label>
-
-      <br />
-      <Row>
-    <Col><button onClick={handlePlay}>{isPaused ? "Resume" : "Play"}</button></Col>
-      <Col><button onClick={handlePause}>Pause</button></Col>
-      <Col><button onClick={handleStop}>Stop</button></Col>
-      </Row>
-
-      <p>{inbuiltParagraph}</p>
+      <input type="text" value={inputText} onChange={handleInputChange} />
+      <button onClick={translateText}>Translate</button>
+      <div>{translatedText}</div>
     </div>
   );
 };
 
-export default TextToSpeech;
+export default TranslationApp;  

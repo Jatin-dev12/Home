@@ -119,7 +119,7 @@ const TextToSpeech = ({ initialText }) => {
         <input type="text" value={text} onChange={handleTextChange} />
       </label>
 </Row>
-      {/* <Row className="vo">
+      <Row className="vo" style={{display:"none"}}>
 
       <label>
         Select Voice:
@@ -132,7 +132,7 @@ const TextToSpeech = ({ initialText }) => {
         </select>
       </label>
 	  </Row>
-     */}
+    
 <Row className="dssa">
 	<Col><label className="kkk">
         Pitch:

@@ -14,7 +14,7 @@ import Bg from './Pages/Bg'
 
 function App() {
   return (
-    <BrowserRouter >
+    <BrowserRouter basename='/ai' >
 
     <Routes>
 
