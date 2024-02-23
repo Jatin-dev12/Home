@@ -1,5 +1,11 @@
 .ll{
   object-fit: contain;
+  height: 50px;
+}
+a.navbar-brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 /* Translator.css */
 

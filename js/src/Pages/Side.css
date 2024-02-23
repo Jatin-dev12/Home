@@ -19,6 +19,11 @@
     
     
 }
+a.navbar-brand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .left-sidebar {
   width: 18.77777778%;

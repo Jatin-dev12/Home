@@ -5,6 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useState } from 'react';
 import pic from './speaking.png'
+import '../App.css'
 
 function Header() {
   const [show, setShow] = useState(false);
