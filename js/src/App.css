@@ -15,9 +15,12 @@ a.navbar-brand {
   width: calc(100% - 10px); 
   max-width: 650px; 
   } 
+  
   .main-content.col {
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 40px;
+    margin-right: 25px;
+    min-height: auto;
+    padding: 10px;
 }
   select { 
   width: calc(50% - 20px); 

@@ -228,7 +228,7 @@ const handleExchange = () => {
             </select>
                     <Col className="main-content">
                     <textarea
-                    rows={7}
+                    rows={10}
             className="from-text"
             value={transcript}
             onChange={(e) => setFromText(e.target.value)}
@@ -247,7 +247,7 @@ const handleExchange = () => {
             </select>
                     <Col className="main-content"> 
 
-                    <textarea  rows={7} className="to-text" value={toText} readOnly placeholder={translationPlaceholder} />
+                    <textarea  rows={10} className="to-text" value={toText} readOnly placeholder={translationPlaceholder} />
                     </Col>
                   </Row>
                   <Row className="fas">

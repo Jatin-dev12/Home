@@ -97,8 +97,9 @@ const TextToSpeech = ({ initialText }) => {
   };
 
   const handleTextChange = (event) => {
-    const newText = event.target.value;
-    setText(newText);
+    // const newText = event.target.value;
+    const newText = event.target.textContent;
+    //setText(newText);
     // Reset the speech synthesis
     const newUtterance = new SpeechSynthesisUtterance(newText);
     setUtterance(newUtterance);
@@ -114,10 +115,13 @@ const TextToSpeech = ({ initialText }) => {
       </div>
 	  <div className="content-container">
 		<Row className="cc"> 
-      <label>
-       Write Text:
-        <input type="text" value={text} onChange={handleTextChange} />
+      <label className="hghj">
+       Write Text In Box
+        {/* <input type="text" value={text} onChange={handleTextChange} /> */}
       </label>
+     <div contentEditable 
+     className="editable-div"
+     onInput={handleTextChange}>{text}</div> 
 </Row>
       <Row className="vo" style={{display:"none"}}>
 
