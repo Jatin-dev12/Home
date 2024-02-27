@@ -11,6 +11,7 @@ import Side from './Pages/Side'
 import Chlo from './Pages/Chlo'
 import Test from './Pages/Test'
 import Bg from './Pages/Bg'
+import Sst from './Pages/Sst'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="text" element={<Text/>}/>
         <Route path="trancribe" element={<Trancribe />}/>
         <Route path="Chlo" element={<Chlo />}/>
+        <Route path="sst" element={<Sst />}/>
         <Route path='bg' element={<Bg />} />
 
 

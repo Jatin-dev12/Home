@@ -1,14 +1,11 @@
 //--Welcome--//
 import React, { useState } from "react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
-import axios from "axios";
-import FormData from "form-data";
 import "./Ai.css";
 import { Container, Row, Col } from "react-bootstrap";
-import Spellchecker from "hunspell-spellchecker";
 import Side from "./Side";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay, faRotateRight, faStop ,faArrowRightArrowLeft,faPause} from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faRotateRight  ,faArrowRightArrowLeft} from "@fortawesome/free-solid-svg-icons";
 
 // --Languages for Speaking --//
 
@@ -29,7 +26,6 @@ const Ai = () => {
     { code: "pa", name: "Punjabi" },
     { code: "ru", name: "Russian" },
     { code: "af", name: "Afrikaans" },
-    { code: "fr", name: "French" },
     { code: "am", name: "Amharic" },
     { code: "ar", name: "Arabic" },
     { code: "hy", name: "Armenian" },
@@ -43,33 +39,17 @@ const Ai = () => {
     // ...
   ]);
 
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("en");
   const { transcript, resetTranscript, listening } = useSpeechRecognition({ language: currentLanguage });
-  const [correctedText, setCorrectedText] = useState("");
-  const [translation, setTranslation] = useState("");
   const [isPaused, setIsPaused] = useState(false); // New state variable for pause functionality
-
-// This Function For Start Listening //
-
-  const startListening = () => {
-    resetTranscript();
-    if (isRecording) {
-      SpeechRecognition.stopListening();
-    } else {
-      SpeechRecognition.startListening({ continuous: true, language: currentLanguage });
-    }
-    setIsRecording(!isRecording);
-  };
-
-  // This Function Will Show Play/Stop Button When Startlistening is Running.//
+ 
+    // This Function Will Show Play/Stop Button When Startlistening is Running.//
   const toggleListening = () => {
     if (listening) {
       SpeechRecognition.stopListening();
     } else {
       resetTranscript();
-      SpeechRecognition.startListening({ continuous: true, language: currentLanguage });
+      SpeechRecognition.startListening({ continuous: true, language: currentLanguage , interimResults: true });
     }
     setIsPaused(!listening);
   };
@@ -83,47 +63,11 @@ const Ai = () => {
     setCurrentLanguage(newLanguage);
   };
 
-  // This  Function will Chek Translated Text //
-  const correctSpelling = (text) => {
-    const spellchecker = new Spellchecker("en_US");
-    const suggestions = spellchecker.getSuggestions(text);
-    if (suggestions.length > 0) {
-      return suggestions[0];
-    }
-    return text;
-  };
-
-   // This  Function Will Handle The Result of the Recognition //
-  const handleTranscription = async () => {
-    const truncatedTranscript = transcript.split(" ").slice(0, 100).join(" ");
-    let correctedText = truncatedTranscript.split(" ").map(correctSpelling).join(" ");
-    setCorrectedText(correctedText);
-
-    if (correctedText.length > 0) {
-      const formData = new FormData();
-      formData.append("file", new Blob([Buffer.from(correctedText)], { type: "audio/mpeg-3" }));
-
-      const options = {
-        method: "GET",
-        url: "https://text-to-speech-pro.p.rapidapi.com/api/voices",
-        headers: {
-          "X-RapidAPI-Key": "10ef930128msh25033c2ad8b1fd7p1876fajsnb2b198e0fd21",
-          "X-RapidAPI-Host": "text-to-speech-pro.p.rapidapi.com",
-        },
-      };
-
-      try {
-        const response = await axios.request(options);
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
-
-  if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
+   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
+    SpeechRecognition.startListening({ continuous: true })
     return <div className="containers">Browser does not support speech recognition</div>;
   }
+
 
   // This Function Help to Start over a speech  recognition session //
   const handleClick = () => {
@@ -141,7 +85,9 @@ const Ai = () => {
             <Side />
           </div>
           <div className="content-container">
+
             <h2>Speech to Text Converter</h2>
+            
 
             <p className="sa">What Ever You Speak It Will Write Here Let's Say Something.</p>
             <Row className="bbs">
@@ -207,7 +153,8 @@ const Ai = () => {
               </button>
               </Col>
               <Col sm={1}></Col>
-              <Col sm={5}></Col></Row>
+              <Col sm={5}><h5 className="on" style={{margin : "15px"}}>Microphone: {listening ? "on":"off"}</h5>
+              </Col></Row>
           </div>
         </div>
       </div>
