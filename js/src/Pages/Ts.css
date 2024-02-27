@@ -8,6 +8,7 @@ input[type="text"] {
     margin: 20px;
     padding-bottom: 20px;
 }
+
 label.kkk {
     display: flex;
     margin-left: 80px;
@@ -18,15 +19,30 @@ input[type="text"] {
 .editable-div {
     JUSTIFY-CONTENT: flex-start;
     TEXT-ALIGN: -webkit-auto;
-    BORDER: solid 1px;
+   
     WIDTH: 50%;
+    height: 150px;
     box-shadow: 0 12px 48px 0px rgb(109 117 141 / 20%);
     margin: auto;
     margin-top: 20px;
     margin-bottom: 30px;
     PADDING: 10PX;
+    border-radius: 10px;
 }
 label.hghj {
     margin: 20px;
     font-size: x-large;
+}
+.left-sidebarr{
+        width: 18.77777778%;
+        box-sizing: border-box;
+        background: #f6f9fc;
+        height: 540px;
+    
+}
+.editable-div:focus-visible{
+    border: none;
+}
+.editable-div:focus{
+    border: none;
 }

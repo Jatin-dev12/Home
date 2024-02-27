@@ -110,7 +110,7 @@ const TextToSpeech = ({ initialText }) => {
   return (
     <div className='container-fluid main-container'>
       <div className='row'>
-      <div className="left-sidebar">
+      <div className="left-sidebarr">
         < Side/>
       </div>
 	  <div className="content-container">
@@ -120,6 +120,7 @@ const TextToSpeech = ({ initialText }) => {
         {/* <input type="text" value={text} onChange={handleTextChange} /> */}
       </label>
      <div contentEditable 
+     aria-placeholder="chahbac"
      className="editable-div"
      onInput={handleTextChange}>{text}</div> 
 </Row>

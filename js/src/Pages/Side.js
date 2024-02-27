@@ -18,7 +18,7 @@ const Side = () => {
       <Navbar.Collapse id="basic-navbar-nav">
       <Nav defaultActiveKey="/trancribe" className={"" + (url === "/trancribe" ?" active" : "")} >
       <Nav.Link href="trancribe" className={"" + (url === "/trancribe" ?" active" : "")}>Speech To Translation</Nav.Link>
-      <Nav.Link href="ai" className={"" + (url === "/ai" ?" active" : "")}>Speech To Text </Nav.Link>
+      <Nav.Link href="test" className={"" + (url === "/test" ?" active" : "")}>Speech To Text </Nav.Link>
       <Nav.Link href="tese" className={"" + (url === "/tese" ?" active" : "")}>Text To Speech</Nav.Link>
 
         </Nav>

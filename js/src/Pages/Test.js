@@ -1,192 +1,218 @@
-import React, { useState, useEffect } from "react";
-import "./Ts.css";
+//--Welcome--//
+import React, { useState } from "react";
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import axios from "axios";
+import FormData from "form-data";
+import "./Ai.css";
 import { Container, Row, Col } from "react-bootstrap";
+import Spellchecker from "hunspell-spellchecker";
 import Side from "./Side";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay, faStop, faPause } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faRotateRight, faStop ,faArrowRightArrowLeft,faPause} from "@fortawesome/free-solid-svg-icons";
 
-const TextToSpeech = ({ initialText }) => {
-  const [isPaused, setIsPaused] = useState(false);
-  const [utterance, setUtterance] = useState(null);
-  const [voice, setVoice] = useState(null);
-  const [pitch, setPitch] = useState(1);
-  const [rate, setRate] = useState(1);
-  const [volume, setVolume] = useState(1);
-  const [text, setText] = useState(initialText);
+// --Languages for Speaking --//
 
-  useEffect(() => {
-    const synth = window.speechSynthesis;
-    const u = new SpeechSynthesisUtterance(text);
-    setUtterance(u);
+const Ai = () => {
+  const [supportedLanguages, setSupportedLanguages] = useState([
+    { code: "sq", name: "Albanian" },
+    { code: "bn", name: "Bengali" },
+    { code: "fr", name: "French" },
+    { code: "en", name: "English" },
+    { code: "de", name: "German" },
+    { code: "gu", name: "Gujarati" },
+    { code: "ja", name: "Japanese" },
+    { code: "hi", name: "Hindi" },
+    { code: "ka", name: "Georgian" },
+    { code: "ne", name: "Nepali" },
+    { code: "ml", name: "Malayalam" },
+    { code: "ta", name: "Tamil" },
+    { code: "pa", name: "Punjabi" },
+    { code: "ru", name: "Russian" },
+    { code: "af", name: "Afrikaans" },
+    { code: "fr", name: "French" },
+    { code: "am", name: "Amharic" },
+    { code: "ar", name: "Arabic" },
+    { code: "hy", name: "Armenian" },
+    { code: "az", name: "Azerbaijani" },
+    { code: "eu", name: "Basque" },
+    { code: "bs", name: "Bosnian" },
+    { code: "bg", name: "Bulgarian" },
+    { code: "ca", name: "Catalan" },
+    { code: "ceb", name: "Cebuano" },
+    { code: "ny", name: "Chichewa" },
+    // ...
+  ]);
 
-    const handleVoicesChanged = () => {
-      const voices = synth.getVoices();
-      setVoice(voices[0]);
-    };
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState("en");
+  const { transcript, resetTranscript, listening } = useSpeechRecognition({ language: currentLanguage });
+  const [correctedText, setCorrectedText] = useState("");
+  const [translation, setTranslation] = useState("");
+  const [isPaused, setIsPaused] = useState(false); // New state variable for pause functionality
 
-    synth.addEventListener("voiceschanged", handleVoicesChanged);
+// This Function For Start Listening //
 
-    return () => {
-      synth.cancel();
-      synth.removeEventListener("voiceschanged", handleVoicesChanged);
-    };
-  }, [text]);
-
-  const handlePlay = () => {
-    const synth = window.speechSynthesis;
-
-    if (isPaused) {
-      synth.resume();
+  const startListening = () => {
+    resetTranscript();
+    if (isRecording) {
+      SpeechRecognition.stopListening();
     } else {
-      utterance.voice = voice;
-      utterance.pitch = pitch;
-      utterance.rate = rate;
-      utterance.volume = volume;
-      synth.speak(utterance);
+      SpeechRecognition.startListening({ continuous: true, language: currentLanguage });
     }
-
-    setIsPaused(false);
+    setIsRecording(!isRecording);
   };
 
-  const handlePause = () => {
-    const synth = window.speechSynthesis;
-    setIsPaused(true);
-    synth.pause();
+  // This Function Will Show Play/Stop Button When Startlistening is Running.//
+  const toggleListening = () => {
+    if (listening) {
+      SpeechRecognition.stopListening();
+    } else {
+      resetTranscript();
+      SpeechRecognition.startListening({ continuous: true, language: currentLanguage });
+    }
+    setIsPaused(!listening);
+  };
+// This is Switch  Language Functionality //
+  const switchLanguage = () => {
+    const index = supportedLanguages.findIndex((lang) => lang.code === currentLanguage);
+    const newLanguage =
+      index === supportedLanguages.length - 1
+        ? supportedLanguages[0].code
+        : supportedLanguages[index + 1].code;
+    setCurrentLanguage(newLanguage);
   };
 
-  const handleStop = () => {
-    const synth = window.speechSynthesis;
-    setIsPaused(false);
-    synth.cancel();
+  // This  Function will Chek Translated Text //
+  const correctSpelling = (text) => {
+    const spellchecker = new Spellchecker("en_US");
+    const suggestions = spellchecker.getSuggestions(text);
+    if (suggestions.length > 0) {
+      return suggestions[0];
+    }
+    return text;
   };
 
-  const handleVoiceChange = (event) => {
-    const voices = window.speechSynthesis.getVoices();
-    const selectedVoice = voices.find((v) => v.name === event.target.value);
-    setVoice(selectedVoice);
-    utterance.lang = selectedVoice.lang; // Set the language of the utterance
+   // This  Function Will Handle The Result of the Recognition //
+  const handleTranscription = async () => {
+    const truncatedTranscript = transcript.split(" ").slice(0, 100).join(" ");
+    let correctedText = truncatedTranscript.split(" ").map(correctSpelling).join(" ");
+    setCorrectedText(correctedText);
+
+    if (correctedText.length > 0) {
+      const formData = new FormData();
+      formData.append("file", new Blob([Buffer.from(correctedText)], { type: "audio/mpeg-3" }));
+
+      const options = {
+        method: "GET",
+        url: "https://text-to-speech-pro.p.rapidapi.com/api/voices",
+        headers: {
+          "X-RapidAPI-Key": "10ef930128msh25033c2ad8b1fd7p1876fajsnb2b198e0fd21",
+          "X-RapidAPI-Host": "text-to-speech-pro.p.rapidapi.com",
+        },
+      };
+
+      try {
+        const response = await axios.request(options);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
-  const handlePitchChange = (event) => {
-    setPitch(parseFloat(event.target.value));
-  };
+  if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
+    return <div className="containers">Browser does not support speech recognition</div>;
+  }
 
-  const handleRateChange = (event) => {
-    setRate(parseFloat(event.target.value));
+  // This Function Help to Start over a speech  recognition session //
+  const handleClick = () => {
+    setTimeout(() => {
+      window.location.reload();
+    }, 300); 
   };
-
-  const handleVolumeChange = (event) => {
-    setVolume(parseFloat(event.target.value));
-  };
-
-  const handleTextChange = (event) => {
-    const newText = event.target.value;
-    setText(newText);
-    // Reset the speech synthesis
-    const newUtterance = new SpeechSynthesisUtterance(newText);
-    setUtterance(newUtterance);
-  };
-
-  const inbuiltParagraph = "";
 
   return (
-    <div className="container-fluid main-container">
-      <div className="row">
-        <div className="left-sidebar">
-          <Side />
-        </div>
-        <div className="content-container">
-          <Row className="cc">
-            <label>
-              Write Text:
-              <input type="text" value={text} onChange={handleTextChange} />
-            </label>
-          </Row>
-          <Row className="vo">
-            <label>
-              Select Voice:
-              <select value={voice?.name} onChange={handleVoiceChange}>
-                {window.speechSynthesis.getVoices().map((voice) => (
-                  <option key={voice.name} value={voice.name}>
-                    {voice.name} ({voice.lang})
-                  </option>
-                ))}
-              </select>
-            </label>
-          </Row>
+    <>
+    {/* This Div Is For Showing Side Bar */}
+      <div className="container-fluid main-container">
+        <div className="row">
+          <div className="left-sidebar">
+            <Side />
+          </div>
+          <div className="content-container">
+            <h2>Speech to Text Converter</h2>
 
-          <Row>
-            <Col>
-              <label>
-                Pitch:
-                <input
-                  type="range"
-                  min="0.5"
-                  max="2"
-                  step="0.1"
-                  value={pitch}
-                  onChange={handlePitchChange}
-                />
-              </label>
-            </Col>
-
-            <Col>
-              <label>
-                Speed:
-                <input
-                  type="range"
-                  min="0.5"
-                  max="2"
-                  step="0.1"
-                  value={rate}
-                  onChange={handleRateChange}
-                />
-              </label>
-            </Col>
-
-            <Col>
-              <label>
-                Volume:
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.1"
-                  value={volume}
-                  onChange={handleVolumeChange}
-                />
-              </label>
-            </Col>
-          </Row>
-          <br />
-          <Row>
-            <Col></Col>
-            <Col>
-              <button onClick={handlePlay}>
-                {isPaused ? "Resume" : "Play"}
-                <FontAwesomeIcon icon={faPlay} />
+            <p className="sa">What Ever You Speak It Will Write Here Let's Say Something.</p>
+            <Row className="bbs">
+              {/* Button For Start / Stop Listening */}
+              {/* <Col>
+              <button onClick={toggleListening}>
+                {listening ? (
+                  <>
+                   <a onClick={handleClick}>Start Over </a> 
+                    <FontAwesomeIcon icon={faRotateRight} />
+                  </>
+                ) : (
+                  <>
+                    Start Listening
+                    <FontAwesomeIcon icon={faPlay} />
+                  </>
+                )}
               </button>
-            </Col>
+              </Col> */}
+              <Col>
+              {/* This Button For Switch language */}
+                <button className="sss" onClick={switchLanguage}>
+                  Switch Language
+                  <FontAwesomeIcon icon={faArrowRightArrowLeft} />
+                </button>
+              </Col>
+              <Col>
+              {/* This Button For Start Over Speech */}
+                <button className='as'  onClick={handleClick}>Start Over
+                <FontAwesomeIcon icon={faRotateRight} />
+                </button>
+              </Col>
+            </Row>
+            <Row className="sls">
+              <Col>
+              {/* This Will Select language and Write in The Selected language */}
+                <select value={currentLanguage} onChange={(e) => setCurrentLanguage(e.target.value)}>
+                  {supportedLanguages.map((language) => (
+                    <option key={language.code} value={language.code}>
+                      {language.name}
+                    </option>
+                  ))}
+                </select>
+              </Col>
+            </Row>
+                  {/* Speech To Text Result */}
+            <div className="main-content">{transcript}
+            </div>
+            <Row className="dasdad">
             <Col>
-              <button onClick={handlePause}>
-                Pause
-                <FontAwesomeIcon icon={faPause} />
+              <button onClick={toggleListening}>
+                {listening ? (
+                  <>
+                   <a onClick={handleClick}>Start Over </a> 
+                    <FontAwesomeIcon icon={faRotateRight} onClick={handleClick} />
+                  </>
+                ) : (
+                  <>
+                    Start Listening
+                    <FontAwesomeIcon icon={faPlay} />
+                  </>
+                )}
               </button>
-            </Col>
-            <Col>
-              <button onClick={handleStop}>
-                Stop
-                <FontAwesomeIcon icon={faStop} />
-              </button>
-            </Col>
-            <Col></Col>
-          </Row>
-
-          <p>{inbuiltParagraph}</p>
+              </Col>
+              <Col sm={1}></Col>
+              <Col sm={5}></Col></Row>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
-export default TextToSpeech;
+export default Ai;

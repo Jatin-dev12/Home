@@ -21,12 +21,11 @@ function App() {
       
       <Route path="/" element={<Layout />}>
         <Route index element={<Trancribe />} />
-        <Route path="ai" element={<Ai />}/>
+        <Route path="test" element={<Test />}/>
         <Route path="tese" element={<TextToSpeech/>}/>
         <Route path="text" element={<Text/>}/>
         <Route path="trancribe" element={<Trancribe />}/>
         <Route path="Chlo" element={<Chlo />}/>
-        <Route path="test" element={<Test />}/>
         <Route path='bg' element={<Bg />} />
 
 
