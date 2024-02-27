@@ -65,19 +65,18 @@ const Transcribe = () => {
       // console.error(error);
     }
   };
-
-
   const toggleListening = () => {
     if (listening) {
       SpeechRecognition.stopListening();
     } else {
       resetTranscript();
-      SpeechRecognition.startListening({ continuous: true, language: currentLanguage });
+      SpeechRecognition.startListening({ continuous: true, language: currentLanguage , interimResults: true});
     }
     setIsPaused(!listening);
   };
 
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
+    SpeechRecognition.startListening({ continuous: true })
     return <div className="containers">Browser does not support speech recognition</div>;
   }
 
