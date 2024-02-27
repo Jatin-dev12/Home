@@ -49,12 +49,11 @@ const Transcribe = () => {
       url: 'https://google-translation-unlimited.p.rapidapi.com/translate',
       headers: {
         'content-type': 'application/x-www-form-urlencoded',
-        'X-RapidAPI-Key': '10ef930128msh25033c2ad8b1fd7p1876fajsnb2b198e0fd21',
+        'X-RapidAPI-Key': 'bef032d50cmsh7fae02a35ec1930p1e9675jsn7ef880fa427c',
         'X-RapidAPI-Host': 'google-translation-unlimited.p.rapidapi.com'
       },
       data: encodedParams,
-          
-    }; 
+    };
     
     try {
       const response = await axios.request(options);
