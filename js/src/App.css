@@ -212,3 +212,279 @@ select.kjj {
 @media screen and (min-width: 479px){
   
 }
+
+
+/* -------------- */
+.volume {
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+  background-color: rgb(255, 255, 255);
+  overflow: hidden;
+  position: relative;
+}
+
+.normal-icon{
+  color: #706e6e;
+}
+
+.normal-icon:hover {
+  color: black; /* Replace with your desired hover color */
+}
+/* -------------Start Btn----------------------- */
+.btn-class-name {
+  --primary:50, 205, 50;
+  --secondary: 0, 70, 50;
+  width: 60px;
+  height: 50px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  outline: 10px solid rgb(var(--primary), .5);
+  border-radius: 100%;
+  position: relative;
+  transition: .3s;
+}
+
+.btn-class-name .back {
+  background: rgb(var(--secondary));
+  border-radius: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.btn-class-name .front {
+  background: linear-gradient(0deg, rgba(var(--primary), .6) 20%, rgba(var(--primary)) 50%);
+  box-shadow: 0 .5em 1em -0.2em rgba(var(--secondary), .5);
+  border-radius: 100%;
+  position: absolute;
+  border: 1px solid rgb(var(--secondary));
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-family: inherit;
+  transform: translateY(-15%);
+  transition: .15s;
+  color: rgb(var(--secondary));
+}
+
+.btn-class-name:active .front {
+  transform: translateY(0%);
+  box-shadow: 0 0;
+}
+/* ----------Start Over Btn----------------- */
+.btn-class-namea {
+
+  --primary:255, 87, 51 ;
+  --secondary: 100, 100, 50;
+  width: 60px;
+  height: 50px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  outline: 10px solid rgb(var(--primary), .5);
+  border-radius: 100%;
+  position: relative;
+  transition: .3s;
+}
+
+.btn-class-namea .back {
+  background: rgb(var(--secondary));
+  border-radius: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.btn-class-namea .front {
+  background: linear-gradient(0deg, rgba(var(--primary), .6) 20%, rgba(var(--primary)) 50%);
+  box-shadow: 0 .5em 1em -0.2em rgba(var(--secondary), .5);
+  border-radius: 100%;
+  position: absolute;
+  border: 1px solid rgb(var(--secondary));
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-family: inherit;
+  transform: translateY(-15%);
+  transition: .15s;
+  color: rgb(var(--secondary));
+}
+
+.btn-class-namea:active .front {
+  transform: translateY(0%);
+  box-shadow: 0 0;
+}
+
+
+/* ------loader    --- */
+.loading {
+  --speed-of-animation: 0.9s;
+  --gap: 6px;
+  --first-color: #4c86f9;
+  --second-color: #49a84c;
+  --third-color: #f6bb02;
+  --fourth-color: #f6bb02;
+  --fifth-color: #2196f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow:hidden;
+ 
+  gap: 6px;
+  height: 100px;
+ }
+ 
+ .loading span {
+  width: 4px;
+  height: 4px;
+  background: var(--first-color);
+  float:right;
+  animation-name:wiper-swipe;
+  animation-duration:3s;
+  animation-timing-function:linear;
+ }
+ .loading.active span {
+  height: 50px;
+  animation: scale var(--speed-of-animation) ease-in-out infinite;
+ }
+
+ .loading span:nth-child(2) {
+  background: var(--second-color);
+  animation-delay: -0.8s;
+ }
+ 
+ .loading span:nth-child(3) {
+  background: var(--third-color);
+  animation-delay: -0.7s;
+ }
+ 
+ .loading span:nth-child(4) {
+  background: var(--fourth-color);
+  animation-delay: -0.6s;
+ }
+ 
+ .loading span:nth-child(5) {
+  background: var(--fifth-color);
+  animation-delay: -0.5s;
+ }
+ .loading span:nth-child(6) {
+  background: var(--third-color);
+  animation-delay: -0.4s;
+ }
+ 
+ .loading span:nth-child(7) {
+  background: var(--fourth-color);
+  animation-delay: -0.3s;
+ }
+ 
+ .loading span:nth-child(8) {
+  background: var(--fifth-color);
+  animation-delay: -0.2s;
+ }
+ .loading span:nth-child(9) {
+  background: var(--second-color);
+  animation-delay: -0.2s;
+ }
+ .loading span:nth-child(10) {
+  background: var(--third-color);
+  animation-delay: -0.1s;
+ }
+
+ .loading span:nth-child(11) {
+  background: var(--second-color);
+  animation-delay: -0.8s;
+ }
+ 
+ .loading span:nth-child(12) {
+  background: var(--third-color);
+  animation-delay: -0.7s;
+ }
+ 
+ .loading span:nth-child(13) {
+  background: var(--fourth-color);
+  animation-delay: -0.6s;
+ }
+ 
+ .loading span:nth-child(14) {
+  background: var(--fifth-color);
+  animation-delay: -0.5s;
+ }
+ .loading span:nth-child(15) {
+  background: var(--third-color);
+  animation-delay: -0.4s;
+ }
+ 
+ .loading span:nth-child(16) {
+  background: var(--fourth-color);
+  animation-delay: -0.3s;
+ }
+ 
+ .loading span:nth-child(17) {
+  background: var(--fifth-color);
+  animation-delay: -0.2s;
+ }
+ .loading span:nth-child(18) {
+  background: var(--second-color);
+  animation-delay: -0.5s;
+ }
+ .loading span:nth-child(19) {
+  background: var(--third-color);
+  animation-delay: -0.4s;
+ }
+ .loading span:nth-child(20) {
+  background: var(--fourth-color);
+  animation-delay: -0.3s;
+ }
+ .loading span:nth-child(21) {
+  background: var(--fifth-color);
+  animation-delay: -0.2s;
+  
+ }
+ .loading span:nth-child(22) {
+  background: var(--third-color);
+  animation-delay: -0.1s;
+ }
+ @keyframes scale {
+  0%, 40%, 100% {
+   transform: scaleY(0.05);
+  }
+ 
+  20% {
+   transform: scaleY(1);
+  }
+ }
+
+ .kkkk{
+  display: block;
+ }
+
+ .xcdc.row {
+  margin-top: 25px;
+  padding: 20px;
+}
+p.sadd {
+  margin: 1px;
+  margin-left: 20px;
+}

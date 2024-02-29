@@ -17,6 +17,7 @@ const TextToSpeech = ({ initialText }) => {
   const [rate, setRate] = useState(1);
   const [volume, setVolume] = useState(1);
   const [text, setText] = useState(initialText);
+  
 
   // SpeechSynthesisUtterance Moduel For TTS //
 
@@ -82,6 +83,7 @@ const TextToSpeech = ({ initialText }) => {
     const selectedVoice = voices.find((v) => v.name === event.target.value);
     setVoice(selectedVoice);
     utterance.lang = selectedVoice.lang; // Set the language of the utterance
+    
   };
 
   const handlePitchChange = (event) => {

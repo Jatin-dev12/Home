@@ -12,6 +12,7 @@ import Chlo from './Pages/Chlo'
 import Test from './Pages/Test'
 import Bg from './Pages/Bg'
 import Sst from './Pages/Sst'
+import Ti from './Pages/Ti'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="Chlo" element={<Chlo />}/>
         <Route path="sst" element={<Sst />}/>
         <Route path='bg' element={<Bg />} />
+        <Route path='ti' element={<Ti />} />
 
 
 

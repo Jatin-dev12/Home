@@ -29,7 +29,6 @@ const Ai = () => {
     { code: "pa", name: "Punjabi" },
     { code: "ru", name: "Russian" },
     { code: "af", name: "Afrikaans" },
-    { code: "fr", name: "French" },
     { code: "am", name: "Amharic" },
     { code: "ar", name: "Arabic" },
     { code: "hy", name: "Armenian" },
