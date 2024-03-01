@@ -5,7 +5,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import '../App.css'
 import Side from './Side'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRotateRight, faVolumeHigh, faPlay, faPause, faStop, faMicrophone } from "@fortawesome/free-solid-svg-icons";
+import { faRotateRight, faVolumeHigh, faPlay, faPause, faStop, faMicrophone,faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Transcribe = () => {
   const [supportedLanguages, setSupportedLanguages] = useState([
@@ -75,6 +75,18 @@ const Transcribe = () => {
     const seconds = time % 60;
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
+
+  const handleClearTextarea = () => {
+    resetTranscript();
+  };
+
+  const handleClearTranslatedText = () => {
+    setToText("");
+  };
+
+
+  
+
   const speakText = () => {
     if (toText) {
       utterance.text = toText;
@@ -175,6 +187,7 @@ const Transcribe = () => {
           <Col>
             <h2>Speech to Text Translator</h2>
           </Col> 
+          {/* <Col> <FontAwesomeIcon onClick={handleClearTextarea} icon={faTrash} /></Col> */}
            {/* <Col> {formatTime(timer)}</Col>     */}
           <Row className="bb">
             <Col>
@@ -184,11 +197,12 @@ const Transcribe = () => {
                 onMouseUp={handleTouchEnd}
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
-              ><FontAwesomeIcon icon={faMicrophone} />
+              >
                 <span className="back"></span>
-                <span className="front"></span>
+                <span className="front"><FontAwesomeIcon icon={faMicrophone} /></span>
               </button>
             </Col>
+   
             <Col>
               <button className="sda" onClick={handleClick}>
                 <FontAwesomeIcon icon={faRotateRight} />
@@ -196,6 +210,11 @@ const Transcribe = () => {
             </Col>
           </Row>
           <Row>
+             <div className="delete-content"> <FontAwesomeIcon onClick={handleClearTextarea} icon={faTrash} /></div>
+             <div className="delete-content"> <FontAwesomeIcon onClick={handleClearTranslatedText} icon={faTrash} /></div>
+          </Row>
+          <Row>
+           
             <select className="dsh" value={currentLanguage} onChange={(e) => setCurrentLanguage(e.target.value)}>
               {supportedLanguages.map((language) => (
                 <option key={language.code} value={language.code}>
@@ -203,7 +222,9 @@ const Transcribe = () => {
                 </option>
               ))}
             </select>
-            <Col className="main-content">
+
+            <Col className="main-content" >
+              
               <textarea
                 rows={10}
                 className="from-text"
@@ -212,7 +233,7 @@ const Transcribe = () => {
 
                 placeholder="Hold On Button to start..."
               />
-              <div className={`loading ${isActive ? 'active' : ''}`}>
+              <div className={`loading ${isActive && transcript ? 'active' : ''}`}>
                 <span></span><span></span><span></span><span></span>
                 <span></span><span></span><span></span><span></span>
                 <span></span><span></span><span></span><span></span>

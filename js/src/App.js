@@ -22,7 +22,7 @@ function App() {
 
       
       <Route path="/" element={<Layout />}>
-        <Route index element={<Trancribe />} />
+        <Route index element={<Sst />} />
         <Route path="test" element={<Test />}/>
         <Route path="tese" element={<TextToSpeech/>}/>
         <Route path="text" element={<Text/>}/>

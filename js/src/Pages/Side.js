@@ -16,8 +16,8 @@ const Side = () => {
       <Navbar.Brand href="#home"></Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-      <Nav defaultActiveKey="/trancribe" className={"" + (url === "/trancribe" ?" active" : "")} >
-      <Nav.Link href="trancribe" className={"" + (url === "/trancribe" ?" active" : "")}>Speech To Translation</Nav.Link>
+      <Nav defaultActiveKey="/sst" className={"" + (url === "/sst" ?" active" : "")} >
+      <Nav.Link href="sst" className={"" + (url === "/sst" ?" active" : "")}>Speech To Translation</Nav.Link>
       <Nav.Link href="test" className={"" + (url === "/test" ?" active" : "")}>Speech To Text </Nav.Link>
       <Nav.Link href="tese" className={"" + (url === "/tese" ?" active" : "")}>Text To Speech</Nav.Link>
 

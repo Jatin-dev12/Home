@@ -247,7 +247,12 @@ select.kjj {
   position: relative;
   transition: .3s;
 }
-
+.delete-content {
+  width: 50%;
+  margin-right: auto;
+  text-align: right;
+  padding-right: 35px;
+}
 .btn-class-name .back {
   background: rgb(var(--secondary));
   border-radius: 100%;
