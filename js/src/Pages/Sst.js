@@ -5,8 +5,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import '../App.css'
 import Side from './Side'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRotateRight, faVolumeHigh, faPlay, faPause, faStop, faMicrophone,faTrash } from "@fortawesome/free-solid-svg-icons";
-import { text } from "@fortawesome/fontawesome-svg-core";
+import { faRotateRight, faVolumeHigh, faPlay, faPause, faStop, faMicrophone,faTrash ,faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Transcribe = () => {
   const [supportedLanguages, setSupportedLanguages] = useState([
@@ -40,7 +39,7 @@ const Transcribe = () => {
   var [showLoader, setShowLoader] = useState('d-none');
 
   const countries = {
-    "am": "Amharic", "ar": "Arabic", "be": "Bielarus", "bem": "Bemba", "bi": "Bislama", "bj": "Bajan", "bn": "Bengali", "bo": "Tibetan", "br": "Breton", "bs": "Bosnian", "ca": "Catalan", "cop": "Coptic", "cs": "Czech", "cy": "Welsh", "da": "Danish", "dz": "Dzongkha", "de-DE": "German", "dv-MV": "Maldivian", "el": "Greek", "en": "English", "es": "Spanish", "et": "Estonian", "eu-ES": "Basque", "fa": "Persian", "fi": "Finnish", "fn": "Fanagalo", "fo": "Faroese", "fr": "French", "gl": "Galician", "gu": "Gujarati", "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian", "hu": "Hungarian", "id": "Indonesian", "is": "Icelandic", "it": "Italian", "ja": "Japanese", "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "la-VA": "Latin", "lo-LA": "Lao", "lv-LV": "Latvian", "men": "Mende", "mg": "Malagasy", "mi-NZ": "Maori", "ms-MY": "Malay", "mt-MT": "Maltese", "my": "Burmese", "ne": "Nepali", "niu": "Niuean", "nl": "Dutch", "no": "Norwegian", "ny": "Nyanja",  "pau": "Palauan", "pa": "Panjabi", "ps": "Pashto", "pis": "Pijin", "pl": "Polish", "pt": "Portuguese", "rn-BI": "Kirundi", "ro": "Romanian", "ru": "Russian", "sg": "Sango", "si": "Sinhala", "sk": "Slovak", "sm": "Samoan", "sn": "Shona", "so": "Somali", "sq-AL": "Albanian", "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil", "te": "Telugu", "tet": "Tetum", "tg": "Tajik", "th": "Thai", "ti": "Tigriny", "tk": "Turkmen", "tl": "Tagalog", "tn": "Tswana", "to": "Tongan", "tr": "Turkish", "uk": "Ukrainian", "uz": "Uzbek", "vi": "Vietnamese", "wo": "Wolof", "xh": "Xhosa", "yi": "Yiddish", "zu": "Zulu"
+    "am": "Amharic",  "be": "Bielarus", "bem": "Bemba", "bi": "Bislama", "bj": "Bajan", "bn": "Bengali", "bo": "Tibetan", "br": "Breton", "bs": "Bosnian", "ca": "Catalan", "cop": "Coptic", "cs": "Czech", "cy": "Welsh", "da": "Danish", "dz": "Dzongkha", "de-DE": "German", "dv-MV": "Maldivian", "el": "Greek", "en": "English", "es": "Spanish", "et": "Estonian", "eu-ES": "Basque", "fa": "Persian", "fi": "Finnish", "fn": "Fanagalo", "fo": "Faroese", "fr": "French", "gl": "Galician", "gu": "Gujarati", "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian", "hu": "Hungarian", "id": "Indonesian", "is": "Icelandic", "it": "Italian", "ja": "Japanese", "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "la-VA": "Latin", "lo-LA": "Lao", "lv-LV": "Latvian", "men": "Mende", "mg": "Malagasy", "mi-NZ": "Maori", "ms-MY": "Malay", "mt-MT": "Maltese", "my": "Burmese", "ne": "Nepali", "niu": "Niuean", "nl": "Dutch", "no": "Norwegian", "ny": "Nyanja",  "pau": "Palauan", "pa": "Panjabi", "ps": "Pashto", "pis": "Pijin", "pl": "Polish", "pt": "Portuguese", "rn-BI": "Kirundi", "ro": "Romanian", "ru": "Russian", "sg": "Sango", "si": "Sinhala", "sk": "Slovak", "sm": "Samoan", "sn": "Shona", "so": "Somali", "sq-AL": "Albanian", "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil", "te": "Telugu", "tet": "Tetum", "tg": "Tajik", "th": "Thai", "ti": "Tigriny", "tk": "Turkmen", "tl": "Tagalog", "tn": "Tswana", "to": "Tongan", "tr": "Turkish", "uk": "Ukrainian", "uz": "Uzbek", "vi": "Vietnamese",  "xh": "Xhosa",  "zu": "Zulu"
   };
 
   useEffect(() => {
@@ -162,21 +161,11 @@ const Transcribe = () => {
   };
 
   const handleTouchStart = () => {
-    setShowLoader('d-flex');
-   setAnime(true);
-   console.log(transcript)
-    if (transcript) {
-    
-      setIsActive(true);
-    } else{
-
-      setIsActive(false);
-    }
-    
+    setIsActive(true);
     resetTranscript();
     SpeechRecognition.startListening({ continuous: true, language: currentLanguage, interimResults: true });
-   
-    
+    setAnime(true)
+    setShowLoader('d-flex');
   };
 
   const handleTouchEnd = () => {
@@ -192,7 +181,7 @@ const Transcribe = () => {
   };
 
   const handleTeaxtareaChange = (event) => {
-    alert("hi")
+    alert("Hello")
     
   };
 
@@ -228,8 +217,13 @@ const Transcribe = () => {
             </Col>
           </Row>
           <Row>
-            <div className="delete-content"> <FontAwesomeIcon onClick={handleClearTextarea} icon={faTrash} /></div>
-            <div className="delete-content"> <FontAwesomeIcon onClick={handleClearTranslatedText} icon={faTrash} /></div>
+            <div className="delete-content">
+              {/* <FontAwesomeIcon icon={faArrowRotateLeft} />  */}
+              <FontAwesomeIcon onClick={handleClearTextarea} icon={faTrash} />
+            </div>
+            <div className="delete-content"> 
+            {/* <FontAwesomeIcon  className="undo" icon={faArrowRotateLeft} /> */}
+            <FontAwesomeIcon onClick={handleClearTranslatedText} icon={faTrash} /></div>
           </Row>
           <Row>
 
@@ -248,6 +242,8 @@ const Transcribe = () => {
                 className="from-text"
                 value={transcript}
                 placeholder="Hold On Button to start..."
+                onChange={handleTeaxtareaChange}
+                onInput={handleTeaxtareaChange}
               />
 
                 <div className={`loading ${showLoader} ${anime ? 'run' : 'notrun'} ${isActive && transcript ? 'active' : 'inactive'} `}>

@@ -108,6 +108,8 @@ a.navbar-brand {
   margin-top: 15px; 
   margin-bottom: 20px; 
   } 
+
+  
   
   .btn { 
   width: 100%; 
@@ -508,4 +510,10 @@ svg.svg-inline--fa.fa-microphone {
 }
 svg.svg-inline--fa.fa-rotate-right {
   color: aliceblue;
+}
+svg.svg-inline--fa.fa-arrow-rotate-left.undo{
+  margin-right: 10px;
+}
+svg.svg-inline--fa.fa-arrow-rotate-left {
+  margin-right: 4px;
 }

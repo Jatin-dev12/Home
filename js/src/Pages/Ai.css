@@ -19,6 +19,7 @@ textarea.from-text {
   width: 100%;
   border: none;
   text-align: center;
+  pointer-events: none;
 }
 
 textarea.to-text {
@@ -27,6 +28,7 @@ textarea.to-text {
   text-align: center;
   width: 80%;
   border: none;
+  pointer-events: none;
   
 }
 p.sa{
