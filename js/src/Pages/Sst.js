@@ -162,10 +162,21 @@ const Transcribe = () => {
   };
 
   const handleTouchStart = () => {
+    setShowLoader('d-flex');
+   setAnime(true);
+   console.log(transcript)
+    if (transcript) {
+    
+      setIsActive(true);
+    } else{
+
+      setIsActive(false);
+    }
+    
     resetTranscript();
     SpeechRecognition.startListening({ continuous: true, language: currentLanguage, interimResults: true });
-    setAnime(true)
-    setShowLoader('d-flex');
+   
+    
   };
 
   const handleTouchEnd = () => {
@@ -181,7 +192,8 @@ const Transcribe = () => {
   };
 
   const handleTeaxtareaChange = (event) => {
-    setIsActive(true);
+    alert("hi")
+    
   };
 
   return (
@@ -235,11 +247,10 @@ const Transcribe = () => {
                 rows={10}
                 className="from-text"
                 value={transcript}
-                onChange={handleTeaxtareaChange}
                 placeholder="Hold On Button to start..."
               />
 
-                <div className={`loading ${showLoader} ${anime ? 'run' : 'notrun'} ${isActive ? 'active' : 'inactive'} `}>
+                <div className={`loading ${showLoader} ${anime ? 'run' : 'notrun'} ${isActive && transcript ? 'active' : 'inactive'} `}>
                   <span></span><span></span><span></span><span></span>
                   <span></span><span></span><span></span><span></span>
                   <span></span><span></span><span></span><span></span>
