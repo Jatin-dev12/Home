@@ -6,6 +6,7 @@ import '../App.css'
 import Side from './Side'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotateRight, faVolumeHigh, faPlay, faPause, faStop, faMicrophone,faTrash } from "@fortawesome/free-solid-svg-icons";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 const Transcribe = () => {
   const [supportedLanguages, setSupportedLanguages] = useState([
@@ -33,12 +34,12 @@ const Transcribe = () => {
   const [speechPitch, setSpeechPitch] = useState(1);
   const [speechVolume, setSpeechVolume] = useState(1);
   const [timer, setTimer] = useState(0);
-
+  const [anime, setAnime] = useState(false);
   const [utterance, setUtterance] = useState(null);
   const [voice, setVoice] = useState(null);
 
   const countries = {
-    "am": "Amharic", "ar": "Arabic", "be": "Bielarus", "bem": "Bemba", "bi": "Bislama", "bj": "Bajan", "bn": "Bengali", "bo": "Tibetan", "br": "Breton", "bs": "Bosnian", "ca": "Catalan", "cop": "Coptic", "cs": "Czech", "cy": "Welsh", "da": "Danish", "dz": "Dzongkha", "de-DE": "German", "dv-MV": "Maldivian", "el": "Greek", "en": "English", "es": "Spanish", "et": "Estonian", "eu-ES": "Basque", "fa": "Persian", "fi": "Finnish", "fn": "Fanagalo", "fo": "Faroese", "fr": "French", "gl": "Galician", "gu": "Gujarati", "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian", "hu": "Hungarian", "id": "Indonesian", "is": "Icelandic", "it": "Italian", "ja": "Japanese", "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "la-VA": "Latin", "lo-LA": "Lao", "lv-LV": "Latvian", "men": "Mende", "mg": "Malagasy", "mi-NZ": "Maori", "ms-MY": "Malay", "mt-MT": "Maltese", "my": "Burmese", "ne": "Nepali", "niu": "Niuean", "nl": "Dutch", "no": "Norwegian", "ny": "Nyanja", "ur": "Pakistani", "pau": "Palauan", "pa": "Panjabi", "ps": "Pashto", "pis": "Pijin", "pl": "Polish", "pt": "Portuguese", "rn-BI": "Kirundi", "ro": "Romanian", "ru": "Russian", "sg": "Sango", "si": "Sinhala", "sk": "Slovak", "sm": "Samoan", "sn": "Shona", "so": "Somali", "sq-AL": "Albanian", "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil", "te": "Telugu", "tet": "Tetum", "tg": "Tajik", "th": "Thai", "ti": "Tigriny", "tk": "Turkmen", "tl": "Tagalog", "tn": "Tswana", "to": "Tongan", "tr": "Turkish", "uk": "Ukrainian", "uz": "Uzbek", "vi": "Vietnamese", "wo": "Wolof", "xh": "Xhosa", "yi": "Yiddish", "zu": "Zulu"
+    "am": "Amharic", "ar": "Arabic", "be": "Bielarus", "bem": "Bemba", "bi": "Bislama", "bj": "Bajan", "bn": "Bengali", "bo": "Tibetan", "br": "Breton", "bs": "Bosnian", "ca": "Catalan", "cop": "Coptic", "cs": "Czech", "cy": "Welsh", "da": "Danish", "dz": "Dzongkha", "de-DE": "German", "dv-MV": "Maldivian", "el": "Greek", "en": "English", "es": "Spanish", "et": "Estonian", "eu-ES": "Basque", "fa": "Persian", "fi": "Finnish", "fn": "Fanagalo", "fo": "Faroese", "fr": "French", "gl": "Galician", "gu": "Gujarati", "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian", "hu": "Hungarian", "id": "Indonesian", "is": "Icelandic", "it": "Italian", "ja": "Japanese", "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "la-VA": "Latin", "lo-LA": "Lao", "lv-LV": "Latvian", "men": "Mende", "mg": "Malagasy", "mi-NZ": "Maori", "ms-MY": "Malay", "mt-MT": "Maltese", "my": "Burmese", "ne": "Nepali", "niu": "Niuean", "nl": "Dutch", "no": "Norwegian", "ny": "Nyanja",  "pau": "Palauan", "pa": "Panjabi", "ps": "Pashto", "pis": "Pijin", "pl": "Polish", "pt": "Portuguese", "rn-BI": "Kirundi", "ro": "Romanian", "ru": "Russian", "sg": "Sango", "si": "Sinhala", "sk": "Slovak", "sm": "Samoan", "sn": "Shona", "so": "Somali", "sq-AL": "Albanian", "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil", "te": "Telugu", "tet": "Tetum", "tg": "Tajik", "th": "Thai", "ti": "Tigriny", "tk": "Turkmen", "tl": "Tagalog", "tn": "Tswana", "to": "Tongan", "tr": "Turkish", "uk": "Ukrainian", "uz": "Uzbek", "vi": "Vietnamese", "wo": "Wolof", "xh": "Xhosa", "yi": "Yiddish", "zu": "Zulu"
   };
 
   useEffect(() => {
@@ -49,27 +50,27 @@ const Transcribe = () => {
 
   useEffect(() => {
     let interval;
-  
+
     const handleBeforeUnload = () => {
       clearInterval(interval);
     };
-  
+
     window.addEventListener('beforeunload', handleBeforeUnload);
-  
+
     if (isActive) {
       interval = setInterval(() => {
         setTimer((prevTimer) => prevTimer + 1);
       }, 1000);
     } else {
-   
+
     }
-  
+
     return () => {
       clearInterval(interval);
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [isActive]);
-  
+
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
@@ -84,20 +85,19 @@ const Transcribe = () => {
     setToText("");
   };
 
-
-  
-
   const speakText = () => {
     if (toText) {
-      utterance.text = toText;
-      utterance.voice = voice;
+      // Cancel any ongoing speech synthesis
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(toText);
+      utterance.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google हिन्दी');
       utterance.rate = speechSpeed;
       utterance.pitch = speechPitch;
       utterance.volume = speechVolume;
       window.speechSynthesis.speak(utterance);
     }
   };
-
   const handlePlay = () => {
     const synth = window.speechSynthesis;
 
@@ -139,7 +139,7 @@ const Transcribe = () => {
       url: 'https://google-translation-unlimited.p.rapidapi.com/translate',
       headers: {
         'content-type': 'application/x-www-form-urlencoded',
-        'X-RapidAPI-Key': '5740f38f9dmsh5c757bacb2a7b61p1af54bjsnf71b8b8b411c',
+        'X-RapidAPI-Key': '93af3fe0f2msh1144659363b72d9p127773jsn4711cb14a270',
         'X-RapidAPI-Host': 'google-translation-unlimited.p.rapidapi.com'
       },
       data: encodedParams,
@@ -159,11 +159,12 @@ const Transcribe = () => {
       }
     }
   };
-   
+
   const handleTouchStart = () => {
     setIsActive(true);
     resetTranscript();
     SpeechRecognition.startListening({ continuous: true, language: currentLanguage, interimResults: true });
+    setAnime(true)
   };
 
   const handleTouchEnd = () => {
@@ -186,12 +187,10 @@ const Transcribe = () => {
         <Container className="content-container">
           <Col>
             <h2>Speech to Text Translator</h2>
-          </Col> 
-          {/* <Col> <FontAwesomeIcon onClick={handleClearTextarea} icon={faTrash} /></Col> */}
-           {/* <Col> {formatTime(timer)}</Col>     */}
+          </Col>
           <Row className="bb">
             <Col>
-              <button 
+              <button
                 className={`btn-class-name ${isActive ? 'active' : ''}`}
                 onMouseDown={handleTouchStart}
                 onMouseUp={handleTouchEnd}
@@ -202,19 +201,20 @@ const Transcribe = () => {
                 <span className="front"><FontAwesomeIcon icon={faMicrophone} /></span>
               </button>
             </Col>
-   
+
             <Col>
-              <button className="sda" onClick={handleClick}>
-                <FontAwesomeIcon icon={faRotateRight} />
+              <button className="btn-class-namea" onClick={handleClick}>
+                <span className="back"></span>
+                <span className="front"><FontAwesomeIcon icon={faRotateRight} /></span>
               </button>
             </Col>
           </Row>
           <Row>
-             <div className="delete-content"> <FontAwesomeIcon onClick={handleClearTextarea} icon={faTrash} /></div>
-             <div className="delete-content"> <FontAwesomeIcon onClick={handleClearTranslatedText} icon={faTrash} /></div>
+            <div className="delete-content"> <FontAwesomeIcon onClick={handleClearTextarea} icon={faTrash} /></div>
+            <div className="delete-content"> <FontAwesomeIcon onClick={handleClearTranslatedText} icon={faTrash} /></div>
           </Row>
           <Row>
-           
+
             <select className="dsh" value={currentLanguage} onChange={(e) => setCurrentLanguage(e.target.value)}>
               {supportedLanguages.map((language) => (
                 <option key={language.code} value={language.code}>
@@ -224,23 +224,32 @@ const Transcribe = () => {
             </select>
 
             <Col className="main-content" >
-              
+
               <textarea
                 rows={10}
                 className="from-text"
                 value={transcript}
-                
-
                 placeholder="Hold On Button to start..."
               />
-              <div className={`loading ${isActive && transcript ? 'active' : ''}`}>
-                <span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span>
-                <span></span><span></span><p className="sadd">{formatTime(timer)}</p>
-              </div>
+              {isActive && transcript ? (
+                <div className={`loading normal active ${anime ? 'run' : 'notrun'}`}>
+                  <span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span>
+                  <span></span><span></span><p className="sadd">{formatTime(timer)}</p>
+                </div>
+              ) : (
+                <div className="loading normal inactive">
+                  <span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span>
+                  <span></span><span></span><p className="sadd">{formatTime(timer)}</p>
+                </div>
+              )}
             </Col>
             <select className="kjj" value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
               {Object.entries(countries).map(([code, name]) => (
@@ -286,68 +295,69 @@ const Transcribe = () => {
           </Row>
           <Col></Col>
           <Col></Col>
-        
-        <Row className="dssa">
-          
-          <Col>
-            <label htmlFor="speed" className="kkkk">Speed:</label>
-            <input
-              type="range"
-              id="speed"
-              min="0.5"
-              max="2"
-              step="0.1"
-              value={speechSpeed}
-              onChange={(e) => setSpeechSpeed(e.target.value)}
-            />
-          </Col>
 
-          <Col>
-            <label htmlFor="pitch" className="kkkk">Pitch:</label>
-            <input
-              type="range"
-              id="pitch"
-              min="0.5"
-              max="2"
-              step="0.1"
-              value={speechPitch}
-              onChange={(e) => setSpeechPitch(e.target.value)}
-            />
-          </Col>
+          <Row className="dssa">
 
-          <Col>
-            <label htmlFor="volume" className="kkkk">Volume:</label>
-            <input
-              type="range"
-              id="volume"
-              min="0"
-              max="1"
-              step="0.1"
-              value={speechVolume}
-              onChange={(e) => setSpeechVolume(e.target.value)}
-            />
-          </Col>
-        </Row>
-        <Row className="xcdc">
-        
-          <Col>
-            <button onClick={handlePlay}>{isPaused ? "Resume" : "Play"}
-              <FontAwesomeIcon icon={faPlay} />
-            </button>
-          </Col>
-          <Col>
-            <button onClick={handlePause}>Pause
-              <FontAwesomeIcon icon={faPause} />
-            </button>
-          </Col>
-          <Col>
-            <button onClick={handleStop}>Stop
-              <FontAwesomeIcon icon={faStop} />
-            </button>
-          
-          </Col>
-          
-        </Row></Container>
+            <Col>
+              <label htmlFor="speed" className="kkkk">Speed:</label>
+              <input
+                type="range"
+                id="speed"
+                min="0.5"
+                max="2"
+                step="0.1"
+                value={speechSpeed}
+                onChange={(e) => setSpeechSpeed(parseFloat(e.target.value))}
+              />
+            </Col>
+
+            <Col>
+              <label htmlFor="pitch" className="kkkk">Pitch:</label>
+              <input
+                type="range"
+                id="pitch"
+                min="0.5"
+                max="2"
+                step="0.1"
+                value={speechPitch}
+                onChange={(e) => setSpeechPitch(parseFloat(e.target.value))}
+              />
+            </Col>
+
+            <Col>
+              <label htmlFor="volume" className="kkkk">Volume:</label>
+              <input
+                type="range"
+                id="volume"
+                min="0"
+                max="1"
+                step="0.1"
+                value={speechVolume}
+                onChange={(e) => setSpeechVolume(parseFloat(e.target.value))}
+              />
+            </Col>
+          </Row>
+          <Row className="xcdc">
+
+            <Col>
+              <button onClick={handlePlay}>{isPaused ? "Resume" : "Play"}
+                <FontAwesomeIcon icon={faPlay} />
+              </button>
+            </Col>
+            <Col>
+              <button onClick={handlePause}>Pause
+                <FontAwesomeIcon icon={faPause} />
+              </button>
+            </Col>
+            <Col>
+              <button onClick={handleStop}>Stop
+                <FontAwesomeIcon icon={faStop} />
+              </button>
+
+            </Col>
+
+          </Row>
+        </Container>
       </div>
     </div>
   );
