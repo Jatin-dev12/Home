@@ -264,7 +264,10 @@ const Transcribe = () => {
               ))}
             </select>
             <Col className="main-content">
-              <textarea rows={10} className="to-text" value={toText} readOnly placeholder={translationPlaceholder} />
+              <textarea rows={10} 
+                              onChange={handleTeaxtareaChange}
+
+              className="to-text" value={toText} readOnly placeholder={translationPlaceholder} />
               <div className="volume">
                 <FontAwesomeIcon icon={faVolumeHigh} className="normal-icon" onClick={speakText} />
               </div>
