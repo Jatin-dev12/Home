@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import axios from "axios";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import '../App.css'
+import { Container, Row, Col } from "react-bootstrap";
 import Side from './Side'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRotateRight, faVolumeHigh, faPlay, faPause, faStop, faMicrophone,faTrash ,faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { faRotateRight, faVolumeHigh, faPlay, faPause, faStop, faMicrophone, faTrash, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Transcribe = () => {
   const [supportedLanguages, setSupportedLanguages] = useState([
@@ -39,7 +38,7 @@ const Transcribe = () => {
   var [showLoader, setShowLoader] = useState('d-none');
 
   const countries = {
-    "am": "Amharic",  "be": "Bielarus", "bem": "Bemba", "bi": "Bislama", "bj": "Bajan", "bn": "Bengali", "bo": "Tibetan", "br": "Breton", "bs": "Bosnian", "ca": "Catalan", "cop": "Coptic", "cs": "Czech", "cy": "Welsh", "da": "Danish", "dz": "Dzongkha", "de-DE": "German", "dv-MV": "Maldivian", "el": "Greek", "en": "English", "es": "Spanish", "et": "Estonian", "eu-ES": "Basque", "fa": "Persian", "fi": "Finnish", "fn": "Fanagalo", "fo": "Faroese", "fr": "French", "gl": "Galician", "gu": "Gujarati", "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian", "hu": "Hungarian", "id": "Indonesian", "is": "Icelandic", "it": "Italian", "ja": "Japanese", "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "la-VA": "Latin", "lo-LA": "Lao", "lv-LV": "Latvian", "men": "Mende", "mg": "Malagasy", "mi-NZ": "Maori", "ms-MY": "Malay", "mt-MT": "Maltese", "my": "Burmese", "ne": "Nepali", "niu": "Niuean", "nl": "Dutch", "no": "Norwegian", "ny": "Nyanja",  "pau": "Palauan", "pa": "Panjabi", "ps": "Pashto", "pis": "Pijin", "pl": "Polish", "pt": "Portuguese", "rn-BI": "Kirundi", "ro": "Romanian", "ru": "Russian", "sg": "Sango", "si": "Sinhala", "sk": "Slovak", "sm": "Samoan", "sn": "Shona", "so": "Somali", "sq-AL": "Albanian", "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil", "te": "Telugu", "tet": "Tetum", "tg": "Tajik", "th": "Thai", "ti": "Tigriny", "tk": "Turkmen", "tl": "Tagalog", "tn": "Tswana", "to": "Tongan", "tr": "Turkish", "uk": "Ukrainian", "uz": "Uzbek", "vi": "Vietnamese",  "xh": "Xhosa",  "zu": "Zulu"
+    "am": "Amharic", "be": "Bielarus", "bem": "Bemba", "bi": "Bislama", "bj": "Bajan", "bn": "Bengali", "bo": "Tibetan", "br": "Breton", "bs": "Bosnian", "ca": "Catalan", "cop": "Coptic", "cs": "Czech", "cy": "Welsh", "da": "Danish", "dz": "Dzongkha", "de-DE": "German", "dv-MV": "Maldivian", "el": "Greek", "en": "English", "es": "Spanish", "et": "Estonian", "eu-ES": "Basque", "fa": "Persian", "fi": "Finnish", "fn": "Fanagalo", "fo": "Faroese", "fr": "French", "gl": "Galician", "gu": "Gujarati", "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian", "hu": "Hungarian", "id": "Indonesian", "is": "Icelandic", "it": "Italian", "ja": "Japanese", "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "la-VA": "Latin", "lo-LA": "Lao", "lv-LV": "Latvian", "men": "Mende", "mg": "Malagasy", "mi-NZ": "Maori", "ms-MY": "Malay", "mt-MT": "Maltese", "my": "Burmese", "ne": "Nepali", "niu": "Niuean", "nl": "Dutch", "no": "Norwegian", "ny": "Nyanja", "pau": "Palauan", "pa": "Panjabi", "ps": "Pashto", "pis": "Pijin", "pl": "Polish", "pt": "Portuguese", "rn-BI": "Kirundi", "ro": "Romanian", "ru": "Russian", "sg": "Sango", "si": "Sinhala", "sk": "Slovak", "sm": "Samoan", "sn": "Shona", "so": "Somali", "sq-AL": "Albanian", "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil", "te": "Telugu", "tet": "Tetum", "tg": "Tajik", "th": "Thai", "ti": "Tigriny", "tk": "Turkmen", "tl": "Tagalog", "tn": "Tswana", "to": "Tongan", "tr": "Turkish", "uk": "Ukrainian", "uz": "Uzbek", "vi": "Vietnamese", "xh": "Xhosa", "zu": "Zulu"
   };
 
   useEffect(() => {
@@ -79,6 +78,7 @@ const Transcribe = () => {
 
   const handleClearTextarea = () => {
     resetTranscript();
+    setFromText("");
   };
 
   const handleClearTranslatedText = () => {
@@ -98,6 +98,7 @@ const Transcribe = () => {
       window.speechSynthesis.speak(utterance);
     }
   };
+
   const handlePlay = () => {
     const synth = window.speechSynthesis;
 
@@ -126,7 +127,6 @@ const Transcribe = () => {
     setIsPaused(false);
     synth.cancel();
   };
-
 
   const encodedParams = new URLSearchParams();
   encodedParams.set('texte', transcript);
@@ -182,7 +182,7 @@ const Transcribe = () => {
 
   const handleTeaxtareaChange = (event) => {
     alert("Hello")
-    
+
   };
 
   return (
@@ -216,15 +216,45 @@ const Transcribe = () => {
               </button>
             </Col>
           </Row>
+          <Row className="fas">
+            <Col className="hide">
+              <select
+                value={currentLanguage}
+                onChange={(e) => {
+                  setCurrentLanguage(e.target.value);
+                  setTranslateFrom(e.target.value);
+                }}
+              >
+                {supportedLanguages.map((language) => (
+                  <option key={language.code} value={language.code}>
+                    {language.name}
+                  </option>
+                ))}
+              </select>
+            </Col>
+         
+            <Col className="2hd">
+              <select value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
+                {Object.entries(countries).map(([code, name]) => (
+                  <option key={code} value={code}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </Col>
+            {/* This Code For Speach Area */}
+          </Row>
           <Row>
             <div className="delete-content">
-              <FontAwesomeIcon icon={faArrowRotateLeft} /> 
-              <FontAwesomeIcon onClick={handleClearTextarea} icon={faTrash} />
+              <FontAwesomeIcon icon={faArrowRotateLeft} onClick={handleClearTextarea} />
+              <FontAwesomeIcon icon={faTrash} onClick={handleClearTextarea} />
             </div>
-            <div className="delete-content"> 
-            <FontAwesomeIcon  className="undo" icon={faArrowRotateLeft} />
-            <FontAwesomeIcon onClick={handleClearTranslatedText} icon={faTrash} /></div>
+            <div className="delete-content">
+              <FontAwesomeIcon className="undo" icon={faArrowRotateLeft} onClick={handleClearTranslatedText} />
+              <FontAwesomeIcon icon={faTrash} onClick={handleClearTranslatedText} />
+            </div>
           </Row>
+          
           <Row>
 
             <select className="dsh" value={currentLanguage} onChange={(e) => setCurrentLanguage(e.target.value)}>
@@ -246,14 +276,14 @@ const Transcribe = () => {
                 onInput={handleTeaxtareaChange}
               />
 
-                <div className={`loading ${showLoader} ${anime ? 'run' : 'notrun'} ${isActive && transcript ? 'active' : 'inactive'} `}>
-                  <span></span><span></span><span></span><span></span>
-                  <span></span><span></span><span></span><span></span>
-                  <span></span><span></span><span></span><span></span>
-                  <span></span><span></span><span></span><span></span>
-                  <span></span><span></span><span></span><span></span>
-                  <span></span><span></span><p className="sadd">{formatTime(timer)}</p>
-                </div>
+              <div className={`loading ${showLoader} ${anime ? 'run' : 'notrun'} ${isActive && transcript ? 'active' : 'inactive'} `}>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><p className="sadd">{formatTime(timer)}</p>
+              </div>
 
             </Col>
             <select className="kjj" value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
@@ -264,45 +294,33 @@ const Transcribe = () => {
               ))}
             </select>
             <Col className="main-content">
-              <textarea rows={10} 
-                              onChange={handleTeaxtareaChange}
+              <textarea rows={10}
+                onChange={handleTeaxtareaChange}
 
-              className="to-text" value={toText} readOnly placeholder={translationPlaceholder} />
+                className="to-text" value={toText} readOnly placeholder={translationPlaceholder} />
               <div className="volume">
-                <FontAwesomeIcon icon={faVolumeHigh} className="normal-icon" onClick={speakText} />
-              </div>
+              <input type="checkbox" class="volume-input" onClick={speakText} />
+  <div class="volume-icon">
+    <svg
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      stroke="currentColor"
+      stroke-width="2"
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="volume-svg"
+    >
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <path
+        d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
+      ></path>
+    </svg>
+  </div>              </div>
             </Col>
           </Row>
-          <Row className="fas">
-            <Col className="hide">
-              <select
-                value={currentLanguage}
-                onChange={(e) => {
-                  setCurrentLanguage(e.target.value);
-                  setTranslateFrom(e.target.value);
-                }}
-              >
-                {supportedLanguages.map((language) => (
-                  <option key={language.code} value={language.code}>
-                    {language.name}
-                  </option>
-                ))}
-              </select>
-            </Col>
-            <Col> </Col>
-            <Col className="2hd">
-              <select value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
-                {Object.entries(countries).map(([code, name]) => (
-                  <option key={code} value={code}>
-                    {name}
-                  </option>
-                ))}
-              </select>
-            </Col>
-            {/* This Code For Speach Area */}
-          </Row>
-          <Col></Col>
-          <Col></Col>
+    
 
           <Row className="dssa">
 
