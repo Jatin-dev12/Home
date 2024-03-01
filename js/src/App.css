@@ -373,8 +373,11 @@ select.kjj {
   animation-name:wiper-swipe;
   animation-duration:3s;
   animation-timing-function:linear;
-  /* animation: scale var(--speed-of-animation) ease-in-out infinite; */
+  
 
+ }
+ .loading.run span{
+  animation: scale var(--speed-of-animation) ease-in-out infinite;
  }
  .loading.active span {
   height: 50px;

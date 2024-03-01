@@ -37,6 +37,7 @@ const Transcribe = () => {
   const [anime, setAnime] = useState(false);
   const [utterance, setUtterance] = useState(null);
   const [voice, setVoice] = useState(null);
+  var [showLoader, setShowLoader] = useState('d-none');
 
   const countries = {
     "am": "Amharic", "ar": "Arabic", "be": "Bielarus", "bem": "Bemba", "bi": "Bislama", "bj": "Bajan", "bn": "Bengali", "bo": "Tibetan", "br": "Breton", "bs": "Bosnian", "ca": "Catalan", "cop": "Coptic", "cs": "Czech", "cy": "Welsh", "da": "Danish", "dz": "Dzongkha", "de-DE": "German", "dv-MV": "Maldivian", "el": "Greek", "en": "English", "es": "Spanish", "et": "Estonian", "eu-ES": "Basque", "fa": "Persian", "fi": "Finnish", "fn": "Fanagalo", "fo": "Faroese", "fr": "French", "gl": "Galician", "gu": "Gujarati", "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian", "hu": "Hungarian", "id": "Indonesian", "is": "Icelandic", "it": "Italian", "ja": "Japanese", "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "la-VA": "Latin", "lo-LA": "Lao", "lv-LV": "Latvian", "men": "Mende", "mg": "Malagasy", "mi-NZ": "Maori", "ms-MY": "Malay", "mt-MT": "Maltese", "my": "Burmese", "ne": "Nepali", "niu": "Niuean", "nl": "Dutch", "no": "Norwegian", "ny": "Nyanja",  "pau": "Palauan", "pa": "Panjabi", "ps": "Pashto", "pis": "Pijin", "pl": "Polish", "pt": "Portuguese", "rn-BI": "Kirundi", "ro": "Romanian", "ru": "Russian", "sg": "Sango", "si": "Sinhala", "sk": "Slovak", "sm": "Samoan", "sn": "Shona", "so": "Somali", "sq-AL": "Albanian", "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil", "te": "Telugu", "tet": "Tetum", "tg": "Tajik", "th": "Thai", "ti": "Tigriny", "tk": "Turkmen", "tl": "Tagalog", "tn": "Tswana", "to": "Tongan", "tr": "Turkish", "uk": "Ukrainian", "uz": "Uzbek", "vi": "Vietnamese", "wo": "Wolof", "xh": "Xhosa", "yi": "Yiddish", "zu": "Zulu"
@@ -161,14 +162,15 @@ const Transcribe = () => {
   };
 
   const handleTouchStart = () => {
-    setIsActive(true);
     resetTranscript();
     SpeechRecognition.startListening({ continuous: true, language: currentLanguage, interimResults: true });
     setAnime(true)
+    setShowLoader('d-flex');
   };
 
   const handleTouchEnd = () => {
     setIsActive(false);
+    setAnime(false);
     SpeechRecognition.stopListening()
   };
 
@@ -176,6 +178,10 @@ const Transcribe = () => {
     setTimeout(() => {
       window.location.reload();
     }, 400);
+  };
+
+  const handleTeaxtareaChange = (event) => {
+    setIsActive(true);
   };
 
   return (
@@ -229,10 +235,11 @@ const Transcribe = () => {
                 rows={10}
                 className="from-text"
                 value={transcript}
+                onChange={handleTeaxtareaChange}
                 placeholder="Hold On Button to start..."
               />
-              {isActive && transcript ? (
-                <div className={`loading normal active ${anime ? 'run' : 'notrun'}`}>
+
+                <div className={`loading ${showLoader} ${anime ? 'run' : 'notrun'} ${isActive ? 'active' : 'inactive'} `}>
                   <span></span><span></span><span></span><span></span>
                   <span></span><span></span><span></span><span></span>
                   <span></span><span></span><span></span><span></span>
@@ -240,16 +247,7 @@ const Transcribe = () => {
                   <span></span><span></span><span></span><span></span>
                   <span></span><span></span><p className="sadd">{formatTime(timer)}</p>
                 </div>
-              ) : (
-                <div className="loading normal inactive">
-                  <span></span><span></span><span></span><span></span>
-                  <span></span><span></span><span></span><span></span>
-                  <span></span><span></span><span></span><span></span>
-                  <span></span><span></span><span></span><span></span>
-                  <span></span><span></span><span></span><span></span>
-                  <span></span><span></span><p className="sadd">{formatTime(timer)}</p>
-                </div>
-              )}
+
             </Col>
             <select className="kjj" value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
               {Object.entries(countries).map(([code, name]) => (
