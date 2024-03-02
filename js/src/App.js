@@ -2,12 +2,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter , Routes , Route } from 'react-router-dom';
 import Layout from './Layout'
 import './App.css';
-import Ai from './Pages/Ai'
-import {useTranslation} from "react-i18next";
 import Text from './Pages/Text';
 import Trancribe from './Pages/Trancribe';
 import TextToSpeech from './Pages/Tese';
-import Side from './Pages/Side'
 import Chlo from './Pages/Chlo'
 import Test from './Pages/Test'
 import Bg from './Pages/Bg'

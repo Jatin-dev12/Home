@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
-import axios from "axios";
-import FormData from "form-data";
 import "./Ai.css";
-import { Container, Row, Col } from "react-bootstrap";
-import Spellchecker from "hunspell-spellchecker";
+import { Row, Col } from "react-bootstrap";
 import Side from "./Side";
 
 const Ai = () => {
-  const [supportedLanguages, setSupportedLanguages] = useState([
+  const [supportedLanguages] = useState([
     { code: "sq", name: "Albanian" }, { code: "bn", name: "Bengali" }, { code: "fr", name: "French" },
     { code: "en", name: "English" },    { code: "de", name: "German" },    { code: "gu", name: "Gujarati" },
     { code: "ja", name: "Japanese" },    { code: "hi", name: "Hindi" },    { code: "ka", name: "Georgian" },
@@ -22,8 +19,6 @@ const Ai = () => {
 
   const [currentLanguage, setCurrentLanguage] = useState("en");
   const { transcript, resetTranscript, listening } = useSpeechRecognition({ language: currentLanguage });
-  const [correctedText, setCorrectedText] = useState("");
-  const [translation, setTranslation] = useState("");
 
   const startListening = () => {
     resetTranscript();
@@ -37,41 +32,7 @@ const Ai = () => {
     setCurrentLanguage(newLanguage);
   };
 
-  const correctSpelling = (text) => {
-    const spellchecker = new Spellchecker("en_US");
-    const suggestions = spellchecker.getSuggestions(text);
-    if (suggestions.length > 0) {
-      return suggestions[0];
-    }
-    return text;
-  };
 
-  const handleTranscription = async () => {
-    const truncatedTranscript = transcript.split(" ").slice(0, 100).join(" ");
-    let correctedText = truncatedTranscript.split(" ").map(correctSpelling).join(" ");
-    setCorrectedText(correctedText);
-
-    if (correctedText.length > 0) {
-      const formData = new FormData();
-      formData.append("file", new Blob([Buffer.from(correctedText)], { type: "audio/mpeg-3" }));
-
-      const options = {
-        method: 'GET',
-        url: 'https://text-to-speech-pro.p.rapidapi.com/api/voices',
-        headers: {
-          'X-RapidAPI-Key': '10ef930128msh25033c2ad8b1fd7p1876fajsnb2b198e0fd21',
-          'X-RapidAPI-Host': 'text-to-speech-pro.p.rapidapi.com'
-        }
-      };
-      
-      try {
-        const response = await axios.request(options);
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
 
   useEffect(() => {
     const accessMicrophone = async () => {
@@ -91,6 +52,7 @@ const Ai = () => {
     } else {
       accessMicrophone();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listening]);
 
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {

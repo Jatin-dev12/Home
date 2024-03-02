@@ -1,13 +1,14 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import axios from "axios";
 import { Container, Row, Col } from "react-bootstrap";
 import Side from './Side'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRotateRight, faVolumeHigh, faPlay, faPause, faStop, faMicrophone, faTrash, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { faRotateRight, faPlay, faPause, faStop, faMicrophone, faTrash, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Transcribe = () => {
-  const [supportedLanguages, setSupportedLanguages] = useState([
+  const [supportedLanguages] = useState([
     { code: "sq", name: "Albanian" }, { code: "bn", name: "Bengali" }, { code: "fr", name: "French" },
     { code: "en", name: "English" }, { code: "de", name: "German" }, { code: "gu", name: "Gujarati" },
     { code: "ja", name: "Japanese" }, { code: "hi", name: "Hindi" }, { code: "ka", name: "Georgian" },
@@ -20,7 +21,7 @@ const Transcribe = () => {
   ]);
 
   const [currentLanguage, setCurrentLanguage] = useState("en");
-  const { transcript, resetTranscript, listening } = useSpeechRecognition({ language: currentLanguage });
+  const { transcript, resetTranscript } = useSpeechRecognition({ language: currentLanguage });
   const [fromText, setFromText] = useState("");
   const [toText, setToText] = useState("");
   const [isPaused, setIsPaused] = useState(false);
@@ -45,6 +46,7 @@ const Transcribe = () => {
     fetchTranslation();
     setUtterance(new SpeechSynthesisUtterance());
     setVoice(speechSynthesis.getVoices().find(voice => voice.name === 'Google हिन्दी'));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transcript, translateFrom, translateTo]);
 
   useEffect(() => {
@@ -180,7 +182,7 @@ const Transcribe = () => {
     }, 400);
   };
 
-  const handleTeaxtareaChange = (event) => {
+  const handleTeaxtareaChange = () => {
     alert("Hello")
 
   };
