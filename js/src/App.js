@@ -10,6 +10,7 @@ import Test from './Pages/Test'
 import Bg from './Pages/Bg'
 import Sst from './Pages/Sst'
 import Ti from './Pages/Ti'
+import Gpt from  './Pages/gpt'
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
         <Route path="sst" element={<Sst />}/>
         <Route path='bg' element={<Bg />} />
         <Route path='ti' element={<Ti />} />
+        <Route path='gpt' element={<Gpt />} />
+
 
 
 

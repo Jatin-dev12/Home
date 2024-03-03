@@ -199,7 +199,7 @@ const Transcribe = () => {
           </Col>
           <Row className="bb">
             <Col>
-              <button
+            <span><button
                 className={`btn-class-name ${isActive ? 'active' : ''}`}
                 onMouseDown={handleTouchStart}
                 onMouseUp={handleTouchEnd}
@@ -208,7 +208,10 @@ const Transcribe = () => {
               >
                 <span className="back"></span>
                 <span className="front"><FontAwesomeIcon icon={faMicrophone} /></span>
-              </button>
+              </button></span>
+
+              <span></span>
+              
             </Col>
 
             <Col>
@@ -218,9 +221,12 @@ const Transcribe = () => {
               </button>
             </Col>
           </Row>
-          <Row className="fas">
-            <Col className="hide">
-              <select
+          <Row>
+            
+           <div className="delete-content">
+              {/* This Is For From Translation */}
+           
+          <span> <select className="tr"
                 value={currentLanguage}
                 onChange={(e) => {
                   setCurrentLanguage(e.target.value);
@@ -232,26 +238,22 @@ const Transcribe = () => {
                     {language.name}
                   </option>
                 ))}
-              </select>
-            </Col>
-         
-            <Col className="2hd">
-              <select value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
+              </select></span> <sapn><FontAwesomeIcon icon={faArrowRotateLeft} onClick={handleClearTextarea} />
+              <FontAwesomeIcon icon={faTrash} onClick={handleClearTextarea} /></sapn>
+              
+            </div>
+            <div className="delete-content">
+
+              {/* This Is For To Translation */}
+              <select className="adadadcsc" value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
                 {Object.entries(countries).map(([code, name]) => (
                   <option key={code} value={code}>
                     {name}
                   </option>
                 ))}
               </select>
-            </Col>
-            {/* This Code For Speach Area */}
-          </Row>
-          <Row>
-            <div className="delete-content">
-              <FontAwesomeIcon icon={faArrowRotateLeft} onClick={handleClearTextarea} />
-              <FontAwesomeIcon icon={faTrash} onClick={handleClearTextarea} />
-            </div>
-            <div className="delete-content">
+                            {/* This Is For To Translation */}
+
               <FontAwesomeIcon className="undo" icon={faArrowRotateLeft} onClick={handleClearTranslatedText} />
               <FontAwesomeIcon icon={faTrash} onClick={handleClearTranslatedText} />
             </div>
@@ -295,7 +297,7 @@ const Transcribe = () => {
                 </option>
               ))}
             </select>
-            <Col className="main-content">
+            <Col className="main-content col">
               <textarea rows={10}
                 onChange={handleTeaxtareaChange}
 
