@@ -38,6 +38,8 @@ const Transcribe = () => {
   const [voice, setVoice] = useState(null);
   var [showLoader, setShowLoader] = useState('d-none');
 
+
+  
   const countries = {
     "am": "Amharic", "be": "Bielarus", "bem": "Bemba", "bi": "Bislama", "bj": "Bajan", "bn": "Bengali", "bo": "Tibetan", "br": "Breton", "bs": "Bosnian", "ca": "Catalan", "cop": "Coptic", "cs": "Czech", "cy": "Welsh", "da": "Danish", "dz": "Dzongkha", "de-DE": "German", "dv-MV": "Maldivian", "el": "Greek", "en": "English", "es": "Spanish", "et": "Estonian", "eu-ES": "Basque", "fa": "Persian", "fi": "Finnish", "fn": "Fanagalo", "fo": "Faroese", "fr": "French", "gl": "Galician", "gu": "Gujarati", "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian", "hu": "Hungarian", "id": "Indonesian", "is": "Icelandic", "it": "Italian", "ja": "Japanese", "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "la-VA": "Latin", "lo-LA": "Lao", "lv-LV": "Latvian", "men": "Mende", "mg": "Malagasy", "mi-NZ": "Maori", "ms-MY": "Malay", "mt-MT": "Maltese", "my": "Burmese", "ne": "Nepali", "niu": "Niuean", "nl": "Dutch", "no": "Norwegian", "ny": "Nyanja", "pau": "Palauan", "pa": "Panjabi", "ps": "Pashto", "pis": "Pijin", "pl": "Polish", "pt": "Portuguese", "rn-BI": "Kirundi", "ro": "Romanian", "ru": "Russian", "sg": "Sango", "si": "Sinhala", "sk": "Slovak", "sm": "Samoan", "sn": "Shona", "so": "Somali", "sq-AL": "Albanian", "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil", "te": "Telugu", "tet": "Tetum", "tg": "Tajik", "th": "Thai", "ti": "Tigriny", "tk": "Turkmen", "tl": "Tagalog", "tn": "Tswana", "to": "Tongan", "tr": "Turkish", "uk": "Ukrainian", "uz": "Uzbek", "vi": "Vietnamese", "xh": "Xhosa", "zu": "Zulu"
   };
@@ -198,26 +200,11 @@ const Transcribe = () => {
             <h2>Speech to Text Translator</h2>
           </Col>
           <Row className="bb">
-            <Col>
-            <span><button
-                className={`btn-class-name ${isActive ? 'active' : ''}`}
-                onMouseDown={handleTouchStart}
-                onMouseUp={handleTouchEnd}
-                onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
-              >
-                <span className="back"></span>
-                <span className="front"><FontAwesomeIcon icon={faMicrophone} /></span>
-              </button></span>
+            <Col></Col>
 
-              <span></span>
-              
-            </Col>
-
-            <Col>
-              <button className="btn-class-namea" onClick={handleClick}>
-                <span className="back"></span>
-                <span className="front"><FontAwesomeIcon icon={faRotateRight} /></span>
+            <Col md={2} className="re">
+              <button className="ad" onClick={handleClick}>Reset
+              <FontAwesomeIcon icon={faRotateRight} />
               </button>
             </Col>
           </Row>
@@ -225,8 +212,10 @@ const Transcribe = () => {
             
            <div className="delete-content">
               {/* This Is For From Translation */}
-           
-          <span> <select className="tr"
+
+              
+              <Col className="ma">
+            <span> <select className="tt"
                 value={currentLanguage}
                 onChange={(e) => {
                   setCurrentLanguage(e.target.value);
@@ -238,14 +227,33 @@ const Transcribe = () => {
                     {language.name}
                   </option>
                 ))}
-              </select></span> <sapn><FontAwesomeIcon icon={faArrowRotateLeft} onClick={handleClearTextarea} />
-              <FontAwesomeIcon icon={faTrash} onClick={handleClearTextarea} /></sapn>
+              </select></span>
+             <span><button
+                className={`btn-class-name ${isActive ? 'active' : ''}`}
+                onMouseDown={handleTouchStart}
+                onMouseUp={handleTouchEnd}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+              >
+                <span className="back"></span>
+                <span className="front"><FontAwesomeIcon icon={faMicrophone} /></span>
+              </button></span>
+
+              <span className="ddsfs"><FontAwesomeIcon icon={faArrowRotateLeft}  />
+              <FontAwesomeIcon icon={faTrash} onClick={handleClearTextarea} /></span>
+              
+            </Col>
+         
+             
+              
+              
+              
               
             </div>
-            <div className="delete-content">
+            <div className="delet">
 
               {/* This Is For To Translation */}
-              <select className="adadadcsc" value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
+              <select className="tr"  value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
                 {Object.entries(countries).map(([code, name]) => (
                   <option key={code} value={code}>
                     {name}
@@ -254,22 +262,16 @@ const Transcribe = () => {
               </select>
                             {/* This Is For To Translation */}
 
-              <FontAwesomeIcon className="undo" icon={faArrowRotateLeft} onClick={handleClearTranslatedText} />
+              <FontAwesomeIcon className="undo" icon={faArrowRotateLeft}  />
               <FontAwesomeIcon icon={faTrash} onClick={handleClearTranslatedText} />
             </div>
           </Row>
           
           <Row>
 
-            <select className="dsh" value={currentLanguage} onChange={(e) => setCurrentLanguage(e.target.value)}>
-              {supportedLanguages.map((language) => (
-                <option key={language.code} value={language.code}>
-                  {language.name}
-                </option>
-              ))}
-            </select>
+            
 
-            <Col className="main-content" >
+            <Col  className="main-content" >
 
               <textarea
                 rows={10}
@@ -297,7 +299,7 @@ const Transcribe = () => {
                 </option>
               ))}
             </select>
-            <Col className="main-content col">
+            <Col className="col md 6">
               <textarea rows={10}
                 onChange={handleTeaxtareaChange}
 
@@ -328,8 +330,9 @@ const Transcribe = () => {
 
           <Row className="dssa">
 
-            <Col>
-              <label htmlFor="speed" className="kkkk">Speed:</label>
+            <Col xl={7}></Col>
+
+            <Col><label htmlFor="speed" className="kkkk">Speed:
               <input
                 type="range"
                 id="speed"
@@ -338,11 +341,9 @@ const Transcribe = () => {
                 step="0.1"
                 value={speechSpeed}
                 onChange={(e) => setSpeechSpeed(parseFloat(e.target.value))}
-              />
-            </Col>
+              /></label>
 
-            <Col>
-              <label htmlFor="pitch" className="kkkk">Pitch:</label>
+<label htmlFor="pitch" className="kkkk">Pitch:
               <input
                 type="range"
                 id="pitch"
@@ -351,11 +352,8 @@ const Transcribe = () => {
                 step="0.1"
                 value={speechPitch}
                 onChange={(e) => setSpeechPitch(parseFloat(e.target.value))}
-              />
-            </Col>
-
-            <Col>
-              <label htmlFor="volume" className="kkkk">Volume:</label>
+              /></label>
+              <label htmlFor="volume" className="kkkk">Volume:
               <input
                 type="range"
                 id="volume"
@@ -365,26 +363,35 @@ const Transcribe = () => {
                 value={speechVolume}
                 onChange={(e) => setSpeechVolume(parseFloat(e.target.value))}
               />
+</label>
+              <Col className="last">
+             <button className="pl" onClick={handlePlay}> Play<FontAwesomeIcon  className="play"  icon={faPlay} onClick={handlePlay} /></button>
+
+             <button className="pl" onClick={handlePause}> <FontAwesomeIcon className="pause" icon={faPause} onClick={handlePause} /></button>
+             <button className="pl"  onClick={handleStop}>Stop<FontAwesomeIcon  className="stop" icon={faStop} onClick={handleStop}  /></button>
+             
+             </Col>
+                              
+
             </Col>
           </Row>
           <Row className="xcdc">
 
-            <Col>
-              <button onClick={handlePlay}>{isPaused ? "Resume" : "Play"}
-                <FontAwesomeIcon icon={faPlay} />
-              </button>
+            {/* <Col>
+            {isPaused ? "" : ""}
+                <FontAwesomeIcon icon={faPlay} onClick={handlePlay}/>
+              
             </Col>
             <Col>
-              <button onClick={handlePause}>Pause
-                <FontAwesomeIcon icon={faPause} />
-              </button>
+             
+                <FontAwesomeIcon icon={faPause} onClick={handlePause} />
+              
             </Col>
             <Col>
-              <button onClick={handleStop}>Stop
-                <FontAwesomeIcon icon={faStop} />
-              </button>
+                             <FontAwesomeIcon icon={faStop} onClick={handleStop}  />
+              
 
-            </Col>
+            </Col> */}
 
           </Row>
         </Container>

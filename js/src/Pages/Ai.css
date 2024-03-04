@@ -74,7 +74,7 @@ h2 {
   color: rgb(43 45 56);
   margin-top: 20px; 
   text-align: center;
-  font-size: 48px;
+  font-size: 30px;
   padding-bottom: 20px;
   
   font-family: "Merriweather", serif;
@@ -100,7 +100,7 @@ svg.svg-inline--fa.fa-stop {
   max-width: 50rem;
   width: auto;
   min-height: 400px;
-  height: auto;
+  height:534px;
   padding: 18px 18px 120px 18px;
   position: relative;
   resize: none;
@@ -108,7 +108,7 @@ svg.svg-inline--fa.fa-stop {
   background: rgb(255 255 255);
   border: 0.5px solid rgb(231 233 245);
   border-radius: 16px;
-  margin-bottom: 20px;
+  margin-bottom: -192px;
 }
 
 .main-content:focus {
