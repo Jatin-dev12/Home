@@ -1,140 +1,56 @@
-// import React, { useState } from 'react';
-// import axios from 'axios';
+import React, { useState } from 'react';
+import axios from 'axios';
 
-// const ChatBox = () => {
-//   const [userInput, setUserInput] = useState('');
-//   const [chatLog, setChatLog] = useState([]);
 
-//   const sendMessage = async () => {
-//     const options = {
-//       method: 'POST',
-//       url: 'https://chatgpt-42.p.rapidapi.com/conversationgpt4',
-//       headers: {
-//         'content-type': 'application/json',
-//         'X-RapidAPI-Key': '10ef930128msh25033c2ad8b1fd7p1876fajsnb2b198e0fd21',
-//         'X-RapidAPI-Host': 'chatgpt-42.p.rapidapi.com'
-//       },
-//       data: {
-//         messages: [
-//           {
-//             role: 'user',
-//             content: userInput
-//           }
-//         ],
-//         system_prompt: '',
-//         temperature: 0.9,
-//         top_k: 5,
-//         top_p: 0.9,
-//         max_tokens: 256,
-//         web_access: false
-//       }
-//     };
+const ChatBox = () => {
+  const [question, setQuestion] = useState('');
+  const [response, setResponse] = useState('');
+  const [loading, setLoading] = useState(false); // Add a loading state
 
-//     try {
-//       const response = await axios.request(options);
-//       const botResponse = response.data.choices[0].message.content;
-//       setChatLog(prevChatLog => [...prevChatLog, { role: 'bot', content: botResponse }]);
-//       setUserInput('');
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
+  const sendQuestion = async () => {
+    setLoading(true); // Set loading to true when sending the question
 
-//   const handleInputChange = (event) => {
-//     setUserInput(event.target.value);
-//   };
+    const options = {
+      method: 'POST',
+      url: 'https://open-ai-chatgpt.p.rapidapi.com/ask',
+      headers: {
+        'content-type': 'application/json',
+        'X-RapidAPI-Key': '5740f38f9dmsh5c757bacb2a7b61p1af54bjsnf71b8b8b411c',
+        'X-RapidAPI-Host': 'open-ai-chatgpt.p.rapidapi.com'
+      },
+      data: {
+        query: question
+      }
+    };
 
-//   return (
-//     <div>
-//       <div>
-//         {chatLog.map((message, index) => (
-//           <div key={index}>
-//             {message.role === 'user' ? (
-//               <strong>User:</strong>
-//             ) : (
-//               <strong>Bot:</strong>
-//             )}
-//             {message.content}
-//           </div>
-//         ))}
-//       </div>
-//       <input type="text" value={userInput} onChange={handleInputChange} placeholder="Type your message..." />
-//       <button onClick={sendMessage}>Send</button>
-//     </div>
-//   );
-// };
+    try {
+      const response = await axios.request(options);
+      console.log(response.data);
+      setResponse(response.data.response);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false); // Set loading to false after receiving the response
+    }
+  };
 
-// export default ChatBox;
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
+  return (
+    <div>
+      <div className='Short'>
+        <label htmlFor="question">Enter your question:</label>
+        <input type="text" id="question" value={question} onChange={(e) => setQuestion(e.target.value)} />
+        <button onClick={sendQuestion}>Send</button>
+      </div>
+      <div className='mt-4'>
+        <label htmlFor="response">API Response:</label>
+        {loading ? (
+          <div>Loading...</div> // Render the loading animation when loading is true
+        ) : (
+          <textarea id="response" rows="5" cols="50" value={response}></textarea>
+        )}
+      </div>
+    </div>
+  );
+};
 
-// const ChatBox = () => {
-//   const [userInput, setUserInput] = useState('');
-//   const [chatLog, setChatLog] = useState([]);
-
-//   useEffect(() => {
-//     if (userInput !== '') {
-//       sendMessage();
-//     }
-//   }, [userInput]);
-
-//   const sendMessage = async () => {
-//     const options = {
-//       method: 'POST',
-//       url: 'https://chatgpt-42.p.rapidapi.com/conversationgpt4',
-//       headers: {
-//         'content-type': 'application/json',
-//         'X-RapidAPI-Key': '10ef930128msh25033c2ad8b1fd7p1876fajsnb2b198e0fd21',
-//         'X-RapidAPI-Host': 'chatgpt-42.p.rapidapi.com'
-//       },
-//       data: {
-//         messages: [
-//           {
-//             role: 'user',
-//             content: userInput
-//           }
-//         ],
-//         system_prompt: '',
-//         temperature: 0.9,
-//         top_k: 5,
-//         top_p: 0.9,
-//         max_tokens: 256,
-//         web_access: false
-//       }
-//     };
-
-//     try {
-//       const response = await axios.request(options);
-//       const botResponse = response.data.choices[0].message.content;
-//       setChatLog(prevChatLog => [...prevChatLog, { role: 'user', content: userInput }, { role: 'bot', content: botResponse }]);
-//       setUserInput('');
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
-
-//   const handleInputChange = (event) => {
-//     setUserInput(event.target.value);
-//   };
-
-//   return (
-//     <div>
-//       <div>
-//         {chatLog.map((message, index) => (
-//           <div key={index}>
-//             {message.role === 'user' ? (
-//               <strong>User:</strong>
-//             ) : (
-//               <strong>Bot:</strong>
-//             )}
-//             {message.content}
-//           </div>
-//         ))}
-//       </div>
-//       <input type="text" value={userInput} onChange={handleInputChange} placeholder="Type your message..." />
-//       <button onClick={sendMessage}>Send</button>
-//     </div>
-//   );
-// };
-
-// export default ChatBox;
+export default ChatBox;

@@ -37,7 +37,7 @@ const Ai = () => {
     }
     setIsPaused(!listening);
   };
-// This is Switch  Language Functionality //
+// This is Switch Language Functionality //
   const switchLanguage = () => {
     const index = supportedLanguages.findIndex((lang) => lang.code === currentLanguage);
     const newLanguage =
