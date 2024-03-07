@@ -24,12 +24,12 @@ textarea.from-text {
 }
 
 textarea.to-text {
-  width: 100%;
   padding: 10px;
   text-align: center;
   width: 80%;
   border: none;
   pointer-events: none;
+  font-size: large !important;
   
 }
 p.sa{
@@ -70,6 +70,10 @@ html {
   display: none;
 }
 
+.delet:hover {
+  color: #000;
+}
+
 h2 {
   color: rgb(43 45 56);
   margin-top: 20px; 
@@ -100,7 +104,7 @@ svg.svg-inline--fa.fa-stop {
   max-width: 50rem;
   width: auto;
   min-height: 400px;
-  height:534px;
+  height:555px;
   padding: 18px 18px 120px 18px;
   position: relative;
   resize: none;
@@ -248,4 +252,21 @@ button.sss {
 .dasdad.row {
   
   margin-bottom: 30px;
+}
+.fsdfsdcds{
+  display: none;
+}
+.main-content\.speak{
+  max-width: 50rem;
+  width: auto;
+  min-height: 400px;
+  
+  padding: 18px 18px 120px 18px;
+  position: relative;
+  resize: none;
+  box-shadow: 0 12px 48px 0px rgb(109 117 141 / 20%);
+  background: rgb(255 255 255);
+  border: 0.5px solid rgb(231 233 245);
+  border-radius: 16px;
+
 }

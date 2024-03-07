@@ -292,13 +292,15 @@ const Transcribe = () => {
               </div>
 
             </Col>
-            <select className="kjj" value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
+             <span className="fsdfsdcds"><select className="kjj" value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
               {Object.entries(countries).map(([code, name]) => (
                 <option key={code} value={code}>
                   {name}
                 </option>
               ))}
-            </select>
+            </select> <FontAwesomeIcon className="undo" icon={faArrowRotateLeft}  />
+              <FontAwesomeIcon icon={faTrash} onClick={handleClearTranslatedText} /></span>
+           
             <Col className="col md 6">
               <textarea rows={10}
                 onChange={handleTeaxtareaChange}
@@ -365,7 +367,7 @@ const Transcribe = () => {
               />
 </label>
               <Col className="last">
-             <button className="pl" onClick={handlePlay}> Play<FontAwesomeIcon  className="play"  icon={faPlay} onClick={handlePlay} /></button>
+             <button className="pl" onClick={handlePlay}> {isPaused ? "Resume" : "Play"}<FontAwesomeIcon  className="play"  icon={faPlay} onClick={handlePlay} /></button>
 
              <button className="pl" onClick={handlePause}> <FontAwesomeIcon className="pause" icon={faPause} onClick={handlePause} /></button>
              <button className="pl"  onClick={handleStop}>Stop<FontAwesomeIcon  className="stop" icon={faStop} onClick={handleStop}  /></button>

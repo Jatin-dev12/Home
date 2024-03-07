@@ -118,7 +118,7 @@ const Ai = () => {
               </Col>
             </Row>
                   {/* Speech To Text Result */}
-            <div className="main-content">{transcript}
+            <div className="main-content.speak">{transcript}
             </div>
             <Row className="dasdad">
             <Col>
