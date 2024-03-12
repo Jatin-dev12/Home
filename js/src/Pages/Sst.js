@@ -37,9 +37,9 @@ const Transcribe = () => {
   const [utterance, setUtterance] = useState(null);
   const [voice, setVoice] = useState(null);
   var [showLoader, setShowLoader] = useState('d-none');
+  const [history, setHistory] = useState([]);
+  const [text, setText] = useState(toText);
 
-
-  
   const countries = {
     "am": "Amharic", "be": "Bielarus", "bem": "Bemba", "bi": "Bislama", "bj": "Bajan", "bn": "Bengali", "bo": "Tibetan", "br": "Breton", "bs": "Bosnian", "ca": "Catalan", "cop": "Coptic", "cs": "Czech", "cy": "Welsh", "da": "Danish", "dz": "Dzongkha", "de-DE": "German", "dv-MV": "Maldivian", "el": "Greek", "en": "English", "es": "Spanish", "et": "Estonian", "eu-ES": "Basque", "fa": "Persian", "fi": "Finnish", "fn": "Fanagalo", "fo": "Faroese", "fr": "French", "gl": "Galician", "gu": "Gujarati", "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian", "hu": "Hungarian", "id": "Indonesian", "is": "Icelandic", "it": "Italian", "ja": "Japanese", "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "la-VA": "Latin", "lo-LA": "Lao", "lv-LV": "Latvian", "men": "Mende", "mg": "Malagasy", "mi-NZ": "Maori", "ms-MY": "Malay", "mt-MT": "Maltese", "my": "Burmese", "ne": "Nepali", "niu": "Niuean", "nl": "Dutch", "no": "Norwegian", "ny": "Nyanja", "pau": "Palauan", "pa": "Panjabi", "ps": "Pashto", "pis": "Pijin", "pl": "Polish", "pt": "Portuguese", "rn-BI": "Kirundi", "ro": "Romanian", "ru": "Russian", "sg": "Sango", "si": "Sinhala", "sk": "Slovak", "sm": "Samoan", "sn": "Shona", "so": "Somali", "sq-AL": "Albanian", "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil", "te": "Telugu", "tet": "Tetum", "tg": "Tajik", "th": "Thai", "ti": "Tigriny", "tk": "Turkmen", "tl": "Tagalog", "tn": "Tswana", "to": "Tongan", "tr": "Turkish", "uk": "Ukrainian", "uz": "Uzbek", "vi": "Vietnamese", "xh": "Xhosa", "zu": "Zulu"
   };
@@ -87,6 +87,7 @@ const Transcribe = () => {
 
   const handleClearTranslatedText = () => {
     setToText("");
+    setHistory(prevHistory => [...prevHistory, toText]);
   };
 
   const speakText = () => {
@@ -143,7 +144,7 @@ const Transcribe = () => {
       url: 'https://google-translation-unlimited.p.rapidapi.com/translate',
       headers: {
         'content-type': 'application/x-www-form-urlencoded',
-        'X-RapidAPI-Key': '93af3fe0f2msh1144659363b72d9p127773jsn4711cb14a270',
+        'X-RapidAPI-Key': '6690dbe72fmsh7954c5b6fd0e1d3p13bc9bjsne3e5e100ac45',
         'X-RapidAPI-Host': 'google-translation-unlimited.p.rapidapi.com'
       },
       data: encodedParams,
@@ -152,6 +153,8 @@ const Transcribe = () => {
     try {
       const response = await axios.request(options);
       const translatedText = response.data.translation_data.translation;
+      const translatederror = response.data.translation_data.message;
+
       setToText(translatedText);
       setTranslationPlaceholder("Translation");
     } catch (error) {
@@ -184,9 +187,21 @@ const Transcribe = () => {
     }, 400);
   };
 
-  const handleTeaxtareaChange = () => {
-    alert("Hello")
+  const handleTeaxtareaChange = (event) => {
+    const newText = event.target.value;
+    console.log(newText)
+    setText(newText);
+    // Save the current text to history
+    setHistory(prevHistory => [...prevHistory, newText]);
 
+  };
+  const handleUndo = () => {
+    if (history.length > 0) {
+      // Remove the last item from history
+      const previoustranscript = history[history.length - 1];
+      setHistory(prevHistory => prevHistory.slice(0, -1));
+      setToText(previoustranscript);
+    }
   };
 
   return (
@@ -238,8 +253,9 @@ const Transcribe = () => {
                 <span className="back"></span>
                 <span className="front"><FontAwesomeIcon icon={faMicrophone} /></span>
               </button></span>
+              {/* THIS IS TRANSCRIPTED DELET AND UNDO ICONS */}
 
-              <span className="ddsfs"><FontAwesomeIcon icon={faArrowRotateLeft}  />
+              <span className="ddsfs"><FontAwesomeIcon icon={faArrowRotateLeft} onClick={handleUndo}  />
               <FontAwesomeIcon icon={faTrash} onClick={handleClearTextarea} /></span>
               
             </Col>
@@ -262,7 +278,7 @@ const Transcribe = () => {
               </select>
                             {/* This Is For To Translation */}
 
-              <FontAwesomeIcon className="undo" icon={faArrowRotateLeft}  />
+              <FontAwesomeIcon className="undo" icon={faArrowRotateLeft} onClick={handleUndo}  />
               <FontAwesomeIcon icon={faTrash} onClick={handleClearTranslatedText} />
             </div>
           </Row>
@@ -298,9 +314,17 @@ const Transcribe = () => {
                   {name}
                 </option>
               ))}
-            </select> <FontAwesomeIcon className="undo" icon={faArrowRotateLeft}  />
+            </select> 
+            
+            
+                          {/* THIS IS TRANSLATED TEXT DELET AND UNDO ICONS */}
+
+            <FontAwesomeIcon className="undo" icon={faArrowRotateLeft} onClick={handleUndo}  />
               <FontAwesomeIcon icon={faTrash} onClick={handleClearTranslatedText} /></span>
            
+           {/* THIS IF SOR TRANSLATED BOX */}
+
+
             <Col className="col md 6">
               <textarea rows={10}
                 onChange={handleTeaxtareaChange}

@@ -1,46 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from 'react';
 
-function App() {
-  const [minutes, setMinutes] = React.useState(25);
-  const [seconds, setSeconds] = React.useState(0);
-  const [displayMessage, setDisplayMessage] = useState(false);
+const UndoExample = () => {
+  const [text, setText] = useState('');
+  const [history, setHistory] = useState([]);
 
-  useEffect(() => {
-    let interval = setInterval(() => {
-      clearInterval(interval);
+  // Function to handle text input change
+  const handleChange = (event) => {
+    const newText = event.target.value;
+    setText(newText);
+    // Save the current text to history
+    setHistory(prevHistory => [...prevHistory, newText]);
+  };
 
-      if (seconds === 0) {
-        if (minutes !== 0) {
-          setSeconds(59);
-          setMinutes(minutes - 1);
-        } else {
-          let minutes = displayMessage ? 24 : 4;
-          let seconds = 59;
-
-          setSeconds(seconds);
-          setMinutes(minutes);
-          setDisplayMessage(!displayMessage);
-        }
-      } else {
-        setSeconds(seconds - 1);
-      }
-    }, 1000);
-    return () => {};
-  }, [seconds]);
-
-  const timerMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
+  // Function to handle undo action
+  const handleUndo = () => {
+    if (history.length > 1) {
+      // Remove the last item from history
+      const previousText = history[history.length - 2];
+      setHistory(prevHistory => prevHistory.slice(0, -1));
+      setText(previousText);
+    }
+  };
 
   return (
-    <div className="timer">
-      <h2>
-        {timerMinutes}:{timerSeconds}
-      </h2>
-      <button className="buttons_new">Start</button>
-      <button className="buttons_new">Pause</button>
-      <button className="buttons_new">Stop</button>
+    <div>
+      <textarea value={text} onChange={handleChange} />
+      <button onClick={handleUndo}>Undo</button>
     </div>
   );
-}
+};
 
-export default App;
+export default UndoExample;
