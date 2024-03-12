@@ -1,8 +1,25 @@
 
 .Short{
-    height: 356px;
-
 border-radius: 16px;
 margin-inline-end: 20px;
 font-size: large !important;
+padding: 30px;
+}
+textarea.monica {
+    width: 400px;
+    box-shadow: 0 12px 48px 0px rgb(109 117 141 / 20%);
+    padding: 10px;
+    border-radius:  5px;
+}
+
+.sep.col {
+    padding: 30px;
+}
+button.define {
+    display: inline;
+    vertical-align: middle;
+    margin: 8px;
+}
+.send.col-1 {
+    padding-top: 50px;
 }

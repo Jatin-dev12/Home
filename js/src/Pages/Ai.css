@@ -8,9 +8,7 @@
 button{
     margin: 15px;
 }
-textarea:focus-visible{
-  display: none;
-}
+
 textarea.to-text:focus-visible{
   display: none;
 }
