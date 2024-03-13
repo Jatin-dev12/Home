@@ -23,7 +23,7 @@ const ChatBox = () => {
   }else if (linkType === 'Long') {
     maxWords = 300;
   }
-    
+      
 
     const options = {
       method: 'POST',
@@ -67,7 +67,16 @@ const ChatBox = () => {
           ></textarea>
         </Col>
 
-        <Col className='send'>
+        <Col className='send'><div>
+              <section class="dots-container">
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</section>
+
+            </div>
         <button  className='define' onClick={() => sendQuestion('Short')}>Short</button>   
         <button  className='define' onClick={() => sendQuestion('Medium')}>Medium</button>
         <button className='define' onClick={() => sendQuestion('Long')}>Long</button>     

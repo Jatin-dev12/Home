@@ -21,9 +21,8 @@ const Transcribe = () => {
   ]);
 
   const [currentLanguage, setCurrentLanguage] = useState("en");
-  const { transcript, resetTranscript } = useSpeechRecognition({ language: currentLanguage });
+  const { transcript, resetTranscript} = useSpeechRecognition({ language: currentLanguage });
   const [fromText, setFromText] = useState("");
-  const [toText, setToText] = useState("");
   const [isPaused, setIsPaused] = useState(false);
   const [translateFrom, setTranslateFrom] = useState("en-GB");
   const [translateTo, setTranslateTo] = useState("hi");
@@ -37,8 +36,26 @@ const Transcribe = () => {
   const [utterance, setUtterance] = useState(null);
   const [voice, setVoice] = useState(null);
   var [showLoader, setShowLoader] = useState('d-none');
+
+//---------This Is One Is For Undo to text ----------//
+
   const [history, setHistory] = useState([]);
-  const [text, setText] = useState(toText);
+  const [toText, setToText] = useState("");
+
+
+//-------This Is One Is For Undo Transcript ---------//
+
+  const [value, setValue] = useState("");
+  const [transcriptHistory, setTranscriptHistory] = useState([]);
+
+// ----------This One Is For Ai Moduels--------------//
+
+const [question, setQuestion] = useState('');
+const [response, setResponse] = useState('');
+const [loading, setLoading] = useState(false);
+const [linkType, setLinkType] = useState('');
+
+//---------------------------------------------------//
 
   const countries = {
     "am": "Amharic", "be": "Bielarus", "bem": "Bemba", "bi": "Bislama", "bj": "Bajan", "bn": "Bengali", "bo": "Tibetan", "br": "Breton", "bs": "Bosnian", "ca": "Catalan", "cop": "Coptic", "cs": "Czech", "cy": "Welsh", "da": "Danish", "dz": "Dzongkha", "de-DE": "German", "dv-MV": "Maldivian", "el": "Greek", "en": "English", "es": "Spanish", "et": "Estonian", "eu-ES": "Basque", "fa": "Persian", "fi": "Finnish", "fn": "Fanagalo", "fo": "Faroese", "fr": "French", "gl": "Galician", "gu": "Gujarati", "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian", "hu": "Hungarian", "id": "Indonesian", "is": "Icelandic", "it": "Italian", "ja": "Japanese", "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "la-VA": "Latin", "lo-LA": "Lao", "lv-LV": "Latvian", "men": "Mende", "mg": "Malagasy", "mi-NZ": "Maori", "ms-MY": "Malay", "mt-MT": "Maltese", "my": "Burmese", "ne": "Nepali", "niu": "Niuean", "nl": "Dutch", "no": "Norwegian", "ny": "Nyanja", "pau": "Palauan", "pa": "Panjabi", "ps": "Pashto", "pis": "Pijin", "pl": "Polish", "pt": "Portuguese", "rn-BI": "Kirundi", "ro": "Romanian", "ru": "Russian", "sg": "Sango", "si": "Sinhala", "sk": "Slovak", "sm": "Samoan", "sn": "Shona", "so": "Somali", "sq-AL": "Albanian", "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil", "te": "Telugu", "tet": "Tetum", "tg": "Tajik", "th": "Thai", "ti": "Tigriny", "tk": "Turkmen", "tl": "Tagalog", "tn": "Tswana", "to": "Tongan", "tr": "Turkish", "uk": "Ukrainian", "uz": "Uzbek", "vi": "Vietnamese", "xh": "Xhosa", "zu": "Zulu"
@@ -83,6 +100,9 @@ const Transcribe = () => {
   const handleClearTextarea = () => {
     resetTranscript();
     setFromText("");
+    setTranscriptHistory(prevHistory => [...prevHistory, transcript]);
+
+
   };
 
   const handleClearTranslatedText = () => {
@@ -187,20 +207,76 @@ const Transcribe = () => {
     }, 400);
   };
 
-  const handleTeaxtareaChange = (event) => {
-    const newText = event.target.value;
-    console.log(newText)
-    setText(newText);
-    // Save the current text to history
-    setHistory(prevHistory => [...prevHistory, newText]);
 
-  };
+//---------This Is One Is For Undo to text ----------//
+
+ 
   const handleUndo = () => {
     if (history.length > 0) {
       // Remove the last item from history
       const previoustranscript = history[history.length - 1];
       setHistory(prevHistory => prevHistory.slice(0, -1));
       setToText(previoustranscript);
+    }
+  };
+
+//---------This Is One Is For Undo Tarnscript ----------//
+const handleTeaxtareaChange = (event) => {
+  
+};
+
+const handleUndoTranscript = () => {
+
+  if (transcriptHistory.length > 0) {
+    const previousTranscript = transcriptHistory[transcriptHistory.length - 1];
+    setTranscriptHistory(prevHistory => prevHistory.slice(0, -1));
+    setFromText(previousTranscript);
+    console.log(previousTranscript);
+  }
+};;
+//----------------------------------------------------//
+
+
+
+
+  const sendQuestion = async () => {
+    setLoading(true);
+
+    let maxWords = 250; // default value
+
+  if (linkType === 'Short') {
+    maxWords = 50;
+  } else if (linkType === 'Medium') {
+    maxWords = 200;
+  }else if (linkType === 'Long') {
+    maxWords = 300;
+  }
+      
+
+    const options = {
+      method: 'POST',
+  url: 'https://chatgpt-gpt4-5.p.rapidapi.com/ask',
+  headers: {
+    'content-type': 'application/json',
+    'X-RapidAPI-Key': '5740f38f9dmsh5c757bacb2a7b61p1af54bjsnf71b8b8b411c',
+    'X-RapidAPI-Host': 'chatgpt-gpt4-5.p.rapidapi.com'
+  },
+  data: {
+    query: toText ,
+    web_access: 'true',
+    wordLimit: maxWords
+  }
+};
+    try {
+      const response = await axios.request(options);
+      console.log(response.data);
+      setToText(response.data.response);
+
+    } catch (error) {
+      console.error(error);
+
+    } finally {
+      setLoading(false); // Set loading to false after receiving the response
     }
   };
 
@@ -255,16 +331,10 @@ const Transcribe = () => {
               </button></span>
               {/* THIS IS TRANSCRIPTED DELET AND UNDO ICONS */}
 
-              <span className="ddsfs"><FontAwesomeIcon icon={faArrowRotateLeft} onClick={handleUndo}  />
+              <span className="ddsfs"><FontAwesomeIcon icon={faArrowRotateLeft} onClick={handleUndoTranscript}  />
               <FontAwesomeIcon icon={faTrash} onClick={handleClearTextarea} /></span>
               
-            </Col>
-         
-             
-              
-              
-              
-              
+            </Col>            
             </div>
             <div className="delet">
 
@@ -277,16 +347,14 @@ const Transcribe = () => {
                 ))}
               </select>
                             {/* This Is For To Translation */}
+                            {/* THIS IS 2ND BOX DONT CHANGE IT */}
 
               <FontAwesomeIcon className="undo" icon={faArrowRotateLeft} onClick={handleUndo}  />
               <FontAwesomeIcon icon={faTrash} onClick={handleClearTranslatedText} />
             </div>
+                              {/* THIS IS 2ND BOX DONT CHANGE IT */}     
           </Row>
-          
-          <Row>
-
-            
-
+                    <Row>
             <Col  className="main-content" >
 
               <textarea
@@ -318,6 +386,7 @@ const Transcribe = () => {
             
             
                           {/* THIS IS TRANSLATED TEXT DELET AND UNDO ICONS */}
+                          {/* THIS IS MOBILE */}
 
             <FontAwesomeIcon className="undo" icon={faArrowRotateLeft} onClick={handleUndo}  />
               <FontAwesomeIcon icon={faTrash} onClick={handleClearTranslatedText} /></span>
@@ -326,10 +395,27 @@ const Transcribe = () => {
 
 
             <Col className="col md 6">
-              <textarea rows={10}
-                onChange={handleTeaxtareaChange}
+            {loading ? (
+            <div>
+              <section class="dots-container">
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</section>
 
-                className="to-text" value={toText} readOnly placeholder={translationPlaceholder} />
+            </div>
+          ) : (
+            <textarea rows={10}
+            onChange={(e) => setQuestion(e.target.value)}
+                className="to-text"
+                 value={toText}
+                 readOnly
+                  placeholder={translationPlaceholder} />
+          )}     
+
+
               <div className="volume">
               <input type="checkbox" class="volume-input" onClick={speakText} />
   <div class="volume-icon">
@@ -358,7 +444,15 @@ const Transcribe = () => {
 
             <Col xl={7}></Col>
 
-            <Col><label htmlFor="speed" className="kkkk">Speed:
+
+            <Col>
+            <button  className='define' onClick={() => sendQuestion('Short')}>Short</button>   
+
+            <button  className='define' onClick={() => sendQuestion('Medium')}>Medium</button>   
+
+            <button  className='define' onClick={() => sendQuestion('Long')}>Long</button>   
+
+            <label htmlFor="speed" className="kkkk">Speed:
               <input
                 type="range"
                 id="speed"
@@ -420,6 +514,17 @@ const Transcribe = () => {
             </Col> */}
 
           </Row>
+          {/* <Row>
+          <button  className='define' onClick={() => sendQuestion('Short')}>Short</button>   
+
+            <textarea
+              id='response'
+              className='monica'
+              rows='10'
+              cols='50'
+              value={response}
+              readOnly // Set the response textarea as read-only
+            ></textarea></Row> */}
         </Container>
       </div>
     </div>

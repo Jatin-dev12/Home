@@ -20,18 +20,21 @@ button.define {
     display: inline;
     vertical-align: middle;
     margin: 8px;
+    color: black;
+    background: none;
 }
 .send.col-1 {
     padding-top: 50px;
 }
 
 .dots-container {
-    padding: 50px;
+    padding: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
     width: 100%;
+    margin-block-end: 70px;
   }
   
   .dot {
@@ -78,3 +81,4 @@ button.define {
       box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
     }
   }
+  
