@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import axios from "axios";
 import { Container, Row, Col } from "react-bootstrap";
-import Side from './Side'
+import Side from './Side' 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotateRight, faPlay, faPause, faStop, faMicrophone, faTrash, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -45,13 +45,13 @@ const Transcribe = () => {
 
 //-------This Is One Is For Undo Transcript ---------//
 
-  const [value, setValue] = useState("");
+  const [newTranscript, setNewTranscript] = useState("");
   const [transcriptHistory, setTranscriptHistory] = useState([]);
+
 
 // ----------This One Is For Ai Moduels--------------//
 
 const [question, setQuestion] = useState('');
-const [response, setResponse] = useState('');
 const [loading, setLoading] = useState(false);
 const [linkType, setLinkType] = useState('');
 
@@ -65,8 +65,14 @@ const [linkType, setLinkType] = useState('');
     fetchTranslation();
     setUtterance(new SpeechSynthesisUtterance());
     setVoice(speechSynthesis.getVoices().find(voice => voice.name === 'Google हिन्दी'));
+    setNewTranscript(transcript)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transcript, translateFrom, translateTo]);
+
+  //---------------Transcript--------------------------//
+
+  
+  //---------------Transcript--------------------------//
 
   useEffect(() => {
     let interval;
@@ -100,9 +106,8 @@ const [linkType, setLinkType] = useState('');
   const handleClearTextarea = () => {
     resetTranscript();
     setFromText("");
-    setTranscriptHistory(prevHistory => [...prevHistory, transcript]);
-
-
+    setNewTranscript("");
+    setTranscriptHistory(prevHistory => [...prevHistory, newTranscript]);
   };
 
   const handleClearTranslatedText = () => {
@@ -230,16 +235,11 @@ const handleUndoTranscript = () => {
   if (transcriptHistory.length > 0) {
     const previousTranscript = transcriptHistory[transcriptHistory.length - 1];
     setTranscriptHistory(prevHistory => prevHistory.slice(0, -1));
-    setFromText(previousTranscript);
-    console.log(previousTranscript);
-  }
+    setNewTranscript(previousTranscript);
+ }
 };;
 //----------------------------------------------------//
-
-
-
-
-  const sendQuestion = async () => {
+ const sendQuestion = async () => {
     setLoading(true);
 
     let maxWords = 250; // default value
@@ -330,6 +330,7 @@ const handleUndoTranscript = () => {
                 <span className="front"><FontAwesomeIcon icon={faMicrophone} /></span>
               </button></span>
               {/* THIS IS TRANSCRIPTED DELET AND UNDO ICONS */}
+             
 
               <span className="ddsfs"><FontAwesomeIcon icon={faArrowRotateLeft} onClick={handleUndoTranscript}  />
               <FontAwesomeIcon icon={faTrash} onClick={handleClearTextarea} /></span>
@@ -360,7 +361,7 @@ const handleUndoTranscript = () => {
               <textarea
                 rows={10}
                 className="from-text"
-                value={transcript}
+                value={newTranscript}
                 placeholder="Hold On Button to start..."
                 onChange={handleTeaxtareaChange}
                 onInput={handleTeaxtareaChange}
