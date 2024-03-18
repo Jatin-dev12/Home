@@ -9,7 +9,9 @@ a.navbar-brand {
 }
 /* Translator.css */
 
-
+svg.svg-inline--fa.fa-arrow-rotate-right.redo {
+  margin-right: 16px;
+}
   
   .row1 { 
   width: calc(100% - 10px); 
@@ -599,7 +601,7 @@ svg.svg-inline--fa.fa-arrow-rotate-left {
   color: rgb(255, 255, 255);
 }
 select.tr {
-  margin-inline-end: 325px;
+  margin-inline-end: 308px;
   bottom: 15px;
 }
 button:focus {

@@ -55,7 +55,12 @@ const [question, setQuestion] = useState('');
 const [loading, setLoading] = useState(false);
 const [linkType, setLinkType] = useState('');
 
-//---------------------------------------------------//
+//------------This Is For Redo Transcript------------//
+const [redoHistory, setRedoHistory] = useState([]);
+
+
+
+
 
   const countries = {
     "am": "Amharic", "be": "Bielarus", "bem": "Bemba", "bi": "Bislama", "bj": "Bajan", "bn": "Bengali", "bo": "Tibetan", "br": "Breton", "bs": "Bosnian", "ca": "Catalan", "cop": "Coptic", "cs": "Czech", "cy": "Welsh", "da": "Danish", "dz": "Dzongkha", "de-DE": "German", "dv-MV": "Maldivian", "el": "Greek", "en": "English", "es": "Spanish", "et": "Estonian", "eu-ES": "Basque", "fa": "Persian", "fi": "Finnish", "fn": "Fanagalo", "fo": "Faroese", "fr": "French", "gl": "Galician", "gu": "Gujarati", "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian", "hu": "Hungarian", "id": "Indonesian", "is": "Icelandic", "it": "Italian", "ja": "Japanese", "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "la-VA": "Latin", "lo-LA": "Lao", "lv-LV": "Latvian", "men": "Mende", "mg": "Malagasy", "mi-NZ": "Maori", "ms-MY": "Malay", "mt-MT": "Maltese", "my": "Burmese", "ne": "Nepali", "niu": "Niuean", "nl": "Dutch", "no": "Norwegian", "ny": "Nyanja", "pau": "Palauan", "pa": "Panjabi", "ps": "Pashto", "pis": "Pijin", "pl": "Polish", "pt": "Portuguese", "rn-BI": "Kirundi", "ro": "Romanian", "ru": "Russian", "sg": "Sango", "si": "Sinhala", "sk": "Slovak", "sm": "Samoan", "sn": "Shona", "so": "Somali", "sq-AL": "Albanian", "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil", "te": "Telugu", "tet": "Tetum", "tg": "Tajik", "th": "Thai", "ti": "Tigriny", "tk": "Turkmen", "tl": "Tagalog", "tn": "Tswana", "to": "Tongan", "tr": "Turkish", "uk": "Ukrainian", "uz": "Uzbek", "vi": "Vietnamese", "xh": "Xhosa", "zu": "Zulu"
@@ -65,14 +70,22 @@ const [linkType, setLinkType] = useState('');
     fetchTranslation();
     setUtterance(new SpeechSynthesisUtterance());
     setVoice(speechSynthesis.getVoices().find(voice => voice.name === 'Google हिन्दी'));
-    setNewTranscript(transcript)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    setNewTranscript(transcript);
   }, [transcript, translateFrom, translateTo]);
 
   //---------------Transcript--------------------------//
 
   
   //---------------Transcript--------------------------//
+  // const translateText = async (text) => {
+  //   // Add your translation logic here
+  //   // Use the appropriate translation API or service to translate the text
+  //   // Set the translated text using setToText() function
+  //   // Example:
+  //   // const translatedText = await translate(text, translateFrom, translateTo);
+  //   // setToText(translatedText);
+  // };
+
 
   useEffect(() => {
     let interval;
@@ -159,7 +172,7 @@ const [linkType, setLinkType] = useState('');
   };
 
   const encodedParams = new URLSearchParams();
-  encodedParams.set('texte', transcript);
+  encodedParams.set('texte', newTranscript);
   encodedParams.set('to_lang', translateTo);
 
   const fetchTranslation = async () => {
@@ -169,27 +182,32 @@ const [linkType, setLinkType] = useState('');
       url: 'https://google-translation-unlimited.p.rapidapi.com/translate',
       headers: {
         'content-type': 'application/x-www-form-urlencoded',
-        'X-RapidAPI-Key': '6690dbe72fmsh7954c5b6fd0e1d3p13bc9bjsne3e5e100ac45',
+        'X-RapidAPI-Key': 'efb8ac5c63mshf1248b4b5999b95p1f5126jsne4ae6b673996',
         'X-RapidAPI-Host': 'google-translation-unlimited.p.rapidapi.com'
       },
       data: encodedParams,
     };
-
+  
     try {
       const response = await axios.request(options);
       const translatedText = response.data.translation_data.translation;
-      const translatederror = response.data.translation_data.message;
-
+     
       setToText(translatedText);
       setTranslationPlaceholder("Translation");
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.error_description === 'Daily Limit Exceeded') {
-        setToText('Your translation limit is over. Please try again after 24 hours.');
-        setTranslationPlaceholder('Translation');
-      } else {
-        // console.error(error);
+      console.log(error.response.status);
+     
+        if (error.response.status === 429) {
+          setToText('Your translation limit is over. Please try again after 24 hours.');
+          setTranslationPlaceholder('Translation');
+       
+        // setToText(error.response.data.message);
       }
-    }
+      else
+      {
+       setToText(error.response.data.message);
+      }
+    } 
   };
 
   const handleTouchStart = () => {
@@ -225,16 +243,28 @@ const [linkType, setLinkType] = useState('');
     }
   };
 
-//---------This Is One Is For Undo Tarnscript ----------//
-const handleTeaxtareaChange = (event) => {
-  
-};
+  useEffect(() => {
+    fetchTranslation();
+  }, [newTranscript]);
+  const handleTeaxtareaChange = (event) => {
+    
+    setNewTranscript(event.target.value);
+  };
 
 const handleUndoTranscript = () => {
 
   if (transcriptHistory.length > 0) {
     const previousTranscript = transcriptHistory[transcriptHistory.length - 1];
     setTranscriptHistory(prevHistory => prevHistory.slice(0, -1));
+    setNewTranscript(previousTranscript);
+ }
+};;
+
+const handleRndoTranscript = () => {
+
+  if (redoHistory.length > 0) {
+    const previousTranscript = redoHistory[redoHistory.length - 1];
+    setRedoHistory(prevHistory => prevHistory.slice(0, -1));
     setNewTranscript(previousTranscript);
  }
 };;
@@ -258,7 +288,9 @@ const handleUndoTranscript = () => {
   url: 'https://chatgpt-gpt4-5.p.rapidapi.com/ask',
   headers: {
     'content-type': 'application/json',
-    'X-RapidAPI-Key': '5740f38f9dmsh5c757bacb2a7b61p1af54bjsnf71b8b8b411c',
+    // 'X-RapidAPI-Key': '10ef930128msh25033c2ad8b1fd7p1876fajsnb2b198e0fd21',
+
+    'X-RapidAPI-Key': 'efb8ac5c63mshf1248b4b5999b95p1f5126jsne4ae6b673996',
     'X-RapidAPI-Host': 'chatgpt-gpt4-5.p.rapidapi.com'
   },
   data: {
@@ -347,13 +379,12 @@ const handleUndoTranscript = () => {
                   </option>
                 ))}
               </select>
-                            {/* This Is For To Translation */}
-                            {/* THIS IS 2ND BOX DONT CHANGE IT */}
+                                        {/* THIS IS 1ND BOX DONT CHANGE IT */}
 
               <FontAwesomeIcon className="undo" icon={faArrowRotateLeft} onClick={handleUndo}  />
               <FontAwesomeIcon icon={faTrash} onClick={handleClearTranslatedText} />
             </div>
-                              {/* THIS IS 2ND BOX DONT CHANGE IT */}     
+                              {/* THIS IS 1ND BOX DONT CHANGE IT */}     
           </Row>
                     <Row>
             <Col  className="main-content" >
@@ -364,7 +395,6 @@ const handleUndoTranscript = () => {
                 value={newTranscript}
                 placeholder="Hold On Button to start..."
                 onChange={handleTeaxtareaChange}
-                onInput={handleTeaxtareaChange}
               />
 
               <div className={`loading ${showLoader} ${anime ? 'run' : 'notrun'} ${isActive && transcript ? 'active' : 'inactive'} `}>
@@ -412,7 +442,6 @@ const handleUndoTranscript = () => {
             onChange={(e) => setQuestion(e.target.value)}
                 className="to-text"
                  value={toText}
-                 readOnly
                   placeholder={translationPlaceholder} />
           )}     
 
