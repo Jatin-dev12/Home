@@ -363,6 +363,7 @@
     
 
     return (
+
       <div className='container-fluid main-container'>
         <div className='row'>
           <div className="left-sidebar">
@@ -465,7 +466,7 @@
               {recording ? (
                   <>
                   <textarea
-                  rows={10}
+                  rows={16}
                   className="from-text tt"
                   value={newTranscript}
                   onChange={handleInputChange}
@@ -475,7 +476,7 @@
                   <textarea
                   rows={10}
                   className="from-text tt"
-                  
+                  placeholder="Write text or give command hey google to start or press button"
                   ></textarea>
                   )}
 

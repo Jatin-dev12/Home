@@ -1,4 +1,6 @@
-.txxt {
+:focus-visible {
+  outline: none !important;
+} .txxt {
     text-align: center;
     margin-top: 20px;
 }
@@ -269,4 +271,7 @@ button.sss {
 }
 textarea.asddddj {
   width: 100%;
+}
+textarea.from-text:focus-visible {
+  outline: none !important;
 }
