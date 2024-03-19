@@ -17,26 +17,22 @@ const Ai = () => {
     { code: "ne", name: "Nepali" },  { code: "ml", name: "Malayalam" }, { code: "ta", name: "Tamil" },
     { code: "pa", name: "Punjabi" }, { code: "ru", name: "Russian" }, { code: "af", name: "Afrikaans" },
     { code: "am", name: "Amharic" },    { code: "ar", name: "Arabic" },    { code: "hy", name: "Armenian" },
-    { code: "az", name: "Azerbaijani" },    { code: "eu", name: "Basque" },    { code: "bs", name: "Bosnian" },
-    { code: "bg", name: "Bulgarian" },    { code: "ca", name: "Catalan" },    { code: "ceb", name: "Cebuano" },
-    { code: "ny", name: "Chichewa" },
-    // ...
-  ]);
+    { code: "az", name: "Azerbaijani" },    { code: "eu", name: "Basque" },    { code: "bs", name: "Bosnian" },{ code: "bg", name: "Bulgarian" },    { code: "ca", name: "Catalan" },    { code: "ceb", name: "Cebuano" },{ code: "ny", name: "Chichewa" },]);
 
-  const [currentLanguage, setCurrentLanguage] = useState("en");
-  const { transcript, resetTranscript, listening } = useSpeechRecognition({ language: currentLanguage });
-  const [isPaused, setIsPaused] = useState(false); // New state variable for pause functionality
+   const [currentLanguage, setCurrentLanguage] = useState("en");
+   const { transcript, resetTranscript, listening } = useSpeechRecognition({ language: currentLanguage });
+   const [isPaused, setIsPaused] = useState(false); // New state variable for pause functionality
  
     // This Function Will Show Play/Stop Button When Startlistening is Running.//
   const toggleListening = () => {
     if (listening) {
       SpeechRecognition.stopListening();
-    } else {
-      resetTranscript();
-      SpeechRecognition.startListening({ continuous: true, language: currentLanguage , interimResults: true });
-    }
-    setIsPaused(!listening);
-  };
+       } else {
+         resetTranscript();
+           SpeechRecognition.startListening({ continuous: true, language: currentLanguage , interimResults:  true });
+      }
+         setIsPaused(!listening);
+     };
 // This is Switch Language Functionality //
   const switchLanguage = () => {
     const index = supportedLanguages.findIndex((lang) => lang.code === currentLanguage);
@@ -75,22 +71,7 @@ const Ai = () => {
 
             <p className="sa">What Ever You Speak It Will Write Here Let's Say Something.</p>
             <Row className="bbs">
-              {/* Button For Start / Stop Listening */}
-              {/* <Col>
-              <button onClick={toggleListening}>
-                {listening ? (
-                  <>
-                   <a onClick={handleClick}>Start Over </a> 
-                    <FontAwesomeIcon icon={faRotateRight} />
-                  </>
-                ) : (
-                  <>
-                    Start Listening
-                    <FontAwesomeIcon icon={faPlay} />
-                  </>
-                )}
-              </button>
-              </Col> */}
+
               <Col>
               {/* This Button For Switch language */}
                 <button className="sss" onClick={switchLanguage}>

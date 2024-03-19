@@ -5,7 +5,7 @@ import axios from "axios";
 import { Container, Row, Col } from "react-bootstrap";
 import Side from './Side' 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRotateRight, faPlay, faPause, faStop, faMicrophone, faTrash, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { faRotateRight, faPlay, faPause, faStop, faMicrophone, faTrash, faArrowRotateLeft ,faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 
 const Transcribe = () => {
   const [supportedLanguages] = useState([
@@ -20,49 +20,49 @@ const Transcribe = () => {
     { code: "ny", name: "Chichewa" },
   ]);
 
-  const [currentLanguage, setCurrentLanguage] = useState("en");
-  const { transcript, resetTranscript} = useSpeechRecognition({ language: currentLanguage });
-  const [fromText, setFromText] = useState("");
-  const [isPaused, setIsPaused] = useState(false);
-  const [translateFrom, setTranslateFrom] = useState("en-GB");
-  const [translateTo, setTranslateTo] = useState("hi");
-  const [isActive, setIsActive] = useState(false);
-  const [translationPlaceholder, setTranslationPlaceholder] = useState("Translation");
-  const [speechSpeed, setSpeechSpeed] = useState(1);
-  const [speechPitch, setSpeechPitch] = useState(1);
-  const [speechVolume, setSpeechVolume] = useState(1);
-  const [timer, setTimer] = useState(0);
-  const [anime, setAnime] = useState(false);
-  const [utterance, setUtterance] = useState(null);
-  const [voice, setVoice] = useState(null);
-  var [showLoader, setShowLoader] = useState('d-none');
+   const [currentLanguage, setCurrentLanguage] = useState("en");
+   const { transcript, resetTranscript} = useSpeechRecognition({ language: currentLanguage });
+   const [fromText, setFromText] = useState("");
+   const [isPaused, setIsPaused] = useState(false);
+   const [translateFrom, setTranslateFrom] = useState("en-GB");
+   const [translateTo, setTranslateTo] = useState("hi");
+   const [isActive, setIsActive] = useState(false);
+   const [translationPlaceholder, setTranslationPlaceholder] = useState("Translation");
+   const [speechSpeed, setSpeechSpeed] = useState(1);
+   const [speechPitch, setSpeechPitch] = useState(1);
+   const [speechVolume, setSpeechVolume] = useState(1);
+   const [timer, setTimer] = useState(0);
+   const [anime, setAnime] = useState(false);
+   const [utterance, setUtterance] = useState(null);
+   const [voice, setVoice] = useState(null);
+   var [showLoader, setShowLoader] = useState('d-none');
 
 //---------This Is One Is For Undo to text ----------//
 
-  const [history, setHistory] = useState([]);
-  const [toText, setToText] = useState("");
+   const [history, setHistory] = useState([]);
+   const [toText, setToText] = useState("");
 
 
 //-------This Is One Is For Undo Transcript ---------//
-
-  const [newTranscript, setNewTranscript] = useState("");
-  const [transcriptHistory, setTranscriptHistory] = useState([]);
+ 
+   const [newTranscript, setNewTranscript] = useState("");
+   const [transcriptHistory, setTranscriptHistory] = useState([]);
 
 
 // ----------This One Is For Ai Moduels--------------//
 
-const [question, setQuestion] = useState('');
-const [loading, setLoading] = useState(false);
-const [linkType, setLinkType] = useState('');
+   const [question, setQuestion] = useState('');
+   const [loading, setLoading] = useState(false);
+   const [linkType, setLinkType] = useState('');
 
 //------------This Is For Redo Transcript------------//
-const [redoHistory, setRedoHistory] = useState([]);
+   const [redoHistory, setRedoHistory] = useState([]);
 
 
 
 
 
-  const countries = {
+   const countries = {
     "am": "Amharic", "be": "Bielarus", "bem": "Bemba", "bi": "Bislama", "bj": "Bajan", "bn": "Bengali", "bo": "Tibetan", "br": "Breton", "bs": "Bosnian", "ca": "Catalan", "cop": "Coptic", "cs": "Czech", "cy": "Welsh", "da": "Danish", "dz": "Dzongkha", "de-DE": "German", "dv-MV": "Maldivian", "el": "Greek", "en": "English", "es": "Spanish", "et": "Estonian", "eu-ES": "Basque", "fa": "Persian", "fi": "Finnish", "fn": "Fanagalo", "fo": "Faroese", "fr": "French", "gl": "Galician", "gu": "Gujarati", "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian", "hu": "Hungarian", "id": "Indonesian", "is": "Icelandic", "it": "Italian", "ja": "Japanese", "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "la-VA": "Latin", "lo-LA": "Lao", "lv-LV": "Latvian", "men": "Mende", "mg": "Malagasy", "mi-NZ": "Maori", "ms-MY": "Malay", "mt-MT": "Maltese", "my": "Burmese", "ne": "Nepali", "niu": "Niuean", "nl": "Dutch", "no": "Norwegian", "ny": "Nyanja", "pau": "Palauan", "pa": "Panjabi", "ps": "Pashto", "pis": "Pijin", "pl": "Polish", "pt": "Portuguese", "rn-BI": "Kirundi", "ro": "Romanian", "ru": "Russian", "sg": "Sango", "si": "Sinhala", "sk": "Slovak", "sm": "Samoan", "sn": "Shona", "so": "Somali", "sq-AL": "Albanian", "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil", "te": "Telugu", "tet": "Tetum", "tg": "Tajik", "th": "Thai", "ti": "Tigriny", "tk": "Turkmen", "tl": "Tagalog", "tn": "Tswana", "to": "Tongan", "tr": "Turkish", "uk": "Ukrainian", "uz": "Uzbek", "vi": "Vietnamese", "xh": "Xhosa", "zu": "Zulu"
   };
 
@@ -74,39 +74,25 @@ const [redoHistory, setRedoHistory] = useState([]);
   }, [transcript, translateFrom, translateTo]);
 
   //---------------Transcript--------------------------//
-
-  
-  //---------------Transcript--------------------------//
-  // const translateText = async (text) => {
-  //   // Add your translation logic here
-  //   // Use the appropriate translation API or service to translate the text
-  //   // Set the translated text using setToText() function
-  //   // Example:
-  //   // const translatedText = await translate(text, translateFrom, translateTo);
-  //   // setToText(translatedText);
-  // };
+;
 
 
-  useEffect(() => {
-    let interval;
-
-    const handleBeforeUnload = () => {
-      clearInterval(interval);
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    if (isActive) {
-      interval = setInterval(() => {
-        setTimer((prevTimer) => prevTimer + 1);
-      }, 1000);
-    } else {
-
-    }
-
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+     useEffect(() => {
+       let interval;
+                 const handleBeforeUnload = () => {
+                        clearInterval(interval);
+                         };
+                    window.addEventListener('beforeunload', handleBeforeUnload);
+                      if (isActive) {
+                        interval = setInterval(() => {
+                        setTimer((prevTimer) => prevTimer + 1);
+                       }, 1000);
+                                    }  else {}
+                
+                    return () => {
+    
+                       clearInterval(interval);
+                      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [isActive]);
 
@@ -234,14 +220,30 @@ const [redoHistory, setRedoHistory] = useState([]);
 //---------This Is One Is For Undo to text ----------//
 
  
-  const handleUndo = () => {
-    if (history.length > 0) {
-      // Remove the last item from history
-      const previoustranscript = history[history.length - 1];
-      setHistory(prevHistory => prevHistory.slice(0, -1));
-      setToText(previoustranscript);
-    }
-  };
+// const handleUndo = () => {
+//   if (history.length > 0) {
+//     const previousTranscript = history.pop();
+//     redoHistory.push(previousTranscript);
+//     setToText(previousTranscript);
+//   }
+// };
+const handleUndo = () => {
+  if (history.length > 0) {
+    const previoustranscript = history[history.length - 1];
+    setHistory(prevHistory => prevHistory.slice(0, -1));
+    setRedoHistory(prevRedoHistory => [...prevRedoHistory, toText]);
+    setToText(previoustranscript);
+    redoHistory.push(previoustranscript);
+
+  }
+};
+const handleRedo = () => {
+  if (redoHistory.length > 0) {
+    const nextTranscript = redoHistory.pop();
+    history.push(nextTranscript);
+    setToText(nextTranscript);
+  }
+};
 
   useEffect(() => {
     fetchTranslation();
@@ -251,23 +253,22 @@ const [redoHistory, setRedoHistory] = useState([]);
     setNewTranscript(event.target.value);
   };
 
-const handleUndoTranscript = () => {
+  const handleUndoTranscript = () => {
+    if (transcriptHistory.length > 0) {
+      const previousTranscript = transcriptHistory.pop();
+      redoHistory.push(previousTranscript);
+      setNewTranscript(previousTranscript);
+    }
+  };
+  
+  const handleRedoTranscript = () => {
+    if (redoHistory.length > 0) {
+      const nextTranscript = redoHistory.pop();
+      transcriptHistory.push(nextTranscript);
+      setNewTranscript(nextTranscript);
+    }
+  };
 
-  if (transcriptHistory.length > 0) {
-    const previousTranscript = transcriptHistory[transcriptHistory.length - 1];
-    setTranscriptHistory(prevHistory => prevHistory.slice(0, -1));
-    setNewTranscript(previousTranscript);
- }
-};;
-
-const handleRndoTranscript = () => {
-
-  if (redoHistory.length > 0) {
-    const previousTranscript = redoHistory[redoHistory.length - 1];
-    setRedoHistory(prevHistory => prevHistory.slice(0, -1));
-    setNewTranscript(previousTranscript);
- }
-};;
 //----------------------------------------------------//
  const sendQuestion = async () => {
     setLoading(true);
@@ -288,9 +289,8 @@ const handleRndoTranscript = () => {
   url: 'https://chatgpt-gpt4-5.p.rapidapi.com/ask',
   headers: {
     'content-type': 'application/json',
-    // 'X-RapidAPI-Key': '10ef930128msh25033c2ad8b1fd7p1876fajsnb2b198e0fd21',
+    'X-RapidAPI-Key': 'decbe8b55fmshad26ea896e130d9p1e6514jsnc3892625ea1b',
 
-    'X-RapidAPI-Key': 'efb8ac5c63mshf1248b4b5999b95p1f5126jsne4ae6b673996',
     'X-RapidAPI-Host': 'chatgpt-gpt4-5.p.rapidapi.com'
   },
   data: {
@@ -365,37 +365,48 @@ const handleRndoTranscript = () => {
              
 
               <span className="ddsfs"><FontAwesomeIcon icon={faArrowRotateLeft} onClick={handleUndoTranscript}  />
+
+              <FontAwesomeIcon
+                 className="redo"
+                 icon={faArrowRotateRight}
+                 onClick={handleRedoTranscript}
+               />
               <FontAwesomeIcon icon={faTrash} onClick={handleClearTextarea} /></span>
               
-            </Col>            
-            </div>
+              </Col>            
+              </div>
             <div className="delet">
 
               {/* This Is For To Translation */}
-              <select className="tr"  value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
-                {Object.entries(countries).map(([code, name]) => (
-                  <option key={code} value={code}>
+               <select className="tr"  value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
+                 {Object.entries(countries).map(([code, name]) => (
+                   <option key={code} value={code}>
                     {name}
-                  </option>
-                ))}
-              </select>
+                    </option>
+                        ))}
+                      </select>
                                         {/* THIS IS 1ND BOX DONT CHANGE IT */}
 
               <FontAwesomeIcon className="undo" icon={faArrowRotateLeft} onClick={handleUndo}  />
+              <FontAwesomeIcon
+                className="redo"
+                icon={faArrowRotateRight}
+                onClick={handleRedo}
+               />
               <FontAwesomeIcon icon={faTrash} onClick={handleClearTranslatedText} />
-            </div>
+                 </div>
                               {/* THIS IS 1ND BOX DONT CHANGE IT */}     
-          </Row>
+                   </Row>
                     <Row>
-            <Col  className="main-content" >
+                <Col  className="main-content" >
 
-              <textarea
-                rows={10}
-                className="from-text"
-                value={newTranscript}
-                placeholder="Hold On Button to start..."
-                onChange={handleTeaxtareaChange}
-              />
+               <textarea
+                 rows={10}
+                 className="from-text"
+                 value={newTranscript}
+                 placeholder="Write Something Or Hold On Button To Start..."
+                 onChange={handleTeaxtareaChange}
+               />
 
               <div className={`loading ${showLoader} ${anime ? 'run' : 'notrun'} ${isActive && transcript ? 'active' : 'inactive'} `}>
                 <span></span><span></span><span></span><span></span>

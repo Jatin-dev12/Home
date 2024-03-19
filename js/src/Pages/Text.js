@@ -119,8 +119,8 @@ const Ai = () => {
               Whatever You Speak, It Will Write Here. Let's Say Something.
             </p>
             <Row className="bb">
-              <Col><button onClick={() => setStartTranscript(true)}>Start Transcript</button></Col>
-              <Col><button className="sss" onClick={switchLanguage}>Switch Language</button></Col>
+              <Col><button onClick={handleButtonClick}>Start Transcript</button></Col>
+              <Col></Col>
               <Col><button onClick={handleClick}>Start Over</button></Col>
             </Row>
             <Row className="sls">
@@ -138,11 +138,16 @@ const Ai = () => {
             <div className="main-content">
               {recording ? (
                 <>
-                  <textarea value={recordingTranscript} onChange={handleInputChange} />
-                  <button onClick={handleButtonClick}>Stop Listening</button>
+                  <textarea value={recordingTranscript} 
+                  rows={15}
+                  className="asddddj"
+                  
+                  onChange={handleInputChange} />
+                  {/* <button onClick={handleButtonClick}>Stop Listening</button> */}
                 </>
               ) : (
-                <button onClick={handleButtonClick}>Start Listening</button>
+                // <button onClick={handleButtonClick}>Start Listening</button>
+                ""
               )}
             </div>
 
