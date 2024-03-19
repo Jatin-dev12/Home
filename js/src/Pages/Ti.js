@@ -76,7 +76,7 @@
       },
     },
       {
-        command: 'Hey google',
+        command: 'hey google',
            callback: ({ resetTranscript }) => {
            resetTranscript();
            setRecording(true);
@@ -88,6 +88,7 @@
            setStartTranscript(true);
         },
       },
+      
       {
         command: 'Stop',
              callback: () => {
@@ -459,7 +460,8 @@
             </Row>
             <Row>
               <Col className="main-content">
-               
+
+        {/* This is textarea with condition */}
               {recording ? (
                   <>
                   <textarea
@@ -470,8 +472,14 @@
                 />                  
                   </>
                 ) : (
-                  "Give A Command Or Hold  Button to start..."
-            )}
+                  <textarea
+                  rows={10}
+                  className="from-text tt"
+                  
+                  ></textarea>
+                  )}
+
+            {/* This is textarea without condition */}
                   {/* <textarea
                     rows={10}
                     className="from-text"
@@ -658,3 +666,23 @@
   };
 
   export default Transcribe;
+
+
+        {/* {recording && recordingTranscript && (
+                <textarea
+                  rows={10}
+                  className="from-text"
+                  value={recordingTranscript}
+                  placeholder="Hold On Button to start..."
+                  onChange={handleInputChange}
+                />
+              )}
+              {!recording && (
+                <textarea
+                  rows={10}
+                  className="from-text"
+                  value={newTranscript}
+                  placeholder="Hold On Button to start..."
+                  onChange={handleInputChange}
+                />
+              )} */}
