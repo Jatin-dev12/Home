@@ -460,7 +460,7 @@
             <Row>
               <Col className="main-content">
                
-              {/* {recording ? (
+              {recording ? (
                   <>
                   <textarea
                   rows={10}
@@ -471,15 +471,15 @@
                   </>
                 ) : (
                   "Give A Command Or Hold  Button to start..."
-            )} */}
-                  <textarea
+            )}
+                  {/* <textarea
                     rows={10}
                     className="from-text"
                     value={newTranscript}
                     placeholder="Hold On Button to start..."
                     onChange={handleInputChange}
                 
-                  />
+                  /> */}
 
                 <div
                    className={`loading ${showLoader} ${
