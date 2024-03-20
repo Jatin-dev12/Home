@@ -88,7 +88,6 @@ const Transcribe = () => {
         setStartTranscript(true);
       },
     },
-
     {
       command: 'Stop',
       callback: () => {
@@ -465,7 +464,7 @@ const Transcribe = () => {
               {recording ? (
                 <>
                   <textarea
-                    rows={16}
+                    rows={10}
                     className="from-text tt"
                     value={newTranscript}
                     onChange={handleInputChange}
