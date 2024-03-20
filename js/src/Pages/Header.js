@@ -19,12 +19,12 @@ function Header() {
         <Container fluid>
           <Navbar.Brand href="#home">
             <img src={pic} alt="dcadssd" className="ll" width="100" height="50px" />
-           
+
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="offcanvasNavbar" onClick={handleShow} />
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
             <Nav className="justify-content-end">
-            
+
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -33,14 +33,14 @@ function Header() {
       <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>            Speech to Text Converter
-</Offcanvas.Title>
+          </Offcanvas.Title>
         </Offcanvas.Header>
-          <Offcanvas.Body justify-content-end>
-          
-              <Nav.Link href="sst">Speech To Text</Nav.Link>
-            <Nav.Link href="test">Speech To Translate</Nav.Link>
-            <Nav.Link href="tese">Text To Speech</Nav.Link>
-          
+        <Offcanvas.Body justify-content-end>
+
+          <Nav.Link href="sst">Speech To Text</Nav.Link>
+          <Nav.Link href="test">Speech To Translate</Nav.Link>
+          <Nav.Link href="tese">Text To Speech</Nav.Link>
+
         </Offcanvas.Body>
       </Offcanvas>
     </>

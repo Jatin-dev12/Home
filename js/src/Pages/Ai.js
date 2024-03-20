@@ -8,7 +8,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import Spellchecker from "hunspell-spellchecker";
 import Side from "./Side";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay, faRotateRight, faStop ,faArrowRightArrowLeft,faPause} from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faRotateRight, faStop, faArrowRightArrowLeft, faPause } from "@fortawesome/free-solid-svg-icons";
 
 // --Languages for Speaking --//
 
@@ -50,7 +50,7 @@ const Ai = () => {
   const [translation, setTranslation] = useState("");
   const [isPaused, setIsPaused] = useState(false); // New state variable for pause functionality
 
-// This Function For Start Listening //
+  // This Function For Start Listening //
 
   const startListening = () => {
     resetTranscript();
@@ -72,7 +72,7 @@ const Ai = () => {
     }
     setIsPaused(!listening);
   };
-// This is Switch  Language Functionality //
+  // This is Switch  Language Functionality //
   const switchLanguage = () => {
     const index = supportedLanguages.findIndex((lang) => lang.code === currentLanguage);
     const newLanguage =
@@ -92,7 +92,7 @@ const Ai = () => {
     return text;
   };
 
-   // This  Function Will Handle The Result of the Recognition //
+  // This  Function Will Handle The Result of the Recognition //
   const handleTranscription = async () => {
     const truncatedTranscript = transcript.split(" ").slice(0, 100).join(" ");
     let correctedText = truncatedTranscript.split(" ").map(correctSpelling).join(" ");
@@ -128,12 +128,12 @@ const Ai = () => {
   const handleClick = () => {
     setTimeout(() => {
       window.location.reload();
-    }, 400); 
+    }, 400);
   };
 
   return (
     <>
-    {/* This Div Is For Showing Side Bar */}
+      {/* This Div Is For Showing Side Bar */}
       <div className="container-fluid main-container">
         <div className="row">
           <div className="left-sidebar">
@@ -146,37 +146,37 @@ const Ai = () => {
             <Row className="bb">
               {/* Button For Start / Stop Listening */}
               <Col>
-              <button onClick={toggleListening}>
-                {listening ? (
-                  <>
-                    Pause
-                    <FontAwesomeIcon icon={faPause} />
-                  </>
-                ) : (
-                  <>
-                    Start Listening
-                    <FontAwesomeIcon icon={faPlay} />
-                  </>
-                )}
-              </button>
+                <button onClick={toggleListening}>
+                  {listening ? (
+                    <>
+                      Pause
+                      <FontAwesomeIcon icon={faPause} />
+                    </>
+                  ) : (
+                    <>
+                      Start Listening
+                      <FontAwesomeIcon icon={faPlay} />
+                    </>
+                  )}
+                </button>
               </Col>
               <Col>
-              {/* This Button For Switch language */}
+                {/* This Button For Switch language */}
                 <button className="sss" onClick={switchLanguage}>
                   Switch Language
                   <FontAwesomeIcon icon={faArrowRightArrowLeft} />
                 </button>
               </Col>
               <Col>
-              {/* This Button For Start Over Speech */}
-                <button className='as'  onClick={handleClick}>Start Over
-                <FontAwesomeIcon icon={faRotateRight} />
+                {/* This Button For Start Over Speech */}
+                <button className='as' onClick={handleClick}>Start Over
+                  <FontAwesomeIcon icon={faRotateRight} />
                 </button>
               </Col>
             </Row>
             <Row className="sls">
               <Col>
-              {/* This Will Select language and Write in The Selected language */}
+                {/* This Will Select language and Write in The Selected language */}
                 <select value={currentLanguage} onChange={(e) => setCurrentLanguage(e.target.value)}>
                   {supportedLanguages.map((language) => (
                     <option key={language.code} value={language.code}>
@@ -186,7 +186,7 @@ const Ai = () => {
                 </select>
               </Col>
             </Row>
-                  {/* Speech To Text Result */}
+            {/* Speech To Text Result */}
             <div className="main-content">{transcript}</div>
           </div>
         </div>

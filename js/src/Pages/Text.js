@@ -7,13 +7,13 @@ import Side from "./Side";
 const Ai = () => {
   const [supportedLanguages] = useState([
     { code: "sq", name: "Albanian" }, { code: "bn", name: "Bengali" }, { code: "fr", name: "French" },
-    { code: "en", name: "English" },    { code: "de", name: "German" },    { code: "gu", name: "Gujarati" },
-    { code: "ja", name: "Japanese" },    { code: "hi", name: "Hindi" },    { code: "ka", name: "Georgian" },
-    { code: "ne", name: "Nepali" },    { code: "ml", name: "Malayalam" },    { code: "ta", name: "Tamil" },    { code: "pa", name: "Punjabi" },
-    { code: "ru", name: "Russian" },    { code: "af", name: "Afrikaans" },    { code: "fr", name: "French" },   
-    { code: "am", name: "Amharic" },    { code: "ar", name: "Arabic" },    { code: "hy", name: "Armenian" },
-    { code: "az", name: "Azerbaijani" },    { code: "eu", name: "Basque" },    { code: "bs", name: "Bosnian" },
-    { code: "bg", name: "Bulgarian" },   { code: "ca", name: "Catalan" },    { code: "ceb", name: "Cebuano" },
+    { code: "en", name: "English" }, { code: "de", name: "German" }, { code: "gu", name: "Gujarati" },
+    { code: "ja", name: "Japanese" }, { code: "hi", name: "Hindi" }, { code: "ka", name: "Georgian" },
+    { code: "ne", name: "Nepali" }, { code: "ml", name: "Malayalam" }, { code: "ta", name: "Tamil" }, { code: "pa", name: "Punjabi" },
+    { code: "ru", name: "Russian" }, { code: "af", name: "Afrikaans" }, { code: "fr", name: "French" },
+    { code: "am", name: "Amharic" }, { code: "ar", name: "Arabic" }, { code: "hy", name: "Armenian" },
+    { code: "az", name: "Azerbaijani" }, { code: "eu", name: "Basque" }, { code: "bs", name: "Bosnian" },
+    { code: "bg", name: "Bulgarian" }, { code: "ca", name: "Catalan" }, { code: "ceb", name: "Cebuano" },
     { code: "ny", name: "Chichewa" },
   ]);
 
@@ -138,11 +138,11 @@ const Ai = () => {
             <div className="main-content">
               {recording ? (
                 <>
-                  <textarea value={recordingTranscript} 
-                  rows={15}
-                  className="asddddj"
-                  
-                  onChange={handleInputChange} />
+                  <textarea value={recordingTranscript}
+                    rows={15}
+                    className="asddddj"
+
+                    onChange={handleInputChange} />
                   {/* <button onClick={handleButtonClick}>Stop Listening</button> */}
                 </>
               ) : (

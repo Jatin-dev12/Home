@@ -67,16 +67,15 @@ const Transcribe = () => {
 
   const commands = [
     {
-      command: 'clear',
+      command: 'alexa clear',
       callback: ({ resetTranscript }) => {
         resetTranscript();
         setFromText("");
         setNewTranscript("");
-        setTranscriptHistory([]);
       },
     },
     {
-      command: 'hey google',
+      command: 'alexa start',
       callback: ({ resetTranscript }) => {
         resetTranscript();
         setRecording(true);
@@ -89,7 +88,7 @@ const Transcribe = () => {
       },
     },
     {
-      command: 'Stop',
+      command: 'alexa stop',
       callback: () => {
         setStartTranscript(false);
         setRecording(false);
@@ -474,7 +473,7 @@ const Transcribe = () => {
                 <textarea
                   rows={10}
                   className="from-text tt"
-                  placeholder="Write text or give command hey google to start or press button"
+                  placeholder="Write text or give command alexa start or press button"
                 ></textarea>
               )}
 

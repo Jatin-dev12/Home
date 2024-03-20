@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import axios from "axios";
 import { Container, Row, Col } from "react-bootstrap";
-import Side from './Side' 
+import Side from './Side'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotateRight, faPlay, faPause, faStop, faMicrophone, faTrash, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -21,7 +21,7 @@ const Transcribe = () => {
   ]);
 
   const [currentLanguage, setCurrentLanguage] = useState("en");
-  const { transcript, resetTranscript} = useSpeechRecognition({ language: currentLanguage });
+  const { transcript, resetTranscript } = useSpeechRecognition({ language: currentLanguage });
   const [fromText, setFromText] = useState("");
   const [isPaused, setIsPaused] = useState(false);
   const [translateFrom, setTranslateFrom] = useState("en-GB");
@@ -37,26 +37,26 @@ const Transcribe = () => {
   const [voice, setVoice] = useState(null);
   var [showLoader, setShowLoader] = useState('d-none');
 
-//---------This Is One Is For Undo to text ----------//
+  //---------This Is One Is For Undo to text ----------//
 
   const [history, setHistory] = useState([]);
   const [toText, setToText] = useState("");
 
 
-//-------This Is One Is For Undo Transcript ---------//
+  //-------This Is One Is For Undo Transcript ---------//
 
   const [newTranscript, setNewTranscript] = useState("");
   const [transcriptHistory, setTranscriptHistory] = useState([]);
 
 
-// ----------This One Is For Ai Moduels--------------//
+  // ----------This One Is For Ai Moduels--------------//
 
-const [question, setQuestion] = useState('');
-const [loading, setLoading] = useState(false);
-const [linkType, setLinkType] = useState('');
+  const [question, setQuestion] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [linkType, setLinkType] = useState('');
 
-//------------This Is For Redo Transcript------------//
-const [redoHistory, setRedoHistory] = useState([]);
+  //------------This Is For Redo Transcript------------//
+  const [redoHistory, setRedoHistory] = useState([]);
 
 
 
@@ -75,7 +75,7 @@ const [redoHistory, setRedoHistory] = useState([]);
 
   //---------------Transcript--------------------------//
 
-  
+
   //---------------Transcript--------------------------//
   // const translateText = async (text) => {
   //   // Add your translation logic here
@@ -187,27 +187,26 @@ const [redoHistory, setRedoHistory] = useState([]);
       },
       data: encodedParams,
     };
-  
+
     try {
       const response = await axios.request(options);
       const translatedText = response.data.translation_data.translation;
-     
+
       setToText(translatedText);
       setTranslationPlaceholder("Translation");
     } catch (error) {
       console.log(error.response.status);
-     
-        if (error.response.status === 429) {
-          setToText('Your translation limit is over. Please try again after 24 hours.');
-          setTranslationPlaceholder('Translation');
-       
+
+      if (error.response.status === 429) {
+        setToText('Your translation limit is over. Please try again after 24 hours.');
+        setTranslationPlaceholder('Translation');
+
         // setToText(error.response.data.message);
       }
-      else
-      {
-       setToText(error.response.data.message);
+      else {
+        setToText(error.response.data.message);
       }
-    } 
+    }
   };
 
   const handleTouchStart = () => {
@@ -231,9 +230,9 @@ const [redoHistory, setRedoHistory] = useState([]);
   };
 
 
-//---------This Is One Is For Undo to text ----------//
+  //---------This Is One Is For Undo to text ----------//
 
- 
+
   const handleUndo = () => {
     if (history.length > 0) {
       // Remove the last item from history
@@ -247,58 +246,58 @@ const [redoHistory, setRedoHistory] = useState([]);
     fetchTranslation();
   }, [newTranscript]);
   const handleTeaxtareaChange = (event) => {
-    
+
     setNewTranscript(event.target.value);
   };
 
-const handleUndoTranscript = () => {
+  const handleUndoTranscript = () => {
 
-  if (transcriptHistory.length > 0) {
-    const previousTranscript = transcriptHistory[transcriptHistory.length - 1];
-    setTranscriptHistory(prevHistory => prevHistory.slice(0, -1));
-    setNewTranscript(previousTranscript);
- }
-};;
+    if (transcriptHistory.length > 0) {
+      const previousTranscript = transcriptHistory[transcriptHistory.length - 1];
+      setTranscriptHistory(prevHistory => prevHistory.slice(0, -1));
+      setNewTranscript(previousTranscript);
+    }
+  };;
 
-const handleRndoTranscript = () => {
+  const handleRndoTranscript = () => {
 
-  if (redoHistory.length > 0) {
-    const previousTranscript = redoHistory[redoHistory.length - 1];
-    setRedoHistory(prevHistory => prevHistory.slice(0, -1));
-    setNewTranscript(previousTranscript);
- }
-};;
-//----------------------------------------------------//
- const sendQuestion = async () => {
+    if (redoHistory.length > 0) {
+      const previousTranscript = redoHistory[redoHistory.length - 1];
+      setRedoHistory(prevHistory => prevHistory.slice(0, -1));
+      setNewTranscript(previousTranscript);
+    }
+  };;
+  //----------------------------------------------------//
+  const sendQuestion = async () => {
     setLoading(true);
 
     let maxWords = 250; // default value
 
-  if (linkType === 'Short') {
-    maxWords = 50;
-  } else if (linkType === 'Medium') {
-    maxWords = 200;
-  }else if (linkType === 'Long') {
-    maxWords = 300;
-  }
-      
+    if (linkType === 'Short') {
+      maxWords = 50;
+    } else if (linkType === 'Medium') {
+      maxWords = 200;
+    } else if (linkType === 'Long') {
+      maxWords = 300;
+    }
+
 
     const options = {
       method: 'POST',
-  url: 'https://chatgpt-gpt4-5.p.rapidapi.com/ask',
-  headers: {
-    'content-type': 'application/json',
-    // 'X-RapidAPI-Key': '10ef930128msh25033c2ad8b1fd7p1876fajsnb2b198e0fd21',
+      url: 'https://chatgpt-gpt4-5.p.rapidapi.com/ask',
+      headers: {
+        'content-type': 'application/json',
+        // 'X-RapidAPI-Key': '10ef930128msh25033c2ad8b1fd7p1876fajsnb2b198e0fd21',
 
-    'X-RapidAPI-Key': 'efb8ac5c63mshf1248b4b5999b95p1f5126jsne4ae6b673996',
-    'X-RapidAPI-Host': 'chatgpt-gpt4-5.p.rapidapi.com'
-  },
-  data: {
-    query: toText ,
-    web_access: 'true',
-    wordLimit: maxWords
-  }
-};
+        'X-RapidAPI-Key': 'efb8ac5c63mshf1248b4b5999b95p1f5126jsne4ae6b673996',
+        'X-RapidAPI-Host': 'chatgpt-gpt4-5.p.rapidapi.com'
+      },
+      data: {
+        query: toText,
+        web_access: 'true',
+        wordLimit: maxWords
+      }
+    };
     try {
       const response = await axios.request(options);
       console.log(response.data);
@@ -327,67 +326,67 @@ const handleRndoTranscript = () => {
 
             <Col md={2} className="re">
               <button className="ad" onClick={handleClick}>Reset
-              <FontAwesomeIcon icon={faRotateRight} />
+                <FontAwesomeIcon icon={faRotateRight} />
               </button>
             </Col>
           </Row>
           <Row>
-            
-           <div className="delete-content">
+
+            <div className="delete-content">
               {/* This Is For From Translation */}
 
-              
-              <Col className="ma">
-            <span> <select className="tt"
-                value={currentLanguage}
-                onChange={(e) => {
-                  setCurrentLanguage(e.target.value);
-                  setTranslateFrom(e.target.value);
-                }}
-              >
-                {supportedLanguages.map((language) => (
-                  <option key={language.code} value={language.code}>
-                    {language.name}
-                  </option>
-                ))}
-              </select></span>
-             <span><button
-                className={`btn-class-name ${isActive ? 'active' : ''}`}
-                onMouseDown={handleTouchStart}
-                onMouseUp={handleTouchEnd}
-                onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
-              >
-                <span className="back"></span>
-                <span className="front"><FontAwesomeIcon icon={faMicrophone} /></span>
-              </button></span>
-              {/* THIS IS TRANSCRIPTED DELET AND UNDO ICONS */}
-             
 
-              <span className="ddsfs"><FontAwesomeIcon icon={faArrowRotateLeft} onClick={handleUndoTranscript}  />
-              <FontAwesomeIcon icon={faTrash} onClick={handleClearTextarea} /></span>
-              
-            </Col>            
+              <Col className="ma">
+                <span> <select className="tt"
+                  value={currentLanguage}
+                  onChange={(e) => {
+                    setCurrentLanguage(e.target.value);
+                    setTranslateFrom(e.target.value);
+                  }}
+                >
+                  {supportedLanguages.map((language) => (
+                    <option key={language.code} value={language.code}>
+                      {language.name}
+                    </option>
+                  ))}
+                </select></span>
+                <span><button
+                  className={`btn-class-name ${isActive ? 'active' : ''}`}
+                  onMouseDown={handleTouchStart}
+                  onMouseUp={handleTouchEnd}
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd}
+                >
+                  <span className="back"></span>
+                  <span className="front"><FontAwesomeIcon icon={faMicrophone} /></span>
+                </button></span>
+                {/* THIS IS TRANSCRIPTED DELET AND UNDO ICONS */}
+
+
+                <span className="ddsfs"><FontAwesomeIcon icon={faArrowRotateLeft} onClick={handleUndoTranscript} />
+                  <FontAwesomeIcon icon={faTrash} onClick={handleClearTextarea} /></span>
+
+              </Col>
             </div>
             <div className="delet">
 
               {/* This Is For To Translation */}
-              <select className="tr"  value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
+              <select className="tr" value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
                 {Object.entries(countries).map(([code, name]) => (
                   <option key={code} value={code}>
                     {name}
                   </option>
                 ))}
               </select>
-                                        {/* THIS IS 1ND BOX DONT CHANGE IT */}
+              {/* THIS IS 1ND BOX DONT CHANGE IT */}
 
-              <FontAwesomeIcon className="undo" icon={faArrowRotateLeft} onClick={handleUndo}  />
+              <FontAwesomeIcon className="undo" icon={faArrowRotateLeft} onClick={handleUndo} />
               <FontAwesomeIcon icon={faTrash} onClick={handleClearTranslatedText} />
             </div>
-                              {/* THIS IS 1ND BOX DONT CHANGE IT */}     
+            {/* THIS IS 1ND BOX DONT CHANGE IT */}
           </Row>
-                    <Row>
-            <Col  className="main-content" >
+          <Row>
+            <Col className="main-content" >
 
               <textarea
                 rows={10}
@@ -407,68 +406,68 @@ const handleRndoTranscript = () => {
               </div>
 
             </Col>
-             <span className="fsdfsdcds"><select className="kjj" value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
+            <span className="fsdfsdcds"><select className="kjj" value={translateTo} onChange={(e) => setTranslateTo(e.target.value)}>
               {Object.entries(countries).map(([code, name]) => (
                 <option key={code} value={code}>
                   {name}
                 </option>
               ))}
-            </select> 
-            
-            
-                          {/* THIS IS TRANSLATED TEXT DELET AND UNDO ICONS */}
-                          {/* THIS IS MOBILE */}
+            </select>
 
-            <FontAwesomeIcon className="undo" icon={faArrowRotateLeft} onClick={handleUndo}  />
+
+              {/* THIS IS TRANSLATED TEXT DELET AND UNDO ICONS */}
+              {/* THIS IS MOBILE */}
+
+              <FontAwesomeIcon className="undo" icon={faArrowRotateLeft} onClick={handleUndo} />
               <FontAwesomeIcon icon={faTrash} onClick={handleClearTranslatedText} /></span>
-           
-           {/* THIS IF SOR TRANSLATED BOX */}
+
+            {/* THIS IF SOR TRANSLATED BOX */}
 
 
             <Col className="col md 6">
-            {loading ? (
-            <div>
-              <section class="dots-container">
-  <div class="dot"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
-</section>
+              {loading ? (
+                <div>
+                  <section class="dots-container">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                  </section>
 
-            </div>
-          ) : (
-            <textarea rows={10}
-            onChange={(e) => setQuestion(e.target.value)}
-                className="to-text"
-                 value={toText}
+                </div>
+              ) : (
+                <textarea rows={10}
+                  onChange={(e) => setQuestion(e.target.value)}
+                  className="to-text"
+                  value={toText}
                   placeholder={translationPlaceholder} />
-          )}     
+              )}
 
 
               <div className="volume">
-              <input type="checkbox" class="volume-input" onClick={speakText} />
-  <div class="volume-icon">
-    <svg
-      viewBox="0 0 24 24"
-      width="24"
-      height="24"
-      stroke="currentColor"
-      stroke-width="2"
-      fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="volume-svg"
-    >
-      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-      <path
-        d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
-      ></path>
-    </svg>
-  </div>              </div>
+                <input type="checkbox" class="volume-input" onClick={speakText} />
+                <div class="volume-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="volume-svg"
+                  >
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path
+                      d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
+                    ></path>
+                  </svg>
+                </div>              </div>
             </Col>
           </Row>
-    
+
 
           <Row className="dssa">
 
@@ -476,52 +475,52 @@ const handleRndoTranscript = () => {
 
 
             <Col>
-            <button  className='define' onClick={() => sendQuestion('Short')}>Short</button>   
+              <button className='define' onClick={() => sendQuestion('Short')}>Short</button>
 
-            <button  className='define' onClick={() => sendQuestion('Medium')}>Medium</button>   
+              <button className='define' onClick={() => sendQuestion('Medium')}>Medium</button>
 
-            <button  className='define' onClick={() => sendQuestion('Long')}>Long</button>   
+              <button className='define' onClick={() => sendQuestion('Long')}>Long</button>
 
-            <label htmlFor="speed" className="kkkk">Speed:
-              <input
-                type="range"
-                id="speed"
-                min="0.5"
-                max="2"
-                step="0.1"
-                value={speechSpeed}
-                onChange={(e) => setSpeechSpeed(parseFloat(e.target.value))}
-              /></label>
+              <label htmlFor="speed" className="kkkk">Speed:
+                <input
+                  type="range"
+                  id="speed"
+                  min="0.5"
+                  max="2"
+                  step="0.1"
+                  value={speechSpeed}
+                  onChange={(e) => setSpeechSpeed(parseFloat(e.target.value))}
+                /></label>
 
-<label htmlFor="pitch" className="kkkk">Pitch:
-              <input
-                type="range"
-                id="pitch"
-                min="0.5"
-                max="2"
-                step="0.1"
-                value={speechPitch}
-                onChange={(e) => setSpeechPitch(parseFloat(e.target.value))}
-              /></label>
+              <label htmlFor="pitch" className="kkkk">Pitch:
+                <input
+                  type="range"
+                  id="pitch"
+                  min="0.5"
+                  max="2"
+                  step="0.1"
+                  value={speechPitch}
+                  onChange={(e) => setSpeechPitch(parseFloat(e.target.value))}
+                /></label>
               <label htmlFor="volume" className="kkkk">Volume:
-              <input
-                type="range"
-                id="volume"
-                min="0"
-                max="1"
-                step="0.1"
-                value={speechVolume}
-                onChange={(e) => setSpeechVolume(parseFloat(e.target.value))}
-              />
-</label>
+                <input
+                  type="range"
+                  id="volume"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  value={speechVolume}
+                  onChange={(e) => setSpeechVolume(parseFloat(e.target.value))}
+                />
+              </label>
               <Col className="last">
-             <button className="pl" onClick={handlePlay}> {isPaused ? "Resume" : "Play"}<FontAwesomeIcon  className="play"  icon={faPlay} onClick={handlePlay} /></button>
+                <button className="pl" onClick={handlePlay}> {isPaused ? "Resume" : "Play"}<FontAwesomeIcon className="play" icon={faPlay} onClick={handlePlay} /></button>
 
-             <button className="pl" onClick={handlePause}> <FontAwesomeIcon className="pause" icon={faPause} onClick={handlePause} /></button>
-             <button className="pl"  onClick={handleStop}>Stop<FontAwesomeIcon  className="stop" icon={faStop} onClick={handleStop}  /></button>
-             
-             </Col>
-                              
+                <button className="pl" onClick={handlePause}> <FontAwesomeIcon className="pause" icon={faPause} onClick={handlePause} /></button>
+                <button className="pl" onClick={handleStop}>Stop<FontAwesomeIcon className="stop" icon={faStop} onClick={handleStop} /></button>
+
+              </Col>
+
 
             </Col>
           </Row>
