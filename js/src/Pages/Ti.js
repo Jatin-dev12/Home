@@ -6,10 +6,12 @@ import Side from './Side'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotateRight, faPlay, faPause, faStop, faMicrophone, faTrash, faArrowRotateLeft, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 
+
 const Transcribe = () => {
   const [supportedLanguages] = useState([
     { code: "sq", name: "Albanian" }, { code: "bn", name: "Bengali" }, { code: "fr", name: "French" }, { code: "en", name: "English" }, { code: "de", name: "German" }, { code: "gu", name: "Gujarati" }, { code: "ja", name: "Japanese" }, { code: "hi", name: "Hindi" }, { code: "ka", name: "Georgian" }, { code: "ne", name: "Nepali" }, { code: "ml", name: "Malayalam" }, { code: "ta", name: "Tamil" }, { code: "pa", name: "Punjabi" }, { code: "ru", name: "Russian" }, { code: "af", name: "Afrikaans" }, { code: "am", name: "Amharic" }, { code: "ar", name: "Arabic" }, { code: "hy", name: "Armenian" }, { code: "az", name: "Azerbaijani" }, { code: "eu", name: "Basque" }, { code: "bs", name: "Bosnian" }, { code: "bg", name: "Bulgarian" }, { code: "ca", name: "Catalan" }, { code: "ceb", name: "Cebuano" }, { code: "ny", name: "Chichewa" },
   ]);
+
 
   const [currentLanguage, setCurrentLanguage] = useState("en");
   const { transcript, resetTranscript } = useSpeechRecognition({ language: currentLanguage });
@@ -49,14 +51,13 @@ const Transcribe = () => {
   // ----------This Things For Redo --------------------------//
   const [redoHistory, setRedoHistory] = useState([]);
   //------------------------------------------------//
-  const [error, setError] = useState(null);
 
 
   const countries = {
     "am": "Amharic", "be": "Bielarus", "bem": "Bemba", "bi": "Bislama", "bj": "Bajan", "bn": "Bengali", "bo": "Tibetan", "br": "Breton", "bs": "Bosnian", "ca": "Catalan", "cop": "Coptic", "cs": "Czech", "cy": "Welsh", "da": "Danish", "dz": "Dzongkha", "de-DE": "German", "dv-MV": "Maldivian", "el": "Greek", "en": "English", "es": "Spanish", "et": "Estonian", "eu-ES": "Basque", "fa": "Persian", "fi": "Finnish", "fn": "Fanagalo", "fo": "Faroese", "fr": "French", "gl": "Galician", "gu": "Gujarati", "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian", "hu": "Hungarian", "id": "Indonesian", "is": "Icelandic", "it": "Italian", "ja": "Japanese", "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "la-VA": "Latin", "lo-LA": "Lao", "lv-LV": "Latvian", "men": "Mende", "mg": "Malagasy", "mi-NZ": "Maori", "ms-MY": "Malay", "mt-MT": "Maltese", "my": "Burmese", "ne": "Nepali", "niu": "Niuean", "nl": "Dutch", "no": "Norwegian", "ny": "Nyanja", "pau": "Palauan", "pa": "Panjabi", "ps": "Pashto", "pis": "Pijin", "pl": "Polish", "pt": "Portuguese", "rn-BI": "Kirundi", "ro": "Romanian", "ru": "Russian", "sg": "Sango", "si": "Sinhala", "sk": "Slovak", "sm": "Samoan", "sn": "Shona", "so": "Somali", "sq-AL": "Albanian", "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil", "te": "Telugu", "tet": "Tetum", "tg": "Tajik", "th": "Thai", "ti": "Tigriny", "tk": "Turkmen", "tl": "Tagalog", "tn": "Tswana", "to": "Tongan", "tr": "Turkish", "uk": "Ukrainian", "uz": "Uzbek", "vi": "Vietnamese", "xh": "Xhosa", "zu": "Zulu"
   };
 
-  const startListening = () => {
+   const startListening = () => {
     setFromText(transcript);
     resetTranscript();
     SpeechRecognition.startListening({ continuous: true, language: currentLanguage });
@@ -68,10 +69,11 @@ const Transcribe = () => {
   const commands = [
     {
       command: 'alexa clear',
-      callback: ({ resetTranscript }) => {
+      callback: () => {
         resetTranscript();
         setFromText("");
         setNewTranscript("");
+        setTranscriptHistory(prevHistory => [...prevHistory, newTranscript]);
       },
     },
     {
@@ -79,6 +81,7 @@ const Transcribe = () => {
       callback: ({ resetTranscript }) => {
         resetTranscript();
         setRecording(true);
+
       },
     },
     {
@@ -91,8 +94,11 @@ const Transcribe = () => {
       command: 'alexa stop',
       callback: () => {
         setStartTranscript(false);
-        setRecording(false);
-        setIsPaused(true);
+        SpeechRecognition.stopListening()
+        // SpeechRecognition.abortListening()
+
+        setNewTranscript(transcript);
+        
       },
     }
   ];
@@ -101,6 +107,9 @@ const Transcribe = () => {
   const {
     transcript: recordingTranscript,
   } = useSpeechRecognition({ commands });
+
+
+  
 
   useEffect(() => {
     fetchTranslation();
@@ -357,8 +366,18 @@ const Transcribe = () => {
     }
   };
 
-
-
+  if (show) {
+    return (
+      <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+        <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+        <p>
+          Change this and that and try again. Duis mollis, est non commodo
+          luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+          Cras mattis consectetur purus sit amet fermentum.
+        </p>
+      </Alert>
+    );
+  }
   return (
 
     <div className='container-fluid main-container'>
@@ -654,6 +673,7 @@ const Transcribe = () => {
                   />
                 </button>
               </Col>
+              
             </Col>
           </Row>
         </Container>
