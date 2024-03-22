@@ -12,20 +12,33 @@ const Transcribe = () => {
     { code: "sq", name: "Albanian" }, { code: "bn", name: "Bengali" }, { code: "fr", name: "French" }, { code: "en", name: "English" }, { code: "de", name: "German" }, { code: "gu", name: "Gujarati" }, { code: "ja", name: "Japanese" }, { code: "hi", name: "Hindi" }, { code: "ka", name: "Georgian" }, { code: "ne", name: "Nepali" }, { code: "ml", name: "Malayalam" }, { code: "ta", name: "Tamil" }, { code: "pa", name: "Punjabi" }, { code: "ru", name: "Russian" }, { code: "af", name: "Afrikaans" }, { code: "am", name: "Amharic" }, { code: "ar", name: "Arabic" }, { code: "hy", name: "Armenian" }, { code: "az", name: "Azerbaijani" }, { code: "eu", name: "Basque" }, { code: "bs", name: "Bosnian" }, { code: "bg", name: "Bulgarian" }, { code: "ca", name: "Catalan" }, { code: "ceb", name: "Cebuano" }, { code: "ny", name: "Chichewa" },
   ]);
 
-
+  // The transcript that will be writen in selected language
   const [currentLanguage, setCurrentLanguage] = useState("en");
+  // This will hold our transcript text as
   const { transcript, resetTranscript } = useSpeechRecognition({ language: currentLanguage });
+  // We'll start by setting the text
   const [fromText, setFromText] = useState("");
+  // This wil pause a speaking text
   const [isPaused, setIsPaused] = useState(false);
+  // it will translate from selected language
   const [translateFrom, setTranslateFrom] = useState("en-GB");
+  // This will be translate to selected languge
   const [translateTo, setTranslateTo] = useState("hi");
+  // This is for Btn active and inctive
   const [isActive, setIsActive] = useState(false);
+  // Translation placeholder
   const [translationPlaceholder, setTranslationPlaceholder] = useState("Translation");
+  // It will set Speking Speed
   const [speechSpeed, setSpeechSpeed] = useState(1);
+  // It will set fast speak
   const [speechPitch, setSpeechPitch] = useState(1);
+  // Volume
   const [speechVolume, setSpeechVolume] = useState(1);
+  // The Timer Which is running in the box
   const [timer, setTimer] = useState(0);
+  //Condition
   const [anime, setAnime] = useState(false);
+
   const [utterance, setUtterance] = useState(null);
   const [voice, setVoice] = useState(null);
   var [showLoader, setShowLoader] = useState('d-none');
@@ -51,13 +64,13 @@ const Transcribe = () => {
   // ----------This Things For Redo --------------------------//
   const [redoHistory, setRedoHistory] = useState([]);
   //------------------------------------------------//
-
+const [text, setText] = useState("")
 
   const countries = {
     "am": "Amharic", "be": "Bielarus", "bem": "Bemba", "bi": "Bislama", "bj": "Bajan", "bn": "Bengali", "bo": "Tibetan", "br": "Breton", "bs": "Bosnian", "ca": "Catalan", "cop": "Coptic", "cs": "Czech", "cy": "Welsh", "da": "Danish", "dz": "Dzongkha", "de-DE": "German", "dv-MV": "Maldivian", "el": "Greek", "en": "English", "es": "Spanish", "et": "Estonian", "eu-ES": "Basque", "fa": "Persian", "fi": "Finnish", "fn": "Fanagalo", "fo": "Faroese", "fr": "French", "gl": "Galician", "gu": "Gujarati", "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian", "hu": "Hungarian", "id": "Indonesian", "is": "Icelandic", "it": "Italian", "ja": "Japanese", "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "la-VA": "Latin", "lo-LA": "Lao", "lv-LV": "Latvian", "men": "Mende", "mg": "Malagasy", "mi-NZ": "Maori", "ms-MY": "Malay", "mt-MT": "Maltese", "my": "Burmese", "ne": "Nepali", "niu": "Niuean", "nl": "Dutch", "no": "Norwegian", "ny": "Nyanja", "pau": "Palauan", "pa": "Panjabi", "ps": "Pashto", "pis": "Pijin", "pl": "Polish", "pt": "Portuguese", "rn-BI": "Kirundi", "ro": "Romanian", "ru": "Russian", "sg": "Sango", "si": "Sinhala", "sk": "Slovak", "sm": "Samoan", "sn": "Shona", "so": "Somali", "sq-AL": "Albanian", "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil", "te": "Telugu", "tet": "Tetum", "tg": "Tajik", "th": "Thai", "ti": "Tigriny", "tk": "Turkmen", "tl": "Tagalog", "tn": "Tswana", "to": "Tongan", "tr": "Turkish", "uk": "Ukrainian", "uz": "Uzbek", "vi": "Vietnamese", "xh": "Xhosa", "zu": "Zulu"
   };
 
-   const startListening = () => {
+  const startListening = () => {
     setFromText(transcript);
     resetTranscript();
     SpeechRecognition.startListening({ continuous: true, language: currentLanguage });
@@ -93,12 +106,8 @@ const Transcribe = () => {
     {
       command: 'alexa stop',
       callback: () => {
-        setStartTranscript(false);
-        SpeechRecognition.stopListening()
-        // SpeechRecognition.abortListening()
-
-        setNewTranscript(transcript);
-        
+        setStartTranscript();
+        setNewTranscript();
       },
     }
   ];
@@ -109,14 +118,11 @@ const Transcribe = () => {
   } = useSpeechRecognition({ commands });
 
 
-  
-
   useEffect(() => {
     fetchTranslation();
     setUtterance(new SpeechSynthesisUtterance());
     setVoice(speechSynthesis.getVoices().find(voice => voice.name === 'Google हिन्दी'));
     setNewTranscript(transcript);
-    console.log(newTranscript);
   }, [transcript, translateFrom, translateTo]);
 
 
@@ -237,7 +243,7 @@ const Transcribe = () => {
       url: 'https://google-translation-unlimited.p.rapidapi.com/translate',
       headers: {
         'content-type': 'application/x-www-form-urlencoded',
-        'X-RapidAPI-Key': '5740f38f9dmsh5c757bacb2a7b61p1af54bjsnf71b8b8b411c',
+        'X-RapidAPI-Key': 'asdfghjkjhrewqwertyuioiuytrew',
         'X-RapidAPI-Host': 'google-translation-unlimited.p.rapidapi.com'
       },
       data: encodedParams,
@@ -366,7 +372,7 @@ const Transcribe = () => {
     }
   };
 
-   return (
+  return (
 
     <div className='container-fluid main-container'>
       <div className='row'>
@@ -480,9 +486,14 @@ const Transcribe = () => {
                 <textarea
                   rows={10}
                   className="from-text tt"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}         
                   placeholder="Write text or give command alexa start or press button"
                 ></textarea>
               )}
+
+
+
 
               {/* This is textarea without condition */}
               {/* <textarea
@@ -553,7 +564,7 @@ const Transcribe = () => {
                   placeholder={translationPlaceholder}
                 />
               )}
-
+              {/* ------------------- */}
               <div className="volume">
                 <input
                   type="checkbox"
@@ -661,7 +672,7 @@ const Transcribe = () => {
                   />
                 </button>
               </Col>
-              
+
             </Col>
           </Row>
         </Container>

@@ -227,7 +227,8 @@ const Transcribe = () => {
           </Row>
           <Row>
 
-            <select className="dsh" value={currentLanguage} onChange={(e) => setCurrentLanguage(e.target.value)}>
+            <select className="dsh" value={currentLanguage}
+             onChange={(e) => setCurrentLanguage(e.target.value)}>
               {supportedLanguages.map((language) => (
                 <option key={language.code} value={language.code}>
                   {language.name}
