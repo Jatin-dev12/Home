@@ -64,7 +64,7 @@ const Transcribe = () => {
   // ----------This Things For Redo --------------------------//
   const [redoHistory, setRedoHistory] = useState([]);
   //------------------------------------------------//
-const [text, setText] = useState("")
+  const [text, setText] = useState("")
 
   const countries = {
     "am": "Amharic", "be": "Bielarus", "bem": "Bemba", "bi": "Bislama", "bj": "Bajan", "bn": "Bengali", "bo": "Tibetan", "br": "Breton", "bs": "Bosnian", "ca": "Catalan", "cop": "Coptic", "cs": "Czech", "cy": "Welsh", "da": "Danish", "dz": "Dzongkha", "de-DE": "German", "dv-MV": "Maldivian", "el": "Greek", "en": "English", "es": "Spanish", "et": "Estonian", "eu-ES": "Basque", "fa": "Persian", "fi": "Finnish", "fn": "Fanagalo", "fo": "Faroese", "fr": "French", "gl": "Galician", "gu": "Gujarati", "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian", "hu": "Hungarian", "id": "Indonesian", "is": "Icelandic", "it": "Italian", "ja": "Japanese", "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean", "ku": "Kurdish", "ky": "Kyrgyz", "la-VA": "Latin", "lo-LA": "Lao", "lv-LV": "Latvian", "men": "Mende", "mg": "Malagasy", "mi-NZ": "Maori", "ms-MY": "Malay", "mt-MT": "Maltese", "my": "Burmese", "ne": "Nepali", "niu": "Niuean", "nl": "Dutch", "no": "Norwegian", "ny": "Nyanja", "pau": "Palauan", "pa": "Panjabi", "ps": "Pashto", "pis": "Pijin", "pl": "Polish", "pt": "Portuguese", "rn-BI": "Kirundi", "ro": "Romanian", "ru": "Russian", "sg": "Sango", "si": "Sinhala", "sk": "Slovak", "sm": "Samoan", "sn": "Shona", "so": "Somali", "sq-AL": "Albanian", "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil", "te": "Telugu", "tet": "Tetum", "tg": "Tajik", "th": "Thai", "ti": "Tigriny", "tk": "Turkmen", "tl": "Tagalog", "tn": "Tswana", "to": "Tongan", "tr": "Turkish", "uk": "Ukrainian", "uz": "Uzbek", "vi": "Vietnamese", "xh": "Xhosa", "zu": "Zulu"
@@ -75,7 +75,7 @@ const [text, setText] = useState("")
     resetTranscript();
     SpeechRecognition.startListening({ continuous: true, language: currentLanguage });
     if (startTranscript) {
-      resetTranscript();
+      // resetTranscript();
     }
   };
 
@@ -91,10 +91,8 @@ const [text, setText] = useState("")
     },
     {
       command: 'alexa start',
-      callback: ({ resetTranscript }) => {
-        resetTranscript();
+      callback: () => {
         setRecording(true);
-
       },
     },
     {
@@ -106,12 +104,10 @@ const [text, setText] = useState("")
     {
       command: 'alexa stop',
       callback: () => {
-        setStartTranscript();
         setRecording(false);
         setText(newTranscript)
-        
-        setNewTranscript();
-        
+
+ newTranscript.replace("alexa stop", "");
       },
     }
   ];
@@ -316,7 +312,13 @@ const [text, setText] = useState("")
   };
 
   const handleInputChange = (e) => {
-    setNewTranscript(e.target.value);
+    const inputValue = e.target.value;
+    const isAlexaStopCommand = inputValue.toLowerCase().includes("alexa stop");
+  
+    if (!isAlexaStopCommand) {
+      setNewTranscript(inputValue);
+    }
+    // setNewTranscript(e.target.value);
   };
 
 
@@ -491,7 +493,7 @@ const [text, setText] = useState("")
                   rows={10}
                   className="from-text tt"
                   value={text}
-                  onChange={(e) => setText(e.target.value)}         
+                  onChange={(e) => setText(e.target.value)}
                   placeholder="Write text or give command alexa start or press button"
                 ></textarea>
               )}
