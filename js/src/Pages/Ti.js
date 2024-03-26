@@ -107,7 +107,11 @@ const [text, setText] = useState("")
       command: 'alexa stop',
       callback: () => {
         setStartTranscript();
+        setRecording(false);
+        setText(newTranscript)
+        
         setNewTranscript();
+        
       },
     }
   ];
